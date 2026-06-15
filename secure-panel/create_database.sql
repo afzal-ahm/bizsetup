@@ -65,6 +65,3 @@ INSERT INTO `page_content_mapping` (`page_name`, `content_id`, `section_order`) 
 ('services', 6, 1),
 ('services', 7, 2),
 ('contact', 8, 1);
-
-echo "Database and tables created successfully!";
-?>

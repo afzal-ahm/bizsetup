@@ -1,7 +1,7 @@
 <?php  
 $dbhost = "localhost";
-$dbuser = "bizsetup_biz";
-$dbpass = "Laptop@12345#";
+$dbuser = "root";
+$dbpass = "mysqlDB..";
 $dbname = "bizsetup_biz";
 /*
 $dbhost = "localhost";

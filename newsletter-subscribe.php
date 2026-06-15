@@ -3,10 +3,8 @@
 header('Content-Type: application/json');
 
 // Database configuration (same as main config)
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "";
-$dbname = "ca_website";
+include "secure-panel/config.php";
+
 
 try {
     // Create database connection using the same settings as main application
