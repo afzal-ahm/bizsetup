@@ -692,7 +692,8 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                             <h2 class="display-6 text-white mb-3"> <?php echo $socila['heading1'];?>  
 
 </h2>
-                            <p class="text-light mb-4"> <?php echo $socila['content'];?> </p>
+                            <?php echo str_replace('<p>', '<p class="text-light mb-4">', $socila['content']); ?>
+
                            
                         </div>
                     </div>
