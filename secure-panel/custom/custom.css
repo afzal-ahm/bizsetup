@@ -1,0 +1,100 @@
+/* Insert Your Custom CSS Here */
+
+/* Newsletter Subscribers Page Styles */
+.newsletter-status-active { 
+    color: #28a745; 
+}
+
+.newsletter-status-inactive { 
+    color: #ffc107; 
+}
+
+.newsletter-status-unsubscribed { 
+    color: #dc3545; 
+}
+
+.newsletter-stats-card { 
+    background: #fff; 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin-bottom: 20px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.newsletter-stats-number { 
+    font-size: 2em; 
+    font-weight: bold; 
+    color: #333; 
+}
+
+.newsletter-stats-label { 
+    color: #666; 
+    font-size: 0.9em; 
+}
+
+.newsletter-filter-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.newsletter-btn-export {
+    background: #17a2b8;
+    color: white;
+}
+
+.newsletter-btn-export:hover {
+    background: #138496;
+    color: white;
+}
+
+/* Admin Form General Styles */
+.form-section-header {
+    color: #2c3e50 !important;
+    border-bottom: 2px solid #ffc107 !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 20px !important;
+    margin-top: 30px !important;
+    font-weight: 600 !important;
+}
+
+.form-section-header:first-child {
+    margin-top: 0 !important;
+}
+
+.help-block {
+    color: #666 !important;
+    font-size: 11px !important;
+    margin-top: 5px !important;
+}
+
+.char-counter {
+    float: right;
+    font-size: 11px;
+    color: #999;
+    margin-top: 5px;
+}
+
+.char-counter.warning {
+    color: #f39c12;
+}
+
+.char-counter.danger {
+    color: #e74c3c;
+}
+
+.form-group {
+    margin-bottom: 20px !important;
+}
+
+.controls input[type="text"], .controls textarea {
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important;
+}
+
+.controls input[type="text"]:focus, .controls textarea:focus {
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.3) !important;
+}
