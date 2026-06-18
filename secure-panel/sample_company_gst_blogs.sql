@@ -835,3 +835,6 @@ INSERT INTO `blog_tag_relationships` (`blog_id`, `tag_id`) VALUES
 
 -- Update the auto-increment for blog table
 ALTER TABLE `blog` AUTO_INCREMENT = 6;
+
+echo "Sample company registration and GST services blog posts created successfully!";
+?>

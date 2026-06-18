@@ -3,7 +3,7 @@
 include "secure-panel/config.php";
 session_start();
  
- $urlmain='https://bizsetup.in/';
+ $urlmain = (isset($_SERVER['HTTP_HOST']) && (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || $_SERVER['HTTP_HOST'] == '127.0.0.1' || strpos($_SERVER['HTTP_HOST'], '127.0.0.1:') !== false)) ? '/' : 'https://bizsetup.in/';
  
   $ss = "SELECT * FROM settings 
        WHERE setting_key IN (

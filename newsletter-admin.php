@@ -64,10 +64,11 @@ if (!isset($_SESSION['newsletter_admin'])) {
 }
 
 // Database connection
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'ca';
+include_once "secure-panel/config.php";
+$host = $dbhost;
+$username = $dbuser;
+$password = $dbpass;
+$database = $dbname;
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $username, $password);

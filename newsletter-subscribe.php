@@ -3,8 +3,7 @@
 header('Content-Type: application/json');
 
 // Database configuration (same as main config)
-include "secure-panel/config.php";
-
+include_once "secure-panel/config.php";
 
 try {
     // Create database connection using the same settings as main application

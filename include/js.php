@@ -1,37 +1,33 @@
- <script src="<?php echo $urlmain;?>assets/js/jquery-3.7.1.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<script src="<?php echo $urlmain;?>assets/js/jquery-3.7.1.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="<?php echo $urlmain;?>assets/js/bootstrap.bundle.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- Bootstrap JS -->
+<script src="<?php echo $urlmain;?>assets/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Wow JS -->
-    <script src="<?php echo $urlmain;?>assets/js/wow.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- Wow JS -->
+<script src="<?php echo $urlmain;?>assets/js/wow.min.js"></script>
 
-    <!-- MeanMenu Js -->
-    <script src="<?php echo $urlmain;?>assets/js/jquery.meanmenu.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- MeanMenu Js -->
+<script src="<?php echo $urlmain;?>assets/js/jquery.meanmenu.min.js"></script>
 
-    <!-- Swiper Js -->
-    <script src="<?php echo $urlmain;?>assets/plugins/owlcarousel/owl.carousel.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- Swiper Js -->
+<script src="<?php echo $urlmain;?>assets/plugins/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Fancybox JS -->
-    <script src="<?php echo $urlmain;?>assets/plugins/fancybox/jquery.fancybox.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- Fancybox JS -->
+<script src="<?php echo $urlmain;?>assets/plugins/fancybox/jquery.fancybox.min.js"></script>
 
-    <!-- Counter JS -->
-    <script src="<?php echo $urlmain;?>assets/js/jquery.counterup.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
-    <script src="<?php echo $urlmain;?>assets/js/jquery.waypoints.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- Counter JS -->
+<script src="<?php echo $urlmain;?>assets/js/jquery.counterup.min.js"></script>
+<script src="<?php echo $urlmain;?>assets/js/jquery.waypoints.min.js"></script>
 
-    <!-- Datepicker Core JS -->
-    <script src="<?php echo $urlmain;?>assets/plugins/moment/moment.js" type="317810608eb46831db5d60bc-text/javascript"></script>
-    <script src="<?php echo $urlmain;?>assets/js/bootstrap-datetimepicker.min.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- Datepicker Core JS -->
+<script src="<?php echo $urlmain;?>assets/plugins/moment/moment.js"></script>
+<script src="<?php echo $urlmain;?>assets/js/bootstrap-datetimepicker.min.js"></script>
 
-    <!-- cursor JS -->
-    <script src="<?php echo $urlmain;?>assets/js/cursor.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+<!-- cursor JS -->
+<script src="<?php echo $urlmain;?>assets/js/cursor.js"></script>
 
-    <!-- Script JS -->
-    <script src="<?php echo $urlmain;?>assets/js/script.js" type="317810608eb46831db5d60bc-text/javascript"></script>
-
-<script src="<?php echo $urlmain;?>assets/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="317810608eb46831db5d60bc-|49" defer></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"96b447b43ca0052e","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.7.0","token":"3ca157e612a14eccbb30cf6db6691c29"}' crossorigin="anonymous"></script>
-
+<!-- Script JS -->
+<script src="<?php echo $urlmain;?>assets/js/script.js"></script>
 
   <!-- Cursor -->
     <div class="xb-cursor tx-js-cursor">

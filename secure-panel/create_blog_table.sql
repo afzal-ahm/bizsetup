@@ -115,3 +115,6 @@ INSERT INTO `blog_tag_relationships` (`blog_id`, `tag_id`) VALUES
 (1, 1), -- Web Development tag for first blog
 (2, 2), -- Digital Marketing tag for second blog
 (3, 3); -- Startup tag for third blog
+
+echo "Blog system tables created successfully with sample data!";
+?>

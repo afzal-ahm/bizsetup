@@ -1211,7 +1211,9 @@ Template Name: DreamsTour - Bootstrap Template
       margin: 12,
       nav: false,
       dots: false,
-      autoplay: false,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      autoplayHoverPause: true,
       smartSpeed: 2000,
       responsive: {
         0: {

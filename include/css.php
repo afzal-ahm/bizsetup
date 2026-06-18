@@ -2,7 +2,7 @@
     <link rel="icon" href="<?php echo $urlmain;?>images/<?php echo $company_favicon;?>" type="image/x-icon"> 
 
     <!-- Theme Settings Js -->
-	<script src="<?php echo $urlmain;?>assets/js/theme-script.js" type="317810608eb46831db5d60bc-text/javascript"></script>
+	<script src="<?php echo $urlmain;?>assets/js/theme-script.js"></script>
 
     <link rel="stylesheet" href="<?php echo $urlmain;?>assets/css/animate.css">
     <link rel="stylesheet" href="<?php echo $urlmain;?>assets/css/bootstrap.min.css">

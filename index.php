@@ -538,8 +538,10 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                                 $ss="SELECT * from  extra_content where type='heading' order by id asc limit 1 OFFSET 2  ";
                               $re=mysqli_query($conn,$ss);
                               foreach($re as $key=> $socila){       ?>  
-            <div class="row justify-content-center">Empowering Entrepreneurs
+            <div class="row justify-content-center">
+               
                 <div class="col-lg-6 text-center wow fadeInUp" data-wow-delay="0.2s">
+                    <span class="badge badge-soft-primary rounded-pill mb-1">Empowering Entrepreneurs</span> 
                     <div class="section-header text-center">
                         <h2 class="mb-2"> <?php echo $socila['heading1'];?> <span class="text-primary  text-decoration-underline"><?php echo $socila['heading2'];?></span>   </h2>
                         <p class="sub-title">We are a technology-driven platform organising the professional services industry in India</p>
@@ -854,6 +856,70 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
     
 
 <style>
+/* Make carousel items equal height and clickable */
+.popular-hotel-slider.owl-carousel {
+  z-index: 10 !important;
+  position: relative !important;
+  pointer-events: auto !important;
+}
+
+.popular-hotel-slider.owl-carousel .owl-stage {
+  display: flex !important;
+}
+
+.popular-hotel-slider.owl-carousel .owl-item {
+  display: flex !important;
+  height: auto !important;
+}
+
+.popular-hotel-slider.owl-carousel .card {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin-bottom: 0 !important;
+  border: 1px solid #eef2f6 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+  background-color: #fff !important;
+}
+
+.popular-hotel-slider.owl-carousel .card-body {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  padding: 24px !important;
+  height: 100% !important;
+}
+
+.popular-hotel-slider.owl-carousel .card-body > .d-flex {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  flex-grow: 1 !important;
+  height: 100% !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.popular-hotel-slider.owl-carousel .flex-grow-1 {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  flex-grow: 1 !important;
+  height: 100% !important;
+}
+
+.popular-hotel-slider.owl-carousel .flex-grow-1 > h5,
+.popular-hotel-slider.owl-carousel .flex-grow-1 > div {
+  margin-bottom: 8px !important;
+}
+
+.popular-hotel-slider.owl-carousel .flex-grow-1 > small.text-muted {
+  margin-top: auto !important;
+  padding-top: 12px !important;
+  border-top: 1px dashed #f0f2f5 !important;
+}
+
 	/* Container */
 .search-section {
   

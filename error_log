@@ -5,3 +5,34 @@ Stack trace:
 #2 /home/bizsetup/public_html/service_detail.php(2): include('/home/bizsetup/...')
 #3 {main}
   thrown in /home/bizsetup/public_html/secure-panel/config.php on line 11
+[17-Jun-2026 17:39:33 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/bizsetup/public_html/secure-panel/config.php:11
+Stack trace:
+#0 /home/bizsetup/public_html/secure-panel/config.php(11): mysqli_connect('localhost', 'bizsetup_biz', 'Laptop@12345#', 'bizsetup_biz')
+#1 /home/bizsetup/public_html/data.php(3): include('/home/bizsetup/...')
+#2 /home/bizsetup/public_html/index.php(2): include('/home/bizsetup/...')
+#3 {main}
+  thrown in /home/bizsetup/public_html/secure-panel/config.php on line 11
+[18-Jun-2026 06:49:52 UTC] [SEARCH-API] API called with parameters: {"q":"pri","_":"1781765323398"}
+[18-Jun-2026 06:49:52 UTC] [SEARCH-API] Searching for: pri
+[18-Jun-2026 06:49:52 UTC] [SEARCH-API] Executing query: SELECT 
+        ssc.sub_subcategory_id,
+        ssc.sub_subcategory_name,
+        c.category_name,
+        c.url as category_url,
+        sc.subcategory_name,
+        sc.url as subcategory_url
+    FROM sub_subcategory ssc 
+    LEFT JOIN category c ON ssc.category_id = c.category_id 
+    LEFT JOIN subcategory sc ON ssc.subcategory_id = sc.subcategory_id 
+    WHERE (ssc.sub_subcategory_name LIKE '%pri%' 
+           OR c.category_name LIKE '%pri%'
+           OR sc.subcategory_name LIKE '%pri%')
+    ORDER BY 
+        CASE 
+            WHEN ssc.sub_subcategory_name LIKE 'pri%' THEN 1
+            WHEN ssc.sub_subcategory_name LIKE '%pri%' THEN 2
+            ELSE 3
+        END,
+        ssc.sub_subcategory_name ASC
+    LIMIT 10
+[18-Jun-2026 06:49:52 UTC] [SEARCH-API] Found 5 results
