@@ -113,7 +113,16 @@ try {
     $firstName = isset($_POST['first_name']) ? sanitizeInput($_POST['first_name']) : '';
     $lastName = isset($_POST['last_name']) ? sanitizeInput($_POST['last_name']) : '';
     $email = isset($_POST['email']) ? sanitizeInput($_POST['email']) : '';
+    $countryCode = isset($_POST['country_code']) ? sanitizeInput($_POST['country_code']) : '';
     $phone = isset($_POST['phone']) ? sanitizeInput($_POST['phone']) : '';
+    
+    // Prepend country code if present and phone doesn't already start with '+'
+    if (!empty($countryCode) && !empty($phone)) {
+        if (strpos($phone, '+') !== 0) {
+            $phone = $countryCode . ' ' . $phone;
+        }
+    }
+
     $message = isset($_POST['message']) ? sanitizeInput($_POST['message']) : '';
     $source = isset($_POST['source']) ? sanitizeInput($_POST['source']) : 'contact_page';
     $serviceName = isset($_POST['service_name']) ? sanitizeInput($_POST['service_name']) : null;

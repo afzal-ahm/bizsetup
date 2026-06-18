@@ -118,552 +118,708 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     <?php include "include/css.php";?> 
     
     <style>
-        /* Product Cards Styling */
-        .products-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
- 
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-blue: #1c4c82;
+            --accent-orange: #f18d2d;
+            --accent-orange-hover: #e07b1d;
+            --text-gray: #475569;
+            --text-dark: #1e293b;
+            --bg-light: #f8fafc;
+            --bg-pale-gradient: linear-gradient(135deg, #f0f6fa 0%, #ffffff 100%);
+            --font-poppins: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-poppins);
+            color: var(--text-dark);
+            background-color: #ffffff;
+            transition: padding-top 0.3s ease;
+        }
+
+        /* Prevent content jump when tabs become sticky */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section Styling */
+        .hero-section-custom {
+            padding: 50px 0;
+            background: var(--bg-pale-gradient);
+            border-bottom: 1px solid rgba(28, 76, 130, 0.05);
+            position: relative;
+        }
+
+        .hero-section-custom .breadcrumb {
+            font-size: 13px;
+            padding-bottom: 10px;
+            background: transparent;
+            margin: 0;
         }
         
-        .product-card {
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.08);
+        .hero-section-custom .breadcrumb-item a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.2s ease;
         }
         
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
-            border-color: rgba(0,0,0,0.12);
+        .hero-section-custom .breadcrumb-item a:hover {
+            color: var(--accent-orange);
         }
         
-        .product-title {
-            color: #2c3e50;
-            font-size: 1.25rem;
+        .hero-section-custom .breadcrumb-item.active {
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .hero-title {
+            color: var(--primary-blue);
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.65;
+            margin-bottom: 25px;
+        }
+
+        /* Green circular checkmarks */
+        .hero-features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        .hero-features-list li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-dark);
             line-height: 1.4;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-features-list li::before {
+            content: "\f058"; /* FontAwesome circle-check */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #22c55e;
+            font-size: 20px;
+        }
+
+        /* Social ratings */
+        .hero-ratings-row {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            border-top: 1px solid rgba(28, 76, 130, 0.1);
+            padding-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .rating-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .rating-logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-blue);
+        }
+        
+        .rating-logo.google {
+            color: #4285F4;
+        }
+        
+        .rating-logo.mouthshut {
+            color: #e74c3c;
+        }
+
+        .rating-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .rating-header-text {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+            color: #fe9c28;
+            font-size: 12px;
+        }
+
+        .rating-count {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        /* Inquiry Form Card */
+        .hero-form-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(28, 76, 130, 0.08);
+            border: 1px solid rgba(28, 76, 130, 0.05);
+            padding: 30px;
+        }
+
+        .hero-form-card h5 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            text-align: center;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .hero-form-card p {
+            font-size: 13px;
+            color: var(--text-gray);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-label-custom {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-control-custom {
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--text-dark);
+            background-color: #f8fafc;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary-blue);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(28, 76, 130, 0.1);
+            outline: none;
+        }
+
+        .input-group-phone {
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background-color: #f8fafc;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .input-group-phone:focus-within {
+            border-color: var(--primary-blue);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(28, 76, 130, 0.1);
+        }
+
+        .input-group-phone select {
+            border: none;
+            background: transparent;
+            padding: 12px 28px 12px 12px;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+            cursor: pointer;
+            border-right: 1px solid #cbd5e1;
+            font-family: var(--font-poppins);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 14px;
+        }
+
+        .input-group-phone input[type="tel"] {
+            border: none;
+            background: transparent;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+            flex: 1;
+            width: 100%;
+            font-family: var(--font-poppins);
+        }
+
+        .btn-orange-cta {
+            background-color: var(--accent-orange);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(241, 141, 45, 0.2);
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .btn-orange-cta:hover {
+            background-color: var(--accent-orange-hover);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(241, 141, 45, 0.3);
+        }
+        
+        .btn-orange-cta:active {
+            transform: translateY(0);
+        }
+
+        /* What Sets Us Apart Banner */
+        .what-sets-us-apart-banner {
+            margin-top: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid rgba(28, 76, 130, 0.08);
+            padding: 16px 24px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stats-title-block {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .stats-title-block i {
+            font-size: 16px;
+            color: #22c55e;
+        }
+
+        .stat-box {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        /* Pricing Section styling */
+        .pricing-section {
+            background-color: #f8fafc;
+            padding: 60px 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .pricing-main-title {
+            color: var(--primary-blue);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .pricing-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: rgba(28, 76, 130, 0.15);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 30px rgba(241, 141, 45, 0.08);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-orange);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-badge {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-card.popular .card-badge {
+            color: var(--accent-orange);
+        }
+
+        .pricing-card-header .price {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .pricing-card-header .price .currency {
+            font-size: 22px;
+            vertical-align: top;
+            margin-right: 2px;
+        }
+
+        .price-subtext {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 25px;
+        }
+
+        .pricing-card-body {
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .features-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .features-list li {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features-list li.disabled {
+            color: #94a3b8;
+        }
+
+        .features-list li .check-icon {
+            color: #22c55e;
+            font-size: 14px;
+            width: 16px;
+        }
+
+        .features-list li .cross-icon {
+            color: #cbd5e1;
+            font-size: 14px;
+            width: 16px;
+        }
+
+        /* Tab navigation section */
+        .service-tabs-wrapper {
+            background: #ffffff;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+            padding: 6px;
+            overflow: hidden;
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+            transition: all 0.3s ease;
+            margin-bottom: 30px !important;
+        }
+
+        .service-tabs-wrapper.sticky {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 30px;
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .service-nav-tabs {
+            border: none;
+            background: transparent;
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            gap: 6px;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .service-nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .service-nav-tabs {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .service-nav-tabs .nav-item {
+            flex: 0 0 auto;
+        }
+
+        .service-nav-tabs .nav-link {
+            border: none !important;
+            background: transparent;
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .service-nav-tabs .nav-link:hover {
+            background: #f1f5f9;
+            color: var(--primary-blue);
+        }
+
+        .service-nav-tabs .nav-link.active {
+            background: var(--accent-orange) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 10px rgba(241, 141, 45, 0.25);
+        }
+
+        /* Main layout section */
+        .content-section-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 30px;
+            scroll-margin-top: 100px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+        }
+        
+        .content-section-title {
+            color: var(--primary-blue);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
         }
         
         .description-content {
-            color: #6c757d;
-            line-height: 1.6;
-            font-size: 0.95rem;
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.7;
         }
         
         .description-content p {
-            margin-bottom: 0.75rem;
+            margin-bottom: 15px;
         }
         
-        .description-content p:last-child {
-            margin-bottom: 0;
-        }
-        
-        .description-content h1, .description-content h2, .description-content h3,
-        .description-content h4, .description-content h5, .description-content h6 {
-            color: #495057;
-            margin-bottom: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        /* Dynamic underlines for headings - Yellow theme */
-        .description-content h2,
-        .description-content h3,
-        .description-content h4 {
+        .description-content h2, .description-content h3, .description-content h4 {
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 15px;
             position: relative;
-            padding-bottom: 8px;
-            margin-bottom: 1rem;
-            display: inline-block;
-            width: fit-content;
+            padding-bottom: 0;
+            border: none;
         }
         
-        .description-content h2::after,
-        .description-content h3::after,
-        .description-content h4::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
-            border-radius: 2px;
-            transition: all 0.3s ease;
+        .description-content h2::after, .description-content h3::after, .description-content h4::after {
+            display: none; /* Remove repeated underlines */
         }
         
-        /* Hover effect for dynamic underlines */
-        .description-content h2:hover::after,
-        .description-content h3:hover::after,
-        .description-content h4:hover::after {
-            background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
-            transform: scaleY(1.2);
-        }
-        
-        /* Responsive underline adjustments */
-        @media (max-width: 768px) {
-            .description-content h2::after,
-            .description-content h3::after,
-            .description-content h4::after {
-                height: 2px;
-            }
-            
-            .description-content h2,
-            .description-content h3,
-            .description-content h4 {
-                padding-bottom: 6px;
-            }
-        }
-        
-        /* Animation for underline appearance */
-        .description-content h2,
-        .description-content h3,
-        .description-content h4 {
-            animation: fadeInUp 0.6s ease-out;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
+        .description-content h2 { font-size: 20px; }
+        .description-content h3 { font-size: 18px; }
+        .description-content h4 { font-size: 16px; }
+
         .description-content ul, .description-content ol {
-            padding-left: 1.5rem;
-            margin-bottom: 0.75rem;
+            padding-left: 20px;
+            margin-bottom: 20px;
         }
-        
+
         .description-content li {
-            margin-bottom: 0.25rem;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 0;
         }
         
+        .description-content ul li::before, .description-content ol li::before {
+            display: none; /* Let browser lists render normally */
+        }
+
         .description-content strong, .description-content b {
-            color: #495057;
+            color: var(--text-dark);
             font-weight: 600;
         }
-        
-        .description-content a {
-            color: #007bff;
-            text-decoration: none;
+
+        /* Sticky Sidebar */
+        .sticky-sidebar {
+            position: sticky;
+            top: 135px;
+            z-index: 10;
         }
-        
-        .description-content a:hover {
-            text-decoration: underline;
+
+        .sidebar-form-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(28, 76, 130, 0.04);
+            padding: 24px;
         }
-        
-        .product-actions .btn {
-            padding: 0.75rem 1.5rem;
+
+        .sidebar-form-card h5 {
+            font-size: 18px;
             font-weight: 600;
+            color: var(--primary-blue);
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-form-card p {
+            font-size: 13px;
+            color: var(--text-gray);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-message-container {
             border-radius: 8px;
-            transition: all 0.3s ease;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        /* CTA Section Banner */
+        .product-cta-custom {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #0f2d52 100%);
+            border-radius: 16px;
+            padding: 40px;
+            color: #ffffff;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(28, 76, 130, 0.15);
         }
         
-        .product-actions .btn:hover {
+        .product-cta-custom h4 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .product-cta-custom p {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-white-cta {
+            background: #ffffff;
+            color: var(--primary-blue);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-white-cta:hover {
+            background: #f1f5f9;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+            color: var(--primary-blue);
         }
         
         .empty-state {
             padding: 3rem 1rem;
         }
-        
-        .empty-state i {
-            opacity: 0.5;
-        }
-        
+
         /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .product-card {
-                margin-bottom: 1rem;
+        @media (max-width: 991px) {
+            .hero-title {
+                font-size: 30px;
             }
-            
-            .products-section {
-                padding: 60px 0 !important;
+            .sticky-sidebar {
+                position: static;
+                margin-top: 30px;
             }
-        }
-        
-        /* Service Tabs Styling */
-        .service-tabs-wrapper {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            overflow: hidden;
-            position: sticky;
-            top: 20px;
-            z-index: 1000;
-            margin: 0 20px 30px 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .service-tabs-wrapper.sticky {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            border-radius: 12px;
-            margin: 80px;
-            position: fixed;
-            top: 20px;
-            left: 0;
-            right: 0;
-            max-width: calc(100% - 60px); 
-        }
-        
-        .service-tabs-wrapper.sticky .service-nav-tabs {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Ensure smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Prevent content jump when tabs become sticky */
-        body {
-            transition: padding-top 0.3s ease;
-        }
-        
-        .service-nav-tabs {
-            border: none;
-            background: #fff;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        
-        .service-nav-tabs .nav-item {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .service-nav-tabs .nav-link {
-            border: none;
-            background: transparent;
-            color: #495057;
-            font-weight: 500;
-            font-size: 14px;
-            padding: 16px 12px;
-            text-align: center;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-            box-shadow: none;
-        }
-        
-        .service-nav-tabs .nav-link:hover {
-            background: linear-gradient(180deg, #ecf0f1 0%, #bdc3c7 100%);
-            color: #2c3e50;
-        }
-        
-        .service-nav-tabs .nav-link.active {
-            background: linear-gradient(1deg, #f1a01c 0%, #fff9f9 101%, #ffffff 26%);
-            color: #000;
-            font-weight: 600;
-            border: none;
-            box-shadow: inset 0 1px 3px rgba(255,255,255,0.3);
-        }
-        
-        .service-nav-tabs .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #1a252f;
-        }
-        
-        /* Highlight active product section */
-        .product-card {
-            scroll-margin-top: 140px; /* Increased margin to prevent overlap with sticky tabs */
-        }
-        
-        .product-card.highlighted {
-            animation: highlightCard 0.5s ease-in-out;
-        }
-        
-        @keyframes highlightCard {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
-            100% { transform: scale(1); }
-        }
-        
-        .tab-content-wrapper {
-            background: #fff;
-            min-height: 200px;
-        }
-        
-        .tab-title {
-            color: #2c3e50;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .tab-description {
-            color: #6c757d;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 0;
-        }
-        
-        /* Mobile responsive for tabs */
-        @media (max-width: 768px) {
-            .service-nav-tabs {
-                flex-direction: column;
-            }
-            
-            .service-nav-tabs .nav-item {
-                flex: none;
-            }
-            
-            .service-nav-tabs .nav-link {
-                text-align: left;
-                padding: 14px 16px;
-                border-bottom: 1px solid #e9ecef;
-            }
-            
-            .service-nav-tabs .nav-link.active::after {
-                display: none;
-            }
-        }
-        
-        strong { 
-            font-weight: 400;
-        }
-
-        .product-title{
-            font-size: 17px;
-            font-weight: 400 !important;
-        }
-        .product-description h2{
-            font-size: 19px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        .product-description h3{
-            font-size: 17px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        .product-description h4{
-            font-size: 16px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        
-        /* Add checkmark to list items in description content */
-        .description-content ul li {
-            position: relative;
-            padding-left: 25px;
-        }
-        
-        .description-content ul li::before {
-            content: "✅";
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-size: 14px;
-        }
-        
-        .description-content ol li {
-            position: relative;
-            padding-left: 25px;
-        }
-        
-        .description-content ol li::before {
-            content: "✅";
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-size: 14px;
-        }
-        .aaxxd .description-content .description-content h2 ::before {
-    width: 100%;
-    height: 10px;
-    content: "";
-    background: #f99e0a;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    clip-path: polygon(0 0, 100% 50%, 100% 100%, 0% 100%);
-}
-
-        /* Price Display Styling */
-        .price-display {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .price-display::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
-        }
-        
-        .price-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .main-price {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            line-height: 1;
-        }
-        
-        .offer-price {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #e74c3c;
-            text-decoration: line-through;
-            opacity: 0.7;
-        }
-        
-        .price-note {
-            font-size: 0.9rem;
-            color: #6c757d;
-            font-style: italic;
-            margin-left: auto;
-        }
-        
-        .price-badge {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .currency-symbol {
-            font-size: 1.2rem;
-            vertical-align: top;
-            margin-right: 2px;
-        }
-        
-        /* Mobile responsive for price display */
-        @media (max-width: 768px) {
-            .price-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .main-price {
-                font-size: 1.75rem;
-            }
-            
-            .offer-price {
-                font-size: 1.25rem;
-            }
-            
-            .price-note {
-                margin-left: 0;
-                margin-top: 5px;
-            }
-        }
-        
-        /* Compact Price Display for Product Cards */
-        .product-price-display {
-            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .product-price-display::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
-        }
-        
-        .product-price-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .product-main-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2c3e50;
-            line-height: 1;
-        }
-        
-        .product-offer-price {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #e74c3c;
-            text-decoration: line-through;
-            opacity: 0.7;
-        }
-        
-        .product-discount-badge {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .product-price-note {
-            font-size: 0.8rem;
-            color: #6c757d;
-            font-style: italic;
-            margin-left: auto;
-        }
-        
-        /* Mobile responsive for product price display */
-        @media (max-width: 768px) {
-            .product-price-container {
-                flex-direction: row;
-                align-items: center;
-                gap: 8px;
-            }
-            
-            .product-main-price {
-                font-size: 1.3rem;
-            }
-            
-            .product-offer-price {
-                font-size: 1rem;
-            }
-            
-            .product-price-note {
-                margin-left: 0;
-                margin-top: 5px;
-                width: 100%;
+            .service-tabs-wrapper.sticky {
+                display: none !important; /* hide sticky mobile headers that overlap layout */
             }
         }
     </style>
-
 </head>
 
 <body>
@@ -674,148 +830,146 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
    <?php include "include/header.php";?> 
 
    <?php if(mysqli_num_rows($sub_subcategory_result) > 0) { ?>
-   <section class=" " style="padding: 38px 0;     background-color: #fc9d0b78;">
+    <section class="hero-section-custom">
         <div class="container">
-            <div class="hero-content">
-                <div class="row align-items-center">
-                    <div class="col-lg-8">
-                        <div class="banner-content wow fadeInUp" data-wow-delay="0.3">
-                            <nav aria-label="breadcrumb" style="padding-bottom: 10px;">
-                                <ol class="breadcrumb" style="font-size: 12px;">
-                                    <li class="breadcrumb-item"><a href="<?php echo $urlmain; ?>" class="text-black">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#" class="text-black"><?php echo $category_name; ?></a></li>
-                                    <li class="breadcrumb-item"><a href="#" class="text-black"><?php echo $subcategory_name; ?></a></li>
-                                    <li class="breadcrumb-item active text-black" aria-current="page"><?php echo $service_data['sub_subcategory_name']; ?></li>
-                                </ol>
-                            </nav>
-                            <h1 style="  padding-bottom: 10px;  font-size: 30px; 
-    font-weight: 500;" class="text-black display-5 mb-2"><?php echo $service_data['sub_subcategory_name']; ?></h1>
-                            <?php if(!empty($service_data['content'])) { ?>
-                                <div class="text-black"><?php echo $service_data['content']; ?></div>
-                            <?php } else { ?>
-                                <P style="    font-size: 14px;" class="text-black">Professional <?php echo $service_data['sub_subcategory_name']; ?> services to help your business grow and succeed.</P>
-                            <?php } ?>
-                            
-                           
-                        </div>
-                        <div class="banner-form-tab-six">
-                            <ul class="nav" style="    margin-top: 28px;">
-                                <li>
-                                    <a href="<?php echo $urlmain;?>contact/" class="nav-link" >
-                                        <i class="fa-solid fa-plane-up me-2"></i>Contact Now 
-                                    </a>
-                                </li>
-                                 
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="banner-form card mb-0 glass-effect">
-                            <div class="card-body">
-                                <div>
-                                    <div class="tab-content">
-                                        <div class="tab-pane fade  active show inq" id="flight"> 
-                                          <form id="serviceInquiryForm" action="<?php echo $urlmain;?>inquiry-handler.php" method="POST">
-                                          <!-- Honeypot field for spam protection (hidden) -->
-                                          <input type="text" name="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
-                                          <input type="hidden" name="source" value="service_detail">
-                                          <input type="hidden" name="service_name" value="<?php echo htmlspecialchars($service_data['sub_subcategory_name']); ?>">
-                                          <input type="hidden" name="service_category" value="<?php echo htmlspecialchars($category_name . ' > ' . $subcategory_name); ?>">
-                                          
-                                          <div class="  mb-3">
-                                          <?php if($has_price_data) { ?>
-                            <!-- Price Display Section -->
-                            <div class="price-display">
-                                <div class="price-container">
-                                    <?php if(!empty($main_price)) { ?>
-                                        <div class="main-price">
-                                            <span class="currency-symbol">₹</span><?php echo htmlspecialchars($main_price); ?>
-                                        </div>
-                                    <?php } ?>
-                                    
-                                    <?php if(!empty($offer_price) && $offer_price != $main_price) { ?>
-                                        <div class="offer-price">
-                                            <span class="currency-symbol">₹</span><?php echo htmlspecialchars($offer_price); ?>
-                                        </div>
-                                        <div class="price-badge">Best Offer</div>
-                                    <?php } ?>
-                                    
-                                    <?php if(!empty($price_note)) { ?>
-                                        <div class="price-note">
-                                            <?php echo htmlspecialchars($price_note); ?>
-                                        </div>
-                                    <?php } ?>
+            <div class="row align-items-center">
+                <!-- Left Column: Content -->
+                <div class="col-lg-7 col-md-12">
+                    <div class="banner-content wow fadeInUp" data-wow-delay="0.3s">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="<?php echo $urlmain; ?>">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#"><?php echo htmlspecialchars($category_name); ?></a></li>
+                                <li class="breadcrumb-item"><a href="#"><?php echo htmlspecialchars($subcategory_name); ?></a></li>
+                                <li class="breadcrumb-item active" aria-current="page"><?php echo htmlspecialchars($service_data['sub_subcategory_name']); ?></li>
+                            </ol>
+                        </nav>
+                        
+                        <h1 class="hero-title"><?php echo htmlspecialchars($service_data['sub_subcategory_name']); ?> Registration Online in India</h1>
+                        
+                        <?php if(!empty($service_data['content'])) { ?>
+                            <div class="hero-subtitle"><?php echo $service_data['content']; ?></div>
+                        <?php } else { ?>
+                            <p class="hero-subtitle">Professional <?php echo htmlspecialchars($service_data['sub_subcategory_name']); ?> services to help your business grow, secure compliance, and succeed.</p>
+                        <?php } ?>
+                        
+                        <!-- Checkmark list -->
+                        <ul class="hero-features-list">
+                            <li>Company Incorporated in 7–10 Business Days Guaranteed</li>
+                            <li>500+ MCA-Certified CA & CS Experts Handle Name Approval & Filing</li>
+                            <li>PAN, TAN, DIN, DSC, MoA, AoA & Certificate — All Included</li>
+                            <li>Complete Package from ₹<?php echo htmlspecialchars($main_price); ?> + Govt. Fees — Zero Hidden Charges</li>
+                            <li>Trusted by 50,000+ Startups & Entrepreneurs Across India</li>
+                        </ul>
+                        
+                        <!-- Social Ratings Row -->
+                        <div class="hero-ratings-row">
+                            <div class="rating-item">
+                                <div class="rating-logo google"><i class="fab fa-google"></i></div>
+                                <div class="rating-content">
+                                    <div class="rating-header-text">4.6 out of 5</div>
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="rating-count">(5000+ reviews)</span>
+                                    </div>
                                 </div>
                             </div>
-                            <?php } ?>
-                            <h5 class="mb-1" style="color: #000;">Get Started!</h5>
-                            <p style="   color: #000; font-size: 13px;">Fill out the form below and we'll get back to you soon!</p>
-                                                        </div>
-                        
-                       
-                                                                    <div class="row">
-                       	<div class="col-md-6">
-                       		   <div class="mb-2">
-                            <div class="input-icon">
-                                <span class="input-icon-addon">
-									<i class="isax isax-user"></i>
-                                </span>
-                                <input type="text" name="first_name" class="form-control form-control-lg" placeholder="First Name" required>
-                            </div>
-                        </div>
-                    </div>
-                       		<div class="col-md-6">
-                       		  <div class="mb-2">
-                           <div class="input-icon">
-                                <span class="input-icon-addon">
-									<i class="isax isax-call"></i>
-                                </span>
-                                <input type="tel" name="phone" class="form-control form-control-lg" placeholder="Phone Number">
-                            </div>
-                        </div>
-                    </div>
-                       		<div class="col-md-12">
-                       		   <div class="mb-2">
-                            <label class="form-label">Email Address <span class="text-danger">*</span></label>
-                            <div class="input-icon">
-                                <span class="input-icon-addon">
-									<i class="isax isax-message"></i>
-                                </span>
-                                <input type="email" name="email" class="form-control form-control-lg" placeholder="Your Email Address" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                       		   <div class="mb-2">
-                            <label class="form-label">Message <span class="text-danger">*</span></label>
-                            <textarea name="message" class="form-control" rows="3" placeholder="Tell us about your requirements..." required minlength="5"></textarea>
-                        </div>
-                    </div>
-                       		 
-                        
-                                                                            </div>
-                     
-                        
-                        
-                        <div id="serviceFormMessage" class="mb-3" style="display:none;"></div>
-                        
-                        <div class="mb-3">
-                            <button type="submit" id="serviceSubmitBtn" class="btn btn-xl btn-primary d-flex align-items-center justify-content-center w-100">
-                                <span class="btn-text">Submit Now</span>
-                                <span class="spinner-border spinner-border-sm ms-2" style="display:none;" role="status" aria-hidden="true"></span>
-                                <i class="isax isax-arrow-right-3 ms-2 btn-icon"></i>
-                            </button>
-                        </div>
-                       
-                       
-                                            </form>
-                                        </div>
-                                        
-                                        
+                            <div class="rating-item">
+                                <div class="rating-logo mouthshut"><i class="fas fa-bullhorn"></i></div>
+                                <div class="rating-content">
+                                    <div class="rating-header-text">4.7 out of 5</div>
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="rating-count">(2453+ reviews)</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Form Card -->
+                <div class="col-lg-5 col-md-12 mt-5 mt-lg-0">
+                    <div class="hero-form-card wow fadeInRight" data-wow-delay="0.3s">
+                        <h5>Enter your details to receive a full quote and consultation</h5>
+                        <p>Fill out the form below and we'll get back to you soon!</p>
+                        
+                        <form class="inquiry-form-submit" action="<?php echo $urlmain;?>inquiry-handler.php" method="POST">
+                            <!-- Honeypot field for spam protection (hidden) -->
+                            <input type="text" name="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
+                            <input type="hidden" name="source" value="service_detail_hero">
+                            <input type="hidden" name="service_name" value="<?php echo htmlspecialchars($service_data['sub_subcategory_name']); ?>">
+                            <input type="hidden" name="service_category" value="<?php echo htmlspecialchars($category_name . ' > ' . $subcategory_name); ?>">
+                            
+                            <div class="mb-3">
+                                <label class="form-label-custom">First Name <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" class="form-control-custom" placeholder="Enter Your First Name" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label-custom">Phone Number <span class="text-danger">*</span></label>
+                                <div class="input-group-phone">
+                                    <select name="country_code">
+                                        <option value="+91">+91 (IN)</option>
+                                        <option value="+1">+1 (US)</option>
+                                        <option value="+44">+44 (UK)</option>
+                                    </select>
+                                    <input type="tel" name="phone" placeholder="Enter Your Phone Number" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label-custom">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control-custom" placeholder="Your Email Address" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label-custom">Message / Requirements <span class="text-danger">*</span></label>
+                                <textarea name="message" class="form-control-custom" rows="3" placeholder="Tell us about your requirements..." required minlength="5"></textarea>
+                            </div>
+                            
+                            <div class="form-message-container" style="display:none;"></div>
+                            
+                            <button type="submit" class="btn-orange-cta d-flex align-items-center justify-content-center">
+                                <span class="btn-text">Claim Your Free Consultation</span>
+                                <span class="spinner-border spinner-border-sm ms-2" style="display:none;" role="status" aria-hidden="true"></span>
+                                <i class="fas fa-arrow-right ms-2 btn-icon"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Stats Banner -->
+            <div class="what-sets-us-apart-banner wow fadeInUp" data-wow-delay="0.5s">
+                <div class="stats-container">
+                    <div class="stats-title-block">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>What Sets Us Apart:</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">MCA Certified Experts</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">20,000+</span>
+                        <span class="stat-label">Genuine Customer Reviews</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">50,000+</span>
+                        <span class="stat-label">Businesses Served Pan-India</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Real-Time App-based Monitoring</span>
                     </div>
                 </div>
             </div>
@@ -831,113 +985,210 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     
                             <!-- Products Section -->
                             <?php if(!empty($products)) { ?>
-                            <section class="products-section" style="padding: 80px 0; background: #f8f9fa;">
-                                <div class="container">
-                            <!--- here make nav bar tabs  of   of service1--> 
-                            <div class="service-tabs-wrapper mb-5" >
-                                <div class="service-tabs-nav">
-                                    <ul class="nav nav-tabs service-nav-tabs" id="serviceTabs" role="tablist">
-                                    <?php foreach($products as $index => $product) { ?>
-                                        <li class="nav-item" role="presentation">
-                                            <button style="width: 100%;" class="nav-link <?php echo $index === 0 ? 'active' : ''; ?>" 
-                                                    id="product-<?php echo $index; ?>-tab" 
-                                                    data-product-id="<?php echo $index; ?>" 
-                                                    type="button" role="tab" 
-                                                    aria-controls="product-<?php echo $index; ?>" 
-                                                    aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>">
-                                                <?php echo htmlspecialchars($product['product_name']); ?>
-                                            </button>
-                                        </li>
-                                    <?php } ?>
-                                    </ul>
-                                </div>
-                                
-                                
-                            </div>
                             
-                            <!-- Spacer to ensure proper spacing from sticky tabs -->
-                            <div class="tabs-spacer" style="height: 30px; background: transparent;"></div>
+                            <!-- 3-Tier Pricing Section -->
+                            <?php if($has_price_data) { ?>
+                            <section class="pricing-section">
+                                <div class="container">
+                                    <div class="text-center mb-5">
+                                        <h2 class="pricing-main-title mb-2">Choose the Best Plan for Your Business</h2>
+                                        <p class="text-muted">Register your business seamlessly with CA-assisted execution plans</p>
+                                    </div>
                                     
-                                    <div class="row g-4">
-                                        <?php foreach($products as $index => $product) { ?>
-                                        <div class="col-lg-12 col-md-12" id="product-<?php echo $index; ?>">
-                                            <div class="  aaxxd h-100   rounded-3 shadow-sm border-0 overflow-hidden">
-                                                <div class="  p-4">
-                                                    <div class="product-header mb-3">
-                                                        <h4 class="product-title fw-bold text-dark mb-2">
+                                    <div class="row g-4 justify-content-center">
+                                        <!-- Basic Plan -->
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="pricing-card basic">
+                                                <div class="card-badge">Basic Plan</div>
+                                                <div class="pricing-card-header">
+                                                    <div class="price">
+                                                        <span class="currency">₹</span><?php echo htmlspecialchars($main_price); ?>
+                                                    </div>
+                                                    <div class="price-subtext"><?php echo !empty($price_note) ? htmlspecialchars($price_note) : '+ Govt Fees Extra'; ?></div>
+                                                </div>
+                                                <div class="pricing-card-body">
+                                                    <p class="features-title">What you'll get:</p>
+                                                    <ul class="features-list">
+                                                        <li><i class="fas fa-check check-icon"></i> 1 DSC (Digital Signature)</li>
+                                                        <li><i class="fas fa-check check-icon"></i> 1 DIN (Director Identification)</li>
+                                                        <li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>
+                                                        <li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>
+                                                        <li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>
+                                                        <li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>
+                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> GST Registration</li>
+                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> MSME (Udyam) Certificate</li>
+                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> PF & ESIC Registration</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="pricing-card-footer mt-auto">
+                                                    <button type="button" class="btn-orange-cta scroll-to-form-btn">Get Started</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Standard Plan -->
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="pricing-card standard popular">
+                                                <div class="popular-badge">Most Popular</div>
+                                                <div class="card-badge">Standard Plan</div>
+                                                <div class="pricing-card-header">
+                                                    <div class="price">
+                                                        <span class="currency">₹</span><?php echo htmlspecialchars((int)$main_price + 3000); ?>
+                                                    </div>
+                                                    <div class="price-subtext"><?php echo !empty($price_note) ? htmlspecialchars($price_note) : '+ Govt Fees Extra'; ?></div>
+                                                </div>
+                                                <div class="pricing-card-body">
+                                                    <p class="features-title">What you'll get:</p>
+                                                    <ul class="features-list">
+                                                        <li><i class="fas fa-check check-icon"></i> 2 DSC (Digital Signatures)</li>
+                                                        <li><i class="fas fa-check check-icon"></i> 2 DIN (Director Identifications)</li>
+                                                        <li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>
+                                                        <li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>
+                                                        <li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>
+                                                        <li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>
+                                                        <li><i class="fas fa-check check-icon"></i> GST Registration</li>
+                                                        <li><i class="fas fa-check check-icon"></i> MSME (Udyam) Certificate</li>
+                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> PF & ESIC Registration</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="pricing-card-footer mt-auto">
+                                                    <button type="button" class="btn-orange-cta scroll-to-form-btn">Get Started</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Premium Plan -->
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="pricing-card premium">
+                                                <div class="card-badge">Premium Plan</div>
+                                                <div class="pricing-card-header">
+                                                    <div class="price">
+                                                        <span class="currency">₹</span><?php echo htmlspecialchars((int)$main_price + 6000); ?>
+                                                    </div>
+                                                    <div class="price-subtext"><?php echo !empty($price_note) ? htmlspecialchars($price_note) : '+ Govt Fees Extra'; ?></div>
+                                                </div>
+                                                <div class="pricing-card-body">
+                                                    <p class="features-title">What you'll get:</p>
+                                                    <ul class="features-list">
+                                                        <li><i class="fas fa-check check-icon"></i> 2 DSC (Digital Signatures)</li>
+                                                        <li><i class="fas fa-check check-icon"></i> 2 DIN (Director Identifications)</li>
+                                                        <li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>
+                                                        <li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>
+                                                        <li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>
+                                                        <li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>
+                                                        <li><i class="fas fa-check check-icon"></i> GST Registration</li>
+                                                        <li><i class="fas fa-check check-icon"></i> MSME (Udyam) Certificate</li>
+                                                        <li><i class="fas fa-check check-icon"></i> PF & ESIC Registration</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="pricing-card-footer mt-auto">
+                                                    <button type="button" class="btn-orange-cta scroll-to-form-btn">Get Started</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <?php } ?>
+
+                            <!-- Detailed Content Section -->
+                            <section class="details-content-section py-5 bg-white">
+                                <div class="container">
+                                    <!-- Horizontal Tab Navigation -->
+                                    <div class="service-tabs-wrapper">
+                                        <div class="service-tabs-nav">
+                                            <ul class="nav nav-tabs service-nav-tabs" id="serviceTabs" role="tablist">
+                                            <?php foreach($products as $index => $product) { ?>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                                            id="product-<?php echo $index; ?>-tab" 
+                                                            data-product-id="<?php echo $index; ?>" 
+                                                            type="button" role="tab" 
+                                                            aria-controls="product-<?php echo $index; ?>" 
+                                                            aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>">
+                                                        <?php echo htmlspecialchars($product['product_name']); ?>
+                                                    </button>
+                                                </li>
+                                            <?php } ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-5">
+                                        <!-- Left Column: Content Blocks (70% width) -->
+                                        <div class="col-lg-8 col-md-12">
+                                            <div class="content-blocks">
+                                                <?php foreach($products as $index => $product) { ?>
+                                                    <div class="content-section-card" id="product-<?php echo $index; ?>">
+                                                        <h2 class="content-section-title">
                                                             <?php echo htmlspecialchars($product['product_name']); ?>
-                                                        </h4>
-                                                    </div>
-                                                    
-                                                    <div class="product-description mb-4">
-                                                        <?php if(!empty($product['description'])) { ?>
-                                                            <div class="description-content">
+                                                        </h2>
+                                                        
+                                                        <div class="description-content">
+                                                            <?php if(!empty($product['description'])) { ?>
                                                                 <?php echo $product['description']; ?>
-                                                            </div>
-                                                        <?php } else { ?>
-                                                            <p class="text-muted mb-0">Professional <?php echo htmlspecialchars($product['product_name']); ?> service with expert guidance and support.</p>
-                                                        <?php } ?>
-                                                    </div>
-                                                    
-                                                    <?php if($product['has_product_price'] || $has_price_data) { ?>
-                                                    <!-- Product Price Display -->
-                                                    <div class="product-price-display">
-                                                        <div class="product-price-container">
-                                                            <?php 
-                                                            // Use product-specific prices if available, otherwise fall back to service prices
-                                                            $display_main_price = !empty($product['clean_mrp']) ? $product['clean_mrp'] : $main_price;
-                                                            $display_offer_price = !empty($product['clean_offer_amount']) ? $product['clean_offer_amount'] : $offer_price;
-                                                            $display_discount = !empty($product['clean_offer']) ? $product['clean_offer'] : '';
-                                                            $display_price_note = $price_note; // Use service-level price note
-                                                            ?>
-                                                            
-                                                            <?php if(!empty($display_main_price)) { ?>
-                                                                <div class="product-main-price">
-                                                                    <span class="currency-symbol">₹</span><?php echo htmlspecialchars($display_main_price); ?>
-                                                                </div>
-                                                            <?php } ?>
-                                                            
-                                                            <?php if(!empty($display_offer_price) && $display_offer_price != $display_main_price) { ?>
-                                                                <div class="product-offer-price">
-                                                                    <span class="currency-symbol">₹</span><?php echo htmlspecialchars($display_offer_price); ?>
-                                                                </div>
-                                                            <?php } ?>
-                                                            
-                                                            <?php if(!empty($display_discount) && $display_discount > 0) { ?>
-                                                                <div class="product-discount-badge">
-                                                                    <?php echo htmlspecialchars($display_discount); ?>% OFF
-                                                                </div>
-                                                            <?php } ?>
-                                                            
-                                                            <?php if(!empty($display_price_note)) { ?>
-                                                                <div class="product-price-note">
-                                                                    <?php echo htmlspecialchars($display_price_note); ?>
-                                                                </div>
+                                                            <?php } else { ?>
+                                                                <p>Professional <?php echo htmlspecialchars($product['product_name']); ?> details with dedicated experts handling documentation, registrations, and ROC compliance.</p>
                                                             <?php } ?>
                                                         </div>
                                                     </div>
-                                                    <?php } ?>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Right Column: Sticky Sidebar Inquiry Form (30% width) -->
+                                        <div class="col-lg-4 col-md-12">
+                                            <div class="sticky-sidebar">
+                                                <div class="sidebar-form-card">
+                                                    <h5>Talk To Our Experts</h5>
+                                                    <p>We're Here To Help You</p>
                                                     
-                                                   
+                                                    <form class="inquiry-form-submit" action="<?php echo $urlmain;?>inquiry-handler.php" method="POST">
+                                                        <!-- Honeypot field for spam protection (hidden) -->
+                                                        <input type="text" name="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
+                                                        <input type="hidden" name="source" value="service_detail_sidebar">
+                                                        <input type="hidden" name="service_name" value="<?php echo htmlspecialchars($service_data['sub_subcategory_name']); ?>">
+                                                        <input type="hidden" name="service_category" value="<?php echo htmlspecialchars($category_name . ' > ' . $subcategory_name); ?>">
+                                                        
+                                                        <div class="mb-3">
+                                                            <label class="form-label-custom">First Name <span class="text-danger">*</span></label>
+                                                            <input type="text" name="first_name" class="form-control-custom" placeholder="Enter Your First Name" required>
+                                                        </div>
+                                                        
+                                                        <div class="mb-3">
+                                                            <label class="form-label-custom">Phone Number <span class="text-danger">*</span></label>
+                                                            <div class="input-group-phone">
+                                                                <select name="country_code">
+                                                                    <option value="+91">+91 (IN)</option>
+                                                                    <option value="+1">+1 (US)</option>
+                                                                    <option value="+44">+44 (UK)</option>
+                                                                </select>
+                                                                <input type="tel" name="phone" placeholder="Enter Your Phone Number" required>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="mb-3">
+                                                            <label class="form-label-custom">Email Address <span class="text-danger">*</span></label>
+                                                            <input type="email" name="email" class="form-control-custom" placeholder="Your Email Address" required>
+                                                        </div>
+                                                        
+                                                        <div class="mb-3">
+                                                            <label class="form-label-custom">Message / Requirements <span class="text-danger">*</span></label>
+                                                            <textarea name="message" class="form-control-custom" rows="3" placeholder="Tell us about your requirements..." required minlength="5"></textarea>
+                                                        </div>
+                                                        
+                                                        <div class="form-message-container" style="display:none;"></div>
+                                                        
+                                                        <button type="submit" class="btn-orange-cta d-flex align-items-center justify-content-center">
+                                                            <span class="btn-text">Claim Your Free Consultation</span>
+                                                            <span class="spinner-border spinner-border-sm ms-2" style="display:none;" role="status" aria-hidden="true"></span>
+                                                            <i class="fas fa-arrow-right ms-2 btn-icon"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php } ?>
                                     </div>
-                                    
-                                    <?php if(count($products) == 0) { ?>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="text-center py-5">
-                                                <div class="empty-state">
-                                                    <i class="isax isax-box-1 text-muted" style="font-size: 4rem;"></i>
-                                                    <h4 class="text-muted mt-3">No Services Available</h4>
-                                                    <p class="text-muted">Currently there are no services available in this category. Please check back later.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php } ?>
                                 </div>
                             </section>
                             <?php } ?>
@@ -986,107 +1237,148 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     <!-- Jquery JS -->
     
     <script>
-        // Sticky tabs functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Sticky tabs scroll state
             const tabsWrapper = document.querySelector('.service-tabs-wrapper');
             const tabsNav = document.querySelector('.service-nav-tabs');
             
             if (tabsWrapper && tabsNav) {
-                // Add scroll event listener
+                const tabsOffset = tabsWrapper.offsetTop;
+                
                 window.addEventListener('scroll', function() {
                     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    const tabsOffset = tabsWrapper.offsetTop;
                     const tabsHeight = tabsWrapper.offsetHeight;
                     
                     if (scrollTop >= tabsOffset - 20) {
                         tabsWrapper.classList.add('sticky');
-                        // Add padding to body to prevent content jump
-                        document.body.style.paddingTop = tabsHeight + 40 + 'px';
+                        // Add padding to body to prevent jump
+                        document.body.style.paddingTop = tabsHeight + 30 + 'px';
                     } else {
                         tabsWrapper.classList.remove('sticky');
                         document.body.style.paddingTop = '0';
                     }
                 });
                 
-                // Smooth scroll to specific product when clicking on tab links
+                // Smooth scroll to specific section on clicking tabs
                 const tabLinks = document.querySelectorAll('.service-nav-tabs .nav-link');
                 tabLinks.forEach(function(link) {
                     link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
                         // Remove active class from all tabs
                         tabLinks.forEach(tab => tab.classList.remove('active'));
-                        // Add active class to clicked tab
                         this.classList.add('active');
                         
-                        // Get the product ID from the clicked tab
                         const productId = this.getAttribute('data-product-id');
                         const targetProduct = document.getElementById('product-' + productId);
                         
                         if (targetProduct) {
-                            // Calculate scroll position with proper spacing from sticky tabs
                             const tabsHeight = tabsWrapper.offsetHeight;
-                            const extraSpacing = 120; // Increased spacing for better visibility
+                            const extraSpacing = 90;
                             const offsetTop = targetProduct.offsetTop - tabsHeight - extraSpacing;
                             
-                            // Smooth scroll to the specific product
                             window.scrollTo({
                                 top: offsetTop,
                                 behavior: 'smooth'
                             });
+                        }
+                    });
+                });
+
+                // Scrollspy functionality: highlight navigation links based on scroll position
+                window.addEventListener('scroll', function() {
+                    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+                    const tabsHeight = tabsWrapper.offsetHeight;
+                    const extraSpacing = 150;
+                    
+                    const sections = document.querySelectorAll('.content-section-card');
+                    sections.forEach(function(section) {
+                        const top = section.offsetTop - tabsHeight - extraSpacing;
+                        const bottom = top + section.offsetHeight;
+                        
+                        if (scrollPosition >= top && scrollPosition < bottom) {
+                            const sectionId = section.getAttribute('id');
+                            const productId = sectionId.split('-')[1];
+                            const activeLink = document.querySelector(`.service-nav-tabs .nav-link[data-product-id="${productId}"]`);
                             
-                            // Add highlight effect after scroll completes
-                            setTimeout(() => {
-                                // Remove highlight from all products
-                                document.querySelectorAll('.product-card').forEach(card => {
-                                    card.classList.remove('highlighted');
-                                });
+                            if (activeLink) {
+                                tabLinks.forEach(tab => tab.classList.remove('active'));
+                                activeLink.classList.add('active');
                                 
-                                // Add highlight to target product
-                                const targetCard = targetProduct.querySelector('.product-card');
-                                if (targetCard) {
-                                    targetCard.classList.add('highlighted');
+                                // Scroll the tabs nav container if active link is out of view on mobile
+                                const rect = activeLink.getBoundingClientRect();
+                                const containerRect = tabsNav.getBoundingClientRect();
+                                if (rect.left < containerRect.left || rect.right > containerRect.right) {
+                                    tabsNav.scrollTo({
+                                        left: activeLink.offsetLeft - (containerRect.width / 2) + (rect.width / 2),
+                                        behavior: 'smooth'
+                                    });
                                 }
-                            }, 800); // Wait for scroll to complete
+                            }
                         }
                     });
                 });
             }
+
+            // Scroll from pricing "Get Started" buttons to hero form
+            const scrollBtns = document.querySelectorAll('.scroll-to-form-btn');
+            scrollBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const heroForm = document.querySelector('.hero-form-card');
+                    if (heroForm) {
+                        const offsetTop = heroForm.getBoundingClientRect().top + window.pageYOffset - 120;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Highlight form inputs briefly
+                        setTimeout(() => {
+                            const firstInput = heroForm.querySelector('input[name="first_name"]');
+                            if (firstInput) {
+                                firstInput.focus();
+                            }
+                        }, 800);
+                    }
+                });
+            });
         });
         
-        // Service Inquiry Form Handler
-        $('#serviceInquiryForm').on('submit', function(e) {
+        // Generic AJAX Inquiry Form Submissions for Hero and Sidebar forms
+        $(document).on('submit', '.inquiry-form-submit', function(e) {
             e.preventDefault();
             
             const $form = $(this);
-            const $submitBtn = $('#serviceSubmitBtn');
+            const $submitBtn = $form.find('button[type="submit"]');
             const $btnText = $submitBtn.find('.btn-text');
             const $spinner = $submitBtn.find('.spinner-border');
             const $btnIcon = $submitBtn.find('.btn-icon');
-            const $message = $('#serviceFormMessage');
+            const $message = $form.find('.form-message-container');
             
-            // Basic client-side validation
             const firstName = $form.find('[name="first_name"]').val().trim();
             const email = $form.find('[name="email"]').val().trim();
             const message = $form.find('[name="message"]').val().trim();
             
             if (!firstName || !email || !message) {
-                $message.removeClass('alert-success').addClass('alert alert-danger')
+                $message.removeClass('alert-success alert-danger').addClass('alert alert-danger')
                        .html('<i class="fas fa-exclamation-triangle me-2"></i>Please fill in all required fields.')
                        .show();
                 return;
             }
             
             if (message.length < 5) {
-                $message.removeClass('alert-success').addClass('alert alert-danger')
+                $message.removeClass('alert-success alert-danger').addClass('alert alert-danger')
                        .html('<i class="fas fa-exclamation-triangle me-2"></i>Message must be at least 5 characters long.')
                        .show();
                 return;
             }
             
             // Show loading state
+            const originalBtnText = $btnText.text();
             $submitBtn.prop('disabled', true);
             $btnText.text('Sending...');
             $spinner.show();
-            $btnIcon.hide();
+            if ($btnIcon.length) $btnIcon.hide();
             $message.hide();
             
             // Submit form via AJAX
@@ -1097,7 +1389,7 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        $message.removeClass('alert-danger').addClass('alert alert-success')
+                        $message.removeClass('alert-danger alert-success').addClass('alert alert-success')
                                .html('<i class="fas fa-check-circle me-2"></i>' + response.message)
                                .show();
                         $form[0].reset(); // Clear form
@@ -1110,22 +1402,22 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                             });
                             errorMsg += '</ul>';
                         }
-                        $message.removeClass('alert-success').addClass('alert alert-danger')
+                        $message.removeClass('alert-success alert-danger').addClass('alert alert-danger')
                                .html('<i class="fas fa-exclamation-triangle me-2"></i>' + errorMsg)
                                .show();
                     }
                 },
                 error: function(xhr, status, error) {
-                    $message.removeClass('alert-success').addClass('alert alert-danger')
+                    $message.removeClass('alert-success alert-danger').addClass('alert alert-danger')
                            .html('<i class="fas fa-exclamation-triangle me-2"></i>An error occurred while sending your inquiry. Please try again.')
                            .show();
                 },
                 complete: function() {
                     // Reset button state
                     $submitBtn.prop('disabled', false);
-                    $btnText.text('Submit Now');
+                    $btnText.text(originalBtnText);
                     $spinner.hide();
-                    $btnIcon.show();
+                    if ($btnIcon.length) $btnIcon.show();
                 }
             });
         });
