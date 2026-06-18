@@ -160,7 +160,7 @@ include "data.php";
                 <div class="row align-items-center">
                     <div class="col-lg-10 col-md-12 mx-auto wow fadeInUp" data-wow-delay="0.3s">
                         <div class="banner-content text-center mx-auto">
-                            <h1 class="text-white display-4 mb-2">India's Top Rated  Professional Services Platform </h1>
+                            <h1 class="text-white display-4 mb-2">India's Top Rated <span>Professional Services</span> Platform </h1>
                             <p class="text-white mx-auto">Connecting you with experts to simplify your legal, tax & compliance.</p>
                           <div class="search-section">
   <div class="search-box">
@@ -1012,7 +1012,8 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
 }
 
 .search-tags button {
-  background: transparent;
+  /* background: transparent; */
+  background: #303e5b;
   border: 1px solid #7a8ba3;
   color: #fff;
   padding: 8px 16px;
