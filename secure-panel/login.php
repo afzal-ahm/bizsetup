@@ -11,11 +11,8 @@ if(isset($_POST['login']))
 	if(mysqli_num_rows($run)>0)
 	{
 		$_SESSION['email'] = $email;
-		
-		
-echo '<script>location.assign("index.php?view='.$email.'")</script>';
-//echo "<script>window.open('index.php','_self')</script>";	
-
+		header("Location: index.php?view=" . urlencode($email));
+		exit;
 		}
 else    
           {

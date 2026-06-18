@@ -813,6 +813,7 @@ $(window).load(function()
 <?php 
  }
  else{
-	 echo "<script>window.open('login.php','_self')</script>";	
+     header("Location: login.php");
+     exit;
       }
  ?>
