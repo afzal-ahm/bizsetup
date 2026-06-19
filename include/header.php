@@ -42,10 +42,10 @@ Whats Up  on  : <a style="color: #fff;" href="https://wa.me/<?php echo $company_
                             <div class="offcanvas-head">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <a href="<?php echo $urlmain;?>" class="black-logo-responsive">
-                                        <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>"  style="    max-width: 101px;" alt="logo-img">
+                                        <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>"  style="    max-width: 150px;" alt="logo-img">
                                     </a>
                                     <a href="<?php echo $urlmain;?>" class="white-logo-responsive">
-                                        <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>"  style="    max-width: 101px;" alt="logo-img">
+                                        <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>"  style="    max-width: 150px;" alt="logo-img">
                                     </a>
                                     <div class="offcanvas-close">
                                         <i class="ti ti-x"></i>
@@ -70,10 +70,10 @@ Whats Up  on  : <a style="color: #fff;" href="https://wa.me/<?php echo $company_
                     <div class="main-menu-wrapper">
                         <div class="navbar-logo">
                             <a class="logo-white header-logo" href="<?php echo $urlmain;?>">
-                                <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>" style="    max-width: 101px;" class="logo" alt="Logo">
+                                <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>" style="    max-width: 150px;" class="logo" alt="Logo">
                             </a>
                             <a class="logo-dark header-logo" href="<?php echo $urlmain;?>">
-                                <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>"  style="    max-width: 101px;" class="logo" alt="Logo">
+                                <img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>"  style="    max-width: 150px;" class="logo" alt="Logo">
                             </a>
                         </div>
                         <nav id="mobile-menu">

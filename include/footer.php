@@ -7,7 +7,7 @@
                     foreach($re as $key=> $socila){       ?>   
                     <div class="col-lg-5">
                         <div class="footer-about">
-                            <span class="d-block mb-2 footer-logo-light"><img src="<?php echo $urlmain;?>images/extra/<?php echo $socila['image'];?>" alt="Img"></span>
+                            <span class="d-block mb-2 footer-logo-light"><img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>" style="    max-width: 150px;" alt="Img"></span>
                              
                             <p><?php echo $socila['content'];?> </p>
 
