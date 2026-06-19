@@ -1335,7 +1335,75 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let searchTimeout;
     
-    // Use both keyup and input events
+    // Function to perform immediate search on enter or button click
+    function performSearch() {
+        const query = $('#searchBox').val().trim();
+        const dropdown = $('#searchDropdown');
+        
+        clearTimeout(searchTimeout);
+        
+        if (query.length < 1) {
+            dropdown.hide().empty();
+            return;
+        }
+        
+        // If suggestions are already loaded and visible, navigate to the first one
+        const firstSuggestion = dropdown.find('.search-suggestion-item:first');
+        if (firstSuggestion.length && dropdown.is(':visible') && !firstSuggestion.hasClass('no-results')) {
+            const url = firstSuggestion.data('url');
+            if (url) {
+                console.log('Navigating to suggestion URL:', url);
+                window.location.href = url;
+                return;
+            }
+        }
+        
+        // Otherwise, execute a direct immediate AJAX search and redirect to the first result if found
+        dropdown.html('<div class="loading-indicator">Searching...</div>').show();
+        
+        $.ajax({
+            url: 'search-api.php',
+            method: 'GET',
+            data: { q: query },
+            dataType: 'json',
+            cache: false,
+            success: function(data) {
+                dropdown.empty();
+                
+                if (data && data.error) {
+                    dropdown.html('<div class="no-results">Error: ' + data.error + '</div>').show();
+                    return;
+                }
+                
+                if (data && Array.isArray(data) && data.length > 0) {
+                    console.log('Immediate match found, displaying and navigating...');
+                    // Populate dropdown
+                    data.forEach(function(item) {
+                        const suggestionItem = $('<div class="search-suggestion-item" data-url="' + item.url + '">' +
+                            '<div class="suggestion-title">' + item.name + '</div>' +
+                            '<div class="suggestion-path">' + item.category + ' > ' + item.subcategory + '</div>' +
+                            '</div>');
+                        dropdown.append(suggestionItem);
+                    });
+                    dropdown.show();
+                    
+                    // Navigate to the first matching service
+                    const url = data[0].url;
+                    if (url) {
+                        window.location.href = url;
+                    }
+                } else {
+                    console.log('No results found for direct search');
+                    dropdown.html('<div class="no-results"><i class="fas fa-exclamation-circle" style="color: #f18d2d; margin-right: 8px;"></i>No results found for "' + $('<div>').text(query).html() + '"</div>').show();
+                }
+            },
+            error: function() {
+                dropdown.html('<div class="no-results">Connection error. Please try again.</div>').show();
+            }
+        });
+    }
+    
+    // Use both keyup and input events for typing suggestions
     $('#searchBox').on('keyup input', function(e) {
         // Don't trigger search on navigation keys for keyup
         if (e.type === 'keyup' && (e.which === 38 || e.which === 40 || e.which === 13)) {
@@ -1388,7 +1456,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         dropdown.show();
                     } else {
                         console.log('No results found');
-                        dropdown.html('<div class="no-results">No services found for "' + query + '"</div>').show();
+                        dropdown.html('<div class="no-results"><i class="fas fa-exclamation-circle" style="color: #f18d2d; margin-right: 8px;"></i>No results found for "' + $('<div>').text(query).html() + '"</div>').show();
                     }
                 },
                 error: function(xhr, status, error) {
@@ -1419,20 +1487,29 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#searchBox').on('keydown', function(e) {
         if (e.key === 'Enter' || e.which === 13) {
             e.preventDefault();
-            const firstSuggestion = $('.search-suggestion-item:first');
-            if (firstSuggestion.length) {
-                const url = firstSuggestion.data('url');
-                console.log('Enter pressed, navigating to:', url);
-                if (url) {
-                    window.location.href = url;
-                }
-            }
+            console.log('Enter pressed, executing search...');
+            performSearch();
         }
+    });
+    
+    // Handle Search Button Click
+    $(document).on('click', '.search-btn-custom', function(e) {
+        e.preventDefault();
+        console.log('Search button clicked, executing search...');
+        performSearch();
+    });
+    
+    // Handle recommended tag pills click to trigger search suggestions immediately
+    $(document).on('click', '.tag-pill-btn', function(e) {
+        // Since inline onclick sets the value and focuses, we trigger input event to show suggestions
+        setTimeout(function() {
+            $('#searchBox').trigger('input');
+        }, 50);
     });
     
     // Hide dropdown when clicking outside
     $(document).on('click', function(e) {
-        if (!$(e.target).closest('.search-box').length) {
+        if (!$(e.target).closest('.search-box-custom, .search-box').length) {
             $('#searchDropdown').hide();
         }
     });
