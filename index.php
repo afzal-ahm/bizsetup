@@ -142,6 +142,217 @@ include "data.php";
                 font-size: 12px;
             }
         }
+
+        /* Custom Split Hero Section Style matching Corpbiz.io */
+        .hero-section-four-custom {
+            padding: 80px 0;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .banner-content-custom {
+            padding-right: 30px;
+        }
+
+        .hero-title-main {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.25;
+            color: #0b2545; /* Dark blue */
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero-title-main .highlight-orange {
+            color: #f18d2d; /* Accent Orange */
+            position: relative;
+            display: inline;
+        }
+
+        .hero-subtitle-main {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #475569; /* Slate grey */
+            margin-bottom: 30px;
+        }
+
+        /* Custom Search Box */
+        .search-section-custom {
+            margin-bottom: 25px;
+            max-width: 540px;
+        }
+
+        .search-box-custom {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 30px;
+            padding: 4px 6px 4px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: all 0.25s ease;
+        }
+
+        .search-box-custom:focus-within {
+            border-color: #1c4c82; /* Primary Blue */
+            box-shadow: 0 4px 20px rgba(28, 76, 130, 0.08);
+        }
+
+        .search-box-custom input[type="text"] {
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #1e293b;
+            outline: none;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .search-btn-custom {
+            background-color: #1c4c82; /* Corpbiz dark blue */
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .search-btn-custom:hover {
+            background-color: #f18d2d;
+            color: #ffffff;
+        }
+
+        /* Search Dropdown custom styling positioning */
+        .search-box-custom .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            z-index: 9999;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 5px;
+        }
+
+        /* Recommended tags */
+        .search-tags-custom {
+            margin-bottom: 30px;
+        }
+
+        .tags-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-pill-btn {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag-pill-btn:hover {
+            background: #e2e8f0;
+            color: #0b2545;
+            border-color: #cbd5e1;
+        }
+
+        /* Trust Rating stars */
+        .hero-trust-badges-custom {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 20px;
+        }
+
+        .stars-gold {
+            color: #f18d2d;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-right: 8px;
+        }
+
+        .rating-text {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .trust-icon {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Right side banner image alignment */
+        .hero-banner-image-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-banner-gif-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        @media (max-width: 991px) {
+            .hero-section-four-custom {
+                padding: 50px 0;
+            }
+            .banner-content-custom {
+                padding-right: 0;
+                margin-bottom: 40px;
+                text-align: center;
+            }
+            .hero-title-main {
+                font-size: 32px;
+            }
+            .search-section-custom {
+                margin: 0 auto 25px auto;
+            }
+            .tags-container {
+                justify-content: center;
+            }
+            .hero-trust-badges-custom .d-flex {
+                justify-content: center;
+            }
+        }
     </style>
 
 </head>
@@ -154,37 +365,61 @@ include "data.php";
    <?php include "include/header.php";?> 
 
     <!-- Hero Section -->
-    <section class="hero-section-four">
+    <section class="hero-section-four-custom">
         <div class="container">
-            <div class="hero-content">
-                <div class="row align-items-center">
-                    <div class="col-lg-10 col-md-12 mx-auto wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="banner-content text-center mx-auto">
-                            <h1 class="text-white display-4 mb-2">India's Top Rated <span>Professional Services</span> Platform </h1>
-                            <p class="text-white mx-auto">Connecting you with experts to simplify your legal, tax & compliance.</p>
-                          <div class="search-section">
-  <div class="search-box">
-    <input type="text" id="searchBox" placeholder="Search for services..." autocomplete="off" />
-    <span class="search-icon"><i class="fa fa-search"></i></span>
-    <div id="searchDropdown" class="search-dropdown" style="display: none;">
-      <!-- Dynamic suggestions will be populated here -->
-    </div>
-  </div>
-
-  <div class="search-tags">
-  
-   <?php
-                                $ss="SELECT * from  extra_content where type='after_search_content'";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){                              ?>
-                                  
-                                   <button><?php echo $socila['heading1'];?></button>   
-                                    <?php } ?>
-                                     
-  </div>
-</div>
-
+            <div class="row align-items-center">
+                <!-- Left Column (60% width on large screens) -->
+                <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="banner-content-custom">
+                        <h1 class="hero-title-main">
+                            Empower Your Business <span class="highlight-orange">Compliance & Management</span> Made Easy With Us
+                        </h1>
+                        <p class="hero-subtitle-main">
+                            Connecting you with top-rated experts to simplify your business registrations, tax filings, legal agreements, and corporate compliance.
+                        </p>
+                        
+                        <div class="search-section-custom">
+                            <div class="search-box-custom">
+                                <input type="text" id="searchBox" placeholder="Search for services..." autocomplete="off" />
+                                <button type="button" class="search-btn-custom">Search</button>
+                                <div id="searchDropdown" class="search-dropdown" style="display: none;">
+                                  <!-- Dynamic suggestions will be populated here -->
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="search-tags-custom">
+                            <span class="tags-label">RECOMMENDED SERVICES:</span>
+                            <div class="tags-container">
+                               <?php
+                               $ss="SELECT * from  extra_content where type='after_search_content'";
+                               $re=mysqli_query($conn,$ss);
+                               foreach($re as $key=> $socila){                              ?>
+                                   <button class="tag-pill-btn" onclick="document.getElementById('searchBox').value = '<?php echo addslashes($socila['heading1']); ?>'; document.getElementById('searchBox').focus();"><?php echo htmlspecialchars($socila['heading1']);?></button>   
+                               <?php } ?>
+                            </div>
+                        </div>
+
+                        <!-- Trust / Review Badges -->
+                        <div class="hero-trust-badges-custom">
+                            <div class="d-flex align-items-center flex-wrap gap-3 mt-4">
+                                <div class="rating-stars-custom">
+                                    <span class="stars-gold">★★★★★</span>
+                                    <span class="rating-text">Rated at <strong>4.9</strong> By <strong>42,800+</strong> Customers Globally</span>
+                                </div>
+                                <div class="trust-logos">
+                                    <span class="trust-icon google-trust"><i class="fa fa-google text-primary me-1"></i>Google</span>
+                                    <span class="trust-icon fb-trust"><i class="fa fa-facebook text-info me-1"></i>Facebook</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column (40% width on large screens) -->
+                <div class="col-lg-6 col-md-12 wow fadeInRight" data-wow-delay="0.3s">
+                    <div class="hero-banner-image-container">
+                        <img src="<?php echo $urlmain;?>assets/img/banner/aa.gif" alt="BizSetup Compliance Banner" class="hero-banner-gif-image">
                     </div>
                 </div>
             </div>
