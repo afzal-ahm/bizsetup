@@ -291,35 +291,28 @@ if(isset($_GET['deletesubcat'])){
                                                 </thead>
                                                 <tbody>
                                                 <?php 
-                                                $ff="SELECT * from subcategory";
+                                                $ff="SELECT s.*, c.category_name 
+                                                     FROM subcategory s 
+                                                     LEFT JOIN category c ON s.category_id = c.category_id";
                                                 $g=mysqli_query($conn,$ff);
                                                 foreach($g as $ke=>$value){
-                                                    
-                                                   
-                                                    
-                                                    
-                                                     $ffs="SELECT * from category where category_id='".$value['category_id']."'";
-                                                     $gs=mysqli_query($conn,$ffs);
-                                                     foreach($gs as $kesub=>$valuesub) {
-                                                
-                                              $ffff=  $valuesub['category_name'];
-                                                     }
+                                                    $ffff = !empty($value['category_name']) ? htmlspecialchars($value['category_name']) : '<span class="label label-danger">Missing Category (ID: '.$value['category_id'].')</span>';
                                                     echo'<tr>
-                          <td>'.$value['subcategory_name'].'</td>
-                         '; ?>
-						<td>  <span class=" " onclick="return confirm('Are you sure?')">
-				<?php if(($value['status'])=='0'){?>
-        <a href="action1.php?status=<?php echo $value['subcategory_id'];?>" class="label label-danger " onclick="return confirm('Activate <?php echo $data?>');"> NOT </a>
+                                                          <td>'.htmlspecialchars($value['subcategory_name']).'</td>
+                                                         '; ?>
+														<td>  <span class=" " onclick="return confirm('Are you sure?')">
+												<?php if(($value['status'])=='0'){?>
+                                        <a href="action1.php?status=<?php echo $value['subcategory_id'];?>" class="label label-danger " onclick="return confirm('Activate Sub Category');"> NOT </a>
 <?php  }
 if($value['status']=='1'){?>
 <a href="action1.php?status=<?php echo $value['subcategory_id'];?>" 
- class="label label-success " onclick="return confirm('De-activate <?php echo $data?>');"> Yes</a>
+ class="label label-success " onclick="return confirm('De-activate Sub Category');"> Yes</a>
 <?php  } ?> </span></td>
-                          <?php echo '<td>'.$ffff.'</td>
-						 <td class="menu-action rounded-btn"><a href="editsubcat.php?subcatid='.$value['subcategory_id'].'" data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bg-grey"> <i class="fa fa-pencil"></i> </a> <a href="viewsubcategory.php?deletesubcat='.$value['subcategory_id'].'""   data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bg-grey"> <i class="fa fa-times"></i> </a></td>';?>
-						  
-						    
-                      <?php echo '  </tr>';    $i++;}?>
+                                                          <?php echo '<td>'.$ffff.'</td>
+														 <td class="menu-action rounded-btn"><a href="editsubcat.php?subcatid='.$value['subcategory_id'].'" data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bg-grey"> <i class="fa fa-pencil"></i> </a> <a href="viewsubcategory.php?deletesubcat='.$value['subcategory_id'].'"   data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bg-grey"> <i class="fa fa-times"></i> </a></td>';?>
+														  
+														    
+                                                      <?php echo '  </tr>';}?>
 
                                                 </tbody>
                                             </table>

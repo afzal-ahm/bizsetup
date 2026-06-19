@@ -408,8 +408,8 @@ include "data.php";
                                     <span class="rating-text">Rated at <strong>4.9</strong> By <strong>42,800+</strong> Customers Globally</span>
                                 </div>
                                 <div class="trust-logos">
-                                    <span class="trust-icon google-trust"><i class="fa fa-google text-primary me-1"></i>Google</span>
-                                    <span class="trust-icon fb-trust"><i class="fa fa-facebook text-info me-1"></i>Facebook</span>
+                                    <span class="trust-icon google-trust"><i class="fab fa-google text-primary me-1"></i>Google</span>
+                                    <span class="trust-icon fb-trust"><i class="fab fa-facebook-f text-info me-1"></i>Facebook</span>
                                 </div>
                             </div>
                         </div>
@@ -559,8 +559,7 @@ foreach($re as $key => $socila) {
                                              LEFT JOIN category c ON ssc.category_id = c.category_id 
                                              LEFT JOIN subcategory sc ON ssc.subcategory_id = sc.subcategory_id 
                                              WHERE ssc.status = '1' 
-                                             ORDER BY RAND() 
-                                             LIMIT 12";
+                                             ORDER BY ssc.sub_subcategory_id ASC";
                     
                     $popular_services_result = mysqli_query($conn, $popular_services_query);
                     

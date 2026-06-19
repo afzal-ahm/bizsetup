@@ -293,81 +293,37 @@ if(isset($_GET['deletecat'])){
                                                 </thead>
                                                 <tbody>
                                                 <?php
-                                                $ff="SELECT * from sub_subcategory";
+                                                $ff="SELECT ssc.*, c.category_name, sc.subcategory_name 
+                                                     FROM sub_subcategory ssc 
+                                                     LEFT JOIN category c ON ssc.category_id = c.category_id 
+                                                     LEFT JOIN subcategory sc ON ssc.subcategory_id = sc.subcategory_id";
                                                 $g=mysqli_query($conn,$ff);
                                                 foreach($g as $ke=>$value){
+                                                    $category_name = !empty($value['category_name']) ? htmlspecialchars($value['category_name']) : '<span class="label label-danger">Missing Category (ID: '.$value['category_id'].')</span>';
+                                                    $subcategory_name = !empty($value['subcategory_name']) ? htmlspecialchars($value['subcategory_name']) : '<span class="label label-danger">Missing Subcategory (ID: '.$value['subcategory_id'].')</span>';
                                                     
-                                                    $ff="SELECT * from category where category_id='".$value['category_id']."' ";
-                                                    $g=mysqli_query($conn,$ff);
-                                                    
-                                                    
-                                                    foreach($g as $kesub=>$valuesub){
-                                                        
-                                                     
-                                                        
-                                                    $ffs="SELECT * FROM subcategory  where 	subcategory_id   = ".$value['subcategory_id']." AND category_id = ".$value['category_id']." ";
-                                                    $gs=mysqli_query($conn,$ffs);
-                                                    
-                                                      foreach($gs as $kesub=>$resultstate){
-                                                    
-                                                     
-                                                     
-                                                           
-                                                        echo'<tr>
-                          <td>'.$value['sub_subcategory_name'].'</td>
-                           <td>'.$resultstate['subcategory_name'].'</td>
-                          <td>'.$valuesub['category_name'].'</td>';?>
-                          <td><button class=" " onclick="return confirm('Are you sure?')"><?php if(($value['status'])=='0')
+                                                    echo'<tr>
+                                                          <td>'.htmlspecialchars($value['sub_subcategory_name']).'</td>
+                                                           <td>'.$subcategory_name.'</td>
+                                                          <td>'.$category_name.'</td>';?>
+                                                          <td><button class=" " onclick="return confirm('Are you sure?')"><?php if(($value['status'])=='0')
 {
 ?>
 <a href="action2.php?status=<?php echo $value['sub_subcategory_id'];?>" 
- class="act btn  btn-danger " onclick="return confirm('Activate <?php echo $data?>');"> NOT </a>
+ class="act btn  btn-danger " onclick="return confirm('Activate Service');"> NOT </a>
 <?php
 }
 if($value['status']=='1')
 {
 ?>
 <a href="action2.php?status=<?php echo $value['sub_subcategory_id'];?>" 
- class="deact btn btn-success " onclick="return confirm('De-activate <?php echo $data?>');"> Activated Home</a>
+ class="deact btn btn-success " onclick="return confirm('De-activate Service');"> Activated Home</a>
 <?php
 } ?> </button></td>
-                        
+                                                        
 						 <td class="menu-action rounded-btn"><a href="editsubsubcat.php?subcatid=<?php echo $value['sub_subcategory_id'];?>" data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bg-grey"> <i class="fa fa-pencil"></i> </a>
 						  <a href="viewsub-subcat.php?deletecat=<?php echo $value['sub_subcategory_id'];?>"   data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bg-grey"> <i class="fa fa-times"></i> </a> </td> 
-<!--	<td class="menu-action rounded-btn">				
- 	<a   target="_blank"  href="add_service.php?new=<?php echo $value['sub_subcategory_id'];?>"><button type="button"   class="btn btn- btn-xs"  style="background-color: #000;color:#fff;">Add Services </button>  </a> 
- 	<a   target="_blank"  href="viewservice.php?new=<?php echo $value['sub_subcategory_id'];?>"><button type="button"   class="btn btn- btn-xs"  style="background-color: #000;color:#fff;">View Services </button>  </a> 
- 
- 	</td>  -->
-
-						<!-- <td>
-						 
-<a   target="_blank"  href="add_service.php?new=<?php echo $value['sub_subcategory_id'];?>"><button type="button"   class="btn btn- btn-xs"  style="background-color: #000;color:#fff;">Add ADVANTAGES </button>  </a> 
-
-<a   target="_blank"  href="add_medical.php?new=<?php echo $value['sub_subcategory_id'];?>"><button type="button"   class="btn btn-dander btn-xs" style="background-color: #626288;color:#fff;" >Add Document Required </button></a> 
-
- 
-
-
-<a target="_blank"  href="faq.php?new=<?php echo $value['sub_subcategory_id'];?>&name=<?php echo $value['sub_subcategory_name'];?>"><button type="button"   class="btn btn-dander btn-xs"  style="background-color: #2811e8;color:#fff;">Add FAQ </button></a> 
-
- 
-						 </td> 
-						 
-						  <td>
-						 
-<a   target="_blank"  href="viewservice.php?new=<?php echo $value['sub_subcategory_id'];?>"><button type="button"   class="btn btn- btn-xs"  style="background-color: #000;color:#fff;">View ADVANTAGES </button>  </a> 
-
-<a   target="_blank"  href="viewservice.php?new=<?php echo $value['sub_subcategory_id'];?>"><button type="button"   class="btn btn-dander btn-xs" style="background-color: #626288;color:#fff;" >View Document Required </button></a> 
-
- 
-
-
-<a target="_blank"  href="viewfaq.php?new=<?php echo $value['sub_subcategory_id'];?>&name=<?php echo $value['sub_subcategory_name'];?>"><button type="button"   class="btn btn-dander btn-xs"  style="background-color: #2811e8;color:#fff;">View FAQ </button></a> 
-
- 
-						 </td>-->
-                       <?php  echo '</tr>';}}}?>
+                                                       <?php  echo '</tr>';}?>
 
                                                 </tbody>
                                             </table>
