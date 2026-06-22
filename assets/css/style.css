@@ -13001,7 +13001,7 @@ footer.footer-three .footer-bottom .policy-links li a:hover {
 }
 
 .benefit-section {
-  background-image: url("../img/bg/benefit-bg.png");
+  /* background-image: url("../img/bg/benefit-bg.png"); */
   background-repeat: no-repeat;
   background-position: center center;
 }

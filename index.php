@@ -524,19 +524,16 @@ foreach($re as $key => $socila) {
         </div>
         <div class="container">
             <div class="offer-sec">
-                <div class="offer-slider owl-carousel">
                 <?php
-                                $ss="SELECT * from  extra_content where type='banner'";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){       ?> 
+                $ss = "SELECT * from extra_content where type='banner' AND is_active = '1' AND image != '' AND image IS NOT NULL ORDER BY updated_date DESC LIMIT 1";
+                $re = mysqli_query($conn, $ss);
+                if ($re && mysqli_num_rows($re) > 0) {
+                    $socila = mysqli_fetch_assoc($re);
+                ?> 
                     <div class="offer-slider-img">
-                        <img src="<?php echo $urlmain;?>images/extra/<?php echo $socila['image'];?>" alt="Img">
+                        <img src="<?php echo $urlmain;?>images/extra/<?php echo $socila['image'];?>" class="img-fluid w-100" alt="Img">
                     </div>
                 <?php } ?>
-                      
-                     
-                </div>
-                
             </div>
              
             <div class="popular-hotels" style="padding-top: 15px;">
