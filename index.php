@@ -551,110 +551,110 @@ foreach($re as $key => $socila) {
                     </div>
                   </div>
                   <?php } ?>
-                <div class="popular-hotel-slider owl-carousel">
-                    
-                    <?php
-                    // Fetch popular sub subcategories with price information
-                    $popular_services_query = "SELECT ssc.*, c.category_name, c.url as category_url, sc.subcategory_name, sc.url as subcategory_url 
-                                             FROM sub_subcategory ssc 
-                                             LEFT JOIN category c ON ssc.category_id = c.category_id 
-                                             LEFT JOIN subcategory sc ON ssc.subcategory_id = sc.subcategory_id 
-                                             WHERE ssc.status = '1' 
-                                             ORDER BY ssc.sub_subcategory_id ASC";
-                    
-                    $popular_services_result = mysqli_query($conn, $popular_services_query);
-                    
-                    if ($popular_services_result && mysqli_num_rows($popular_services_result) > 0) {
-                        while ($service = mysqli_fetch_assoc($popular_services_result)) {
-                            // Clean price data
-                            $display_price = '';
-                            $offer_price = '';
-                            
-                            if (!empty($service['extra']) && trim($service['extra']) != '') {
-                                $display_price = '₹' . number_format($service['extra']);
-                            }
-                            
-                            if (!empty($service['price']) && trim($service['price']) != '') {
-                                $offer_price = '₹' . number_format($service['price']);
-                            }
-                            
-                            // Default image if none provided
-                            $service_image = !empty($service['image']) ? $service['image'] : 'default-service.png';
-                            
-                            // Build service detail URL
-                            $service_url = $urlmain . "service_detail.php?cat_url=" . urlencode($service['category_url']) . 
-                                          "&sub_url=" . urlencode($service['subcategory_url']) . 
-                                          "&subsub_url=" . urlencode($service['sub_subcategory_id']);
-                    ?>
-                    
-                    <div class="card mb-0">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3 pb-3">
-                                
-                                <div class="flex-grow-1">
-                                    <h5 class="mb-2">
-                                        <a href="<?php echo $service_url; ?>" class="text-decoration-none">
-                                            <?php echo htmlspecialchars($service['sub_subcategory_name']); ?>
-                                        </a>
-                                    </h5>
-                                    <div class="d-flex align-items-center">
-                                        <?php if (!empty($offer_price)) { ?>
-                                            <span class="badge badge-success badge-xs text-white fs-13 fw-medium me-2">
-                                                <?php echo $offer_price; ?>
-                                            </span>
-                                            <?php if (!empty($display_price)) { ?>
-                                                <span class="text-muted text-decoration-line-through fs-12">
-                                                    <?php echo $display_price; ?>
-                                                </span>
-                                            <?php } ?>
-                                        <?php } elseif (!empty($display_price)) { ?>
-                                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">
-                                                <?php echo $display_price; ?>
-                                            </span>
-                                        <?php } else { ?>
-                                            <span class="badge badge-info badge-xs text-white fs-13 fw-medium me-2">
-                                                Contact for Price
-                                            </span>
-                                        <?php } ?>
-                                        
-                                        <?php if (!empty($service['meal']) && trim($service['meal']) != '') { ?>
-                                            <small class="text-info d-block mt-1 fw-medium">
-                                                <i class="fa fa-info-circle me-1"></i><?php echo htmlspecialchars($service['meal']); ?>
-                                            </small>
-                                        <?php } ?>
+                <style>
+                    .service-card-custom {
+                        background: #ffffff;
+                        border: 1px solid #f1f5f9;
+                        border-radius: 16px;
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.025);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        height: 100%;
+                    }
+                    .service-card-custom:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08), 0 8px 8px -5px rgba(0, 0, 0, 0.04);
+                        border-color: rgba(28, 76, 130, 0.2);
+                    }
+                    .service-card-custom .card-title-custom {
+                        color: #0f172a;
+                        font-size: 18px;
+                        font-weight: 700;
+                        line-height: 1.4;
+                        margin-bottom: 0;
+                    }
+                    .service-card-custom .card-text-custom {
+                        color: #475569;
+                        font-size: 14px;
+                        line-height: 1.6;
+                        margin-top: 12px;
+                    }
+                    .icon-container-custom {
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 20px;
+                        flex-shrink: 0;
+                    }
+                </style>
+                
+                <?php
+                $services = [
+                    [
+                        'title' => 'Company Registration',
+                        'desc' => 'Private Limited Company, OPC & Section 8 Company Registration.',
+                        'icon' => 'fas fa-building',
+                        'bg' => 'rgba(241, 141, 45, 0.15)',
+                        'color' => '#f18d2d'
+                    ],
+                    [
+                        'title' => 'LLP Registration',
+                        'desc' => 'Limited Liability Partnership Registration with complete documentation support.',
+                        'icon' => 'fas fa-balance-scale',
+                        'bg' => 'rgba(16, 185, 129, 0.15)',
+                        'color' => '#10b981'
+                    ],
+                    [
+                        'title' => 'GST Registration & Returns',
+                        'desc' => 'GST Registration, Return Filing, Amendments & Compliance.',
+                        'icon' => 'fas fa-file-invoice-dollar',
+                        'bg' => 'rgba(59, 130, 246, 0.15)',
+                        'color' => '#3b82f6'
+                    ],
+                    [
+                        'title' => 'ROC Compliance',
+                        'desc' => 'Annual Filing, DIR-3 KYC, AOC-4, MGT-7 and MCA Compliances.',
+                        'icon' => 'fas fa-clipboard-check',
+                        'bg' => 'rgba(139, 92, 246, 0.15)',
+                        'color' => '#8b5cf6'
+                    ],
+                    [
+                        'title' => 'Accounting & Bookkeeping',
+                        'desc' => 'Monthly Accounting, Payroll, Financial Statements & MIS Reports.',
+                        'icon' => 'fas fa-calculator',
+                        'bg' => 'rgba(236, 72, 153, 0.15)',
+                        'color' => '#ec4899'
+                    ],
+                    [
+                        'title' => 'Income Tax Services',
+                        'desc' => 'ITR Filing, Tax Planning, Assessments and Notice Handling.',
+                        'icon' => 'fas fa-wallet',
+                        'bg' => 'rgba(20, 184, 166, 0.15)',
+                        'color' => '#14b8a6'
+                    ]
+                ];
+                ?>
+                
+                <div class="row g-4 justify-content-center mt-2">
+                    <?php foreach ($services as $service) { ?>
+                        <div class="col-lg-4 col-md-6 d-flex">
+                            <div class="card border-0 service-card-custom flex-fill">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-start justify-content-between">
+                                        <h5 class="card-title-custom"><?= $service['title']; ?></h5>
+                                        <span class="icon-container-custom ms-3" style="background-color: <?= $service['bg']; ?>; color: <?= $service['color']; ?>;">
+                                             <i class="<?= $service['icon']; ?>"></i>
+                                        </span>
                                     </div>
-                                    <?php if (!empty($service['category_name']) && !empty($service['subcategory_name'])) { ?>
-                                        <small class="text-muted d-block mt-1">
-                                            <?php echo htmlspecialchars($service['category_name']); ?> > <?php echo htmlspecialchars($service['subcategory_name']); ?>
-                                        </small>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <?php 
-                        }
-                    } else {
-                        // Fallback content if no services are available
-                    ?>
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3 pb-3">
-                                    <a href="#" class="flex-shrink-0 me-3">
-                                        <img src="assets/img/icons/hotel-logo-01.svg" class="rounded-circle" alt="Img" style="width: 60px; height: 60px; object-fit: cover;">
-                                    </a>
-                                    <div>
-                                        <h5 class="mb-2"><a href="#" class="text-decoration-none">Services Coming Soon</a></h5>
-                                        <div class="d-flex align-items-center">
-                                            <span class="badge badge-info badge-xs text-white fs-13 fw-medium me-2">Contact Us</span>
-                                        </div>
-                                    </div>
+                                    <p class="card-text-custom">
+                                        <?= $service['desc']; ?>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     <?php } ?>
-                   
                 </div>
             </div>
         </div>
