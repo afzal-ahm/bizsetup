@@ -173,7 +173,8 @@ include "data.php";
                 </div>
             </div>
             <div class="map-grid">
-                <iframe class="w-100" height="300" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1876.5507404667003!2d77.33258435812277!3d28.641926246613043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfb9ddcb1429b%3A0xe900df59c30670e1!2sCloud%209%20Apartments%20Vaishali!5e0!3m2!1sen!2sin!4v1781865860588!5m2!1sen!2sin"  allowfullscreen="" loading="lazy" ></iframe>
+            <iframe class="w-100" height="300" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.6086372578316!2d77.33300457597163!3d28.64148939929478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfbf419d29e67%3A0xca8a4301ef01b98e!2sVRG%20%26%20Associates%2C%20Chartered%20Accountants!5e0!3m2!1sen!2sin!4v1782123931265!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>    
+            
             </div>
         </div>
     </div>

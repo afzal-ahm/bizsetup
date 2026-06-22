@@ -19102,7 +19102,8 @@ footer.footer-three .footer-bottom .policy-links li a:hover {
 }
 
 .offers-section {
-  background: #111827;
+  /* background: #111827; */
+  background: #ffd3a9;
   margin-bottom: 105px;
   position: relative;
   z-index: 1;

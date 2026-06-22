@@ -87,7 +87,7 @@ try {
         `email` varchar(255) NOT NULL,
         `phone` varchar(20) DEFAULT NULL,
         `message` text NOT NULL,
-        `source` enum('contact_page','service_detail') DEFAULT 'contact_page',
+        `source` varchar(100) DEFAULT 'contact_page',
         `service_name` varchar(255) DEFAULT NULL,
         `service_category` varchar(255) DEFAULT NULL,
         `ip_address` varchar(45) DEFAULT NULL,
@@ -217,6 +217,113 @@ try {
     
     if (mysqli_stmt_execute($stmt)) {
         $inquiryId = mysqli_insert_id($conn);
+        
+        // Send email notification to support@bizsetup.in
+        $to = 'support@bizsetup.in';
+        $subject = 'New Consultation Inquiry: ' . ($serviceName ? $serviceName : 'General');
+        
+        $fromEmail = 'noreply@bizsetup.in';
+        if (!empty($_SERVER['SERVER_NAME'])) {
+            $domain = $_SERVER['SERVER_NAME'];
+            if (substr($domain, 0, 4) === 'www.') {
+                $domain = substr($domain, 4);
+            }
+            $fromEmail = 'noreply@' . $domain;
+        }
+
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+        $headers .= 'From: BizSetup Inquiry <' . $fromEmail . ">\r\n";
+        $headers .= 'Reply-To: ' . $email . "\r\n";
+        $headers .= 'X-Mailer: PHP/' . phpversion() . "\r\n";
+        $headers .= 'Message-ID: <' . md5(uniqid(time())) . '@' . (!empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'bizsetup.in') . ">\r\n";
+        $headers .= 'Date: ' . date('r', time()) . "\r\n";
+        
+        $fullName = trim($firstName . ' ' . $lastName);
+        $safeName = htmlspecialchars($fullName);
+        $safeEmail = htmlspecialchars($email);
+        $safePhone = htmlspecialchars($phone);
+        $safeService = htmlspecialchars($serviceName ? $serviceName : 'N/A');
+        $safeMessage = nl2br(htmlspecialchars($message));
+        $safeSource = htmlspecialchars($source);
+        $safeIp = htmlspecialchars($ipAddress);
+        
+        $emailBody = "
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset='utf-8'>
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333333; background-color: #f4f6f9; margin: 0; padding: 0; }
+            .email-container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0; }
+            .email-header { background-color: #0b2545; color: #ffffff; padding: 25px; text-align: center; }
+            .email-header h1 { margin: 0; font-size: 22px; font-weight: 700; }
+            .email-body { padding: 30px; }
+            .email-body p { font-size: 15px; line-height: 1.6; margin-top: 0; margin-bottom: 20px; color: #4a5568; }
+            .inquiry-details { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+            .inquiry-details th, .inquiry-details td { padding: 12px; text-align: left; border-bottom: 1px solid #edf2f7; font-size: 14px; }
+            .inquiry-details th { background-color: #f7fafc; color: #4a5568; font-weight: 600; width: 35%; }
+            .inquiry-details td { color: #2d3748; }
+            .tag-badge { display: inline-block; background-color: #f18d2d; color: #ffffff; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: bold; }
+            .email-footer { background-color: #f7fafc; padding: 20px; text-align: center; font-size: 12px; color: #a0aec0; border-top: 1px solid #edf2f7; }
+        </style>
+        </head>
+        <body>
+            <div class='email-container'>
+                <div class='email-header'>
+                    <h1>New Consultation Request</h1>
+                </div>
+                <div class='email-body'>
+                    <p>Hello Support Team,</p>
+                    <p>You have received a new consultation inquiry from the website. Here are the details:</p>
+                    
+                    <table class='inquiry-details'>
+                        <tr>
+                            <th>Inquiry ID</th>
+                            <td><strong>#{$inquiryId}</strong></td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td>{$safeName}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td><a href='mailto:{$safeEmail}'>{$safeEmail}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td><a href='tel:{$safePhone}'>{$safePhone}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Selected Service</th>
+                            <td><span class='tag-badge'>{$safeService}</span></td>
+                        </tr>
+                        <tr>
+                            <th>Message</th>
+                            <td>{$safeMessage}</td>
+                        </tr>
+                        <tr>
+                            <th>Source</th>
+                            <td>{$safeSource}</td>
+                        </tr>
+                        <tr>
+                            <th>IP Address</th>
+                            <td>{$safeIp}</td>
+                        </tr>
+                    </table>
+                    
+                    <p>Please follow up with the client as soon as possible.</p>
+                </div>
+                <div class='email-footer'>
+                    This is an automated notification from the BizSetup Portal.
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        
+        // Suppress mail error in local development environments that don't have mail configured
+        @mail($to, $subject, $emailBody, $headers);
         
         echo json_encode([
             'success' => true,

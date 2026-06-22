@@ -567,14 +567,14 @@ foreach($re as $key => $socila) {
                     }
                     .service-card-custom .card-title-custom {
                         color: #0f172a;
-                        font-size: 18px;
+                        font-size: 20px;
                         font-weight: 700;
                         line-height: 1.4;
                         margin-bottom: 0;
                     }
                     .service-card-custom .card-text-custom {
                         color: #475569;
-                        font-size: 14px;
+                        font-size: 17px;
                         line-height: 1.6;
                         margin-top: 12px;
                     }
@@ -997,35 +997,284 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                          
                     </div>
                 </div>
-            </div>
+                  <!-- Business-->
+            <?php
+            $ss="SELECT * from  extra_content where type='call_to_action' limit 1   ";
+            $re=mysqli_query($conn,$ss);
+            foreach($re as $key=> $socila){       ?>   
+            
+            <style>
+                .custom-cta-section {
+                    background: linear-gradient(135deg, #0b2545 0%, #1c4c82 100%);
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 24px;
+                    padding: 60px 50px;
+                    margin-top: 65px;
+                    box-shadow: 0 15px 35px rgba(11, 37, 69, 0.15);
+                }
+                
+                .cta-orange-slash {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 35%;
+                    height: 120%;
+                    background: #f18d2d;
+                    transform: skewX(-20deg) translateX(40%);
+                    z-index: 1;
+                    pointer-events: none;
+                    opacity: 0.95;
+                    transition: all 0.5s ease;
+                }
+                
+                .relative-content {
+                    position: relative;
+                    z-index: 2;
+                }
+                
+                .cta-form-card {
+                    background: #ffffff;
+                    border-radius: 20px;
+                    padding: 30px;
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+                    border: 1px solid rgba(226, 232, 240, 0.8);
+                }
+                
+                .form-control-custom {
+                    width: 100%;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 8px;
+                    padding: 12px 16px;
+                    font-size: 14px;
+                    transition: all 0.3s ease;
+                    background-color: #f8fafc;
+                    color: #334155;
+                    outline: none;
+                    box-sizing: border-box;
+                    height: 46px;
+                }
+                
+                .form-control-custom:focus {
+                    border-color: #f18d2d;
+                    background-color: #ffffff;
+                    box-shadow: 0 0 0 3px rgba(241, 141, 45, 0.15);
+                }
+                
+                .form-select-custom {
+                    appearance: none;
+                    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23475569' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 16px center;
+                    background-size: 12px 12px;
+                    padding-right: 40px;
+                }
+                
+                .btn-cta-submit {
+                    background-color: #f18d2d !important;
+                    border-color: #f18d2d !important;
+                    color: #ffffff !important;
+                    font-weight: 700;
+                    border-radius: 8px;
+                    padding: 12px 20px;
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    border: none;
+                    height: 46px;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                }
+                
+                .btn-cta-submit:hover {
+                    background-color: #d97706 !important;
+                    border-color: #d97706 !important;
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(241, 141, 45, 0.3);
+                }
+                
+                @media (max-width: 991px) {
+                    .custom-cta-section {
+                        padding: 40px 30px;
+                    }
+                    .cta-orange-slash {
+                        display: none;
+                    }
+                    .business-info {
+                        text-align: center;
+                    }
+                }
+            </style>
 
-            <!-- Business-->
-                                <?php
-                                $ss="SELECT * from  extra_content where type='call_to_action' limit 1   ";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){       ?>   
-            <div class="business-wrap bg-dark wow zoomIn">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="business-info">
-                            <h2 class="display-6 text-white mb-3"> <?php echo $socila['heading1'];?>  
-
-</h2>
-                            <?php echo str_replace('<p>', '<p class="text-light mb-4">', $socila['content']); ?>
-
-                           
+            <div class="custom-cta-section wow zoomIn">
+                <div class="cta-orange-slash"></div>
+                <div class="row align-items-center relative-content g-4">
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="business-info p-0">
+                            <h2 class="display-6 text-white mb-3" style="font-weight: 800; font-size: 32px; line-height: 1.3;">
+                                <?php echo htmlspecialchars($socila['heading1']); ?>
+                            </h2>
+                            <div class="text-light opacity-90" style="font-size: 15px; line-height: 1.6;">
+                                <?php echo str_replace('<p>', '<p class="mb-0" style="color: white">', $socila['content']); ?>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <?php if($socila['link']!='')  { ?>
-                        <div class="business-img " style="padding: 77px 0 43px 0;">
-                           <a href="<?php echo $socila['link'];?>" class="btn btn-dark d-inline-flex align-items-center"><i class="isax isax-add-circle me-2"></i>Contact Now</a>
-                        </div>
-                        <?php } ?>
+                    
+                    <div class="col-xl-8 col-lg-7">
+                        <div class="cta-form-card">
+                            <form id="ctaConsultationForm" action="<?php echo $urlmain;?>inquiry-handler.php" method="POST">
+                                <input type="hidden" name="source" value="cta_home_form">
+                                <input type="hidden" name="message" value="Requested free consultation for service interest.">
+                                <input type="text" name="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
+                                
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-4">
+                                        <div class="input-group-custom">
+                                            <input type="text" name="first_name" class="form-control-custom" placeholder="Enter Your Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group-custom d-flex">
+                                            <div class="phone-prefix-select" style="background: #e2e8f0; border: 1px solid #cbd5e1; border-right: none; border-radius: 8px 0 0 8px; padding: 10px 14px; font-size: 14px; font-weight: 600; color: #475569; display: flex; align-items: center;">
+                                                +91
+                                            </div>
+                                            <input type="tel" name="phone" class="form-control-custom" placeholder="Enter your PhoneNo." style="border-radius: 0 8px 8px 0;" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group-custom">
+                                            <input type="email" name="email" class="form-control-custom" placeholder="Enter your Email" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="input-group-custom">
+                                            <select name="service_name" class="form-control-custom form-select-custom" required>
+                                                <option value="" disabled selected>Select your service</option>
+                                                <?php
+                                                $cat_query = "SELECT * FROM category WHERE is_active = '1' ORDER BY position ASC";
+                                                $cat_result = mysqli_query($conn, $cat_query);
+                                                if ($cat_result && mysqli_num_rows($cat_result) > 0) {
+                                                    while ($cat = mysqli_fetch_assoc($cat_result)) {
+                                                        echo '<option value="' . htmlspecialchars($cat['category_name']) . '">' . htmlspecialchars($cat['category_name']) . '</option>';
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="submit" id="ctaSubmitBtn" class="btn btn-cta-submit">
+                                            <span class="btn-text">Claim Your Free Consultation</span>
+                                            <span class="spinner-border spinner-border-sm ms-2" style="display:none;" role="status" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="ctaFormMessage" class="mt-3" style="display:none; font-weight: 600; font-size: 14px; text-align: center;"></div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ensure jQuery is loaded before utilizing it
+                const initCtaForm = function() {
+                    if (typeof window.jQuery === 'undefined') {
+                        setTimeout(initCtaForm, 50);
+                        return;
+                    }
+                    
+                    jQuery('#ctaConsultationForm').on('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const $form = jQuery(this);
+                        const $submitBtn = jQuery('#ctaSubmitBtn');
+                        const $btnText = $submitBtn.find('.btn-text');
+                        const $spinner = $submitBtn.find('.spinner-border');
+                        const $message = jQuery('#ctaFormMessage');
+                        
+                        // Validation
+                        const name = $form.find('[name="first_name"]').val().trim();
+                        const phone = $form.find('[name="phone"]').val().trim();
+                        const email = $form.find('[name="email"]').val().trim();
+                        const service = $form.find('[name="service_name"]').val();
+                        
+                        $message.hide().removeClass('text-success text-danger');
+                        
+                        if (!name) {
+                            $message.addClass('text-danger').text('Please enter your name.').show();
+                            return;
+                        }
+                        
+                        if (!phone) {
+                            $message.addClass('text-danger').text('Please enter your phone number.').show();
+                            return;
+                        }
+                        
+                        // Phone format check: 10 digits
+                        const phoneRegex = /^[0-9]{10}$/;
+                        if (!phoneRegex.test(phone.replace(/[\s\-\(\)\+]/g, ''))) {
+                            $message.addClass('text-danger').text('Please enter a valid 10-digit phone number.').show();
+                            return;
+                        }
+                        
+                        if (!email) {
+                            $message.addClass('text-danger').text('Please enter your email address.').show();
+                            return;
+                        }
+                        
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(email)) {
+                            $message.addClass('text-danger').text('Please enter a valid email address.').show();
+                            return;
+                        }
+                        
+                        if (!service) {
+                            $message.addClass('text-danger').text('Please select a service.').show();
+                            return;
+                        }
+                        
+                        // Show loading state
+                        $submitBtn.prop('disabled', true);
+                        $btnText.text('Processing...');
+                        $spinner.show();
+                        
+                        // Submit via AJAX
+                        jQuery.ajax({
+                            url: $form.attr('action'),
+                            method: 'POST',
+                            data: $form.serialize(),
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    $message.addClass('text-success').text(response.message).show();
+                                    $form[0].reset();
+                                } else {
+                                    $message.addClass('text-danger').text(response.message).show();
+                                }
+                            },
+                            error: function() {
+                                $message.addClass('text-danger').text('An error occurred. Please try again.').show();
+                            },
+                            complete: function() {
+                                $submitBtn.prop('disabled', false);
+                                $btnText.text('Claim Your Free Consultation');
+                                $spinner.hide();
+                            }
+                        });
+                    });
+                };
+                initCtaForm();
+            });
+            </script>
             <?php } ?>
             <!-- /Business -->
 

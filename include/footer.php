@@ -134,23 +134,7 @@
                     <div class="col-lg-4"></div>
 
                     <div class="col-lg-4">
-                    <h5>Subscribe to Our Newsletter</h5>
-                            <p>Just sign up and we'll send you a notification by email.</p>
-                            <div class="footer-input">
-                                <form id="newsletterForm" class="newsletter-form">
-                                    <div class="input-group align-items-center justify-content-center">
-                                        <span class="input-group-text px-1"><i class="isax isax-message-favorite5"></i></span>
-                                        <input type="email" id="newsletterEmail" class="form-control" placeholder="Enter Email Address" required>
-                                        <button type="submit" id="newsletterBtn" class="btn btn-primary">
-                                            <span class="btn-text">Subscribe</span>
-                                            <span class="btn-loading d-none">
-                                                <i class="isax isax-loading-2"></i> Subscribing...
-                                            </span>
-                                        </button>
-                                    </div>
-                                    <div id="newsletterMessage" class="mt-2"></div>
-                                </form>
-                            </div>
+                    
                             </div>
                 </div>
             </div>
