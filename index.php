@@ -594,42 +594,48 @@ foreach($re as $key => $socila) {
                         'desc' => 'Private Limited Company, OPC & Section 8 Company Registration.',
                         'icon' => 'fas fa-building',
                         'bg' => 'rgba(241, 141, 45, 0.15)',
-                        'color' => '#f18d2d'
+                        'color' => '#f18d2d',
+                        'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=257'
                     ],
                     [
                         'title' => 'LLP Registration',
                         'desc' => 'Limited Liability Partnership Registration with complete documentation support.',
                         'icon' => 'fas fa-balance-scale',
                         'bg' => 'rgba(16, 185, 129, 0.15)',
-                        'color' => '#10b981'
+                        'color' => '#10b981',
+                        'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=258'
                     ],
                     [
                         'title' => 'GST Registration & Returns',
                         'desc' => 'GST Registration, Return Filing, Amendments & Compliance.',
                         'icon' => 'fas fa-file-invoice-dollar',
                         'bg' => 'rgba(59, 130, 246, 0.15)',
-                        'color' => '#3b82f6'
+                        'color' => '#3b82f6',
+                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST&subsub_url=287'
                     ],
                     [
                         'title' => 'ROC Compliance',
                         'desc' => 'Annual Filing, DIR-3 KYC, AOC-4, MGT-7 and MCA Compliances.',
                         'icon' => 'fas fa-clipboard-check',
                         'bg' => 'rgba(139, 92, 246, 0.15)',
-                        'color' => '#8b5cf6'
+                        'color' => '#8b5cf6',
+                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Corporate-Compliance&subsub_url=273'
                     ],
                     [
                         'title' => 'Accounting & Bookkeeping',
                         'desc' => 'Monthly Accounting, Payroll, Financial Statements & MIS Reports.',
                         'icon' => 'fas fa-calculator',
                         'bg' => 'rgba(236, 72, 153, 0.15)',
-                        'color' => '#ec4899'
+                        'color' => '#ec4899',
+                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=276'
                     ],
                     [
                         'title' => 'Income Tax Services',
                         'desc' => 'ITR Filing, Tax Planning, Assessments and Notice Handling.',
                         'icon' => 'fas fa-wallet',
                         'bg' => 'rgba(20, 184, 166, 0.15)',
-                        'color' => '#14b8a6'
+                        'color' => '#14b8a6',
+                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=279'
                     ]
                 ];
                 ?>
@@ -637,19 +643,21 @@ foreach($re as $key => $socila) {
                 <div class="row g-4 justify-content-center mt-2">
                     <?php foreach ($services as $service) { ?>
                         <div class="col-lg-4 col-md-6 d-flex">
-                            <div class="card border-0 service-card-custom flex-fill">
-                                <div class="card-body p-4">
-                                    <div class="d-flex align-items-start justify-content-between">
-                                        <h5 class="card-title-custom"><?= $service['title']; ?></h5>
-                                        <span class="icon-container-custom ms-3" style="background-color: <?= $service['bg']; ?>; color: <?= $service['color']; ?>;">
-                                             <i class="<?= $service['icon']; ?>"></i>
-                                        </span>
+                            <a href="<?= $urlmain . $service['link']; ?>" class="d-flex flex-column w-100 text-decoration-none">
+                                <div class="card border-0 service-card-custom flex-fill">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-start justify-content-between">
+                                            <h5 class="card-title-custom"><?= $service['title']; ?></h5>
+                                            <span class="icon-container-custom ms-3" style="background-color: <?= $service['bg']; ?>; color: <?= $service['color']; ?>;">
+                                                 <i class="<?= $service['icon']; ?>"></i>
+                                            </span>
+                                        </div>
+                                        <p class="card-text-custom">
+                                            <?= $service['desc']; ?>
+                                        </p>
                                     </div>
-                                    <p class="card-text-custom">
-                                        <?= $service['desc']; ?>
-                                    </p>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     <?php } ?>
                 </div>
