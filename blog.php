@@ -124,7 +124,10 @@ if (!empty($category_filter) || !empty($tag_filter) || !empty($search_query)) {
     if (!empty($search_query)) $filters[] = "Search: " . htmlspecialchars($search_query);
     $filter_description = implode(', ', $filters);
 }
- 
+
+$page_title = 'BizSetup Blog - Business Insights, Startup Guide & Compliance News';
+$page_description = 'Read the latest blogs from BizSetup. Get expert insights on company registration, GST return filing, business compliance, tax changes, and startup advisory in India.';
+$page_keywords = 'bizsetup blog, business registration articles, GST filing news, company incorporation tips, startup compliance';
 ?> 
 
 <!DOCTYPE html>

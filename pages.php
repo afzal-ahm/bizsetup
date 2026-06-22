@@ -43,10 +43,10 @@ $seo_title = isset($page_data['seo_title']) && !empty(trim($page_data['seo_title
 $seo_keywords = isset($page_data['seo_keywords']) && !empty(trim($page_data['seo_keywords'])) ? $page_data['seo_keywords'] : '';
 $meta_description = isset($page_data['meta_description']) && !empty(trim($page_data['meta_description'])) ? $page_data['meta_description'] : '';
 
-// Check if we have SEO data to determine which title method to use
-$has_seo_data = !empty($seo_title) || !empty($seo_keywords) || !empty($meta_description);
-
- 
+// Set page-level overrides for include/title.php
+$page_title = !empty($seo_title) ? $seo_title : $page_heading . ' - ' . $company_website_name;
+$page_description = !empty($meta_description) ? $meta_description : 'Learn about ' . $page_heading . ' services, compliance guidelines, registration procedures, and fees in India with BizSetup.';
+$page_keywords = !empty($seo_keywords) ? $seo_keywords : $page_heading . ', ' . $company_website_name;
 ?> 
 
 <!DOCTYPE html>
@@ -57,48 +57,28 @@ $has_seo_data = !empty($seo_title) || !empty($seo_keywords) || !empty($meta_desc
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <?php if($has_seo_data): ?>
-        <!-- Dynamic SEO Meta Tags from Database -->
-        <title><?php echo !empty($seo_title) ? htmlspecialchars($seo_title) : htmlspecialchars($page_title . ' - ' . $company_website_name); ?></title>
-        
-        <?php if(!empty($meta_description)): ?>
-            <meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
-        <?php endif; ?>
-        
-        <?php if(!empty($seo_keywords)): ?>
-            <meta name="keywords" content="<?php echo htmlspecialchars($seo_keywords); ?>">
-        <?php endif; ?>
-        
-        <!-- Open Graph Meta Tags -->
-        <meta property="og:title" content="<?php echo !empty($seo_title) ? htmlspecialchars($seo_title) : htmlspecialchars($page_title); ?>">
-        <?php if(!empty($meta_description)): ?>
-            <meta property="og:description" content="<?php echo htmlspecialchars($meta_description); ?>">
-        <?php endif; ?>
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="<?php echo $urlmain . 'pages.php?url=' . urlencode($page_url); ?>">
-        <?php if(!empty($page_image)): ?>
-            <meta property="og:image" content="<?php echo $urlmain . 'images/category/' . $page_image; ?>">
-        <?php endif; ?>
-        
-        <!-- Twitter Card Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="<?php echo !empty($seo_title) ? htmlspecialchars($seo_title) : htmlspecialchars($page_title); ?>">
-        <?php if(!empty($meta_description)): ?>
-            <meta name="twitter:description" content="<?php echo htmlspecialchars($meta_description); ?>">
-        <?php endif; ?>
-        <?php if(!empty($page_image)): ?>
-            <meta name="twitter:image" content="<?php echo $urlmain . 'images/category/' . $page_image; ?>">
-        <?php endif; ?>
-        
-        <!-- Additional SEO Meta Tags -->
-        <meta name="robots" content="index, follow">
-        <meta name="author" content="<?php echo $company_website_name; ?>">
-        <link rel="canonical" href="<?php echo $urlmain . 'pages.php?url=' . urlencode($page_url); ?>">
-        
-    <?php else: ?>
-        <!-- Default Meta Tags from include file -->
-        <?php include "include/title.php"; ?>
+    <?php include "include/title.php"; ?>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="<?php echo htmlspecialchars($display_title); ?>">
+    <meta property="og:description" content="<?php echo htmlspecialchars($display_description); ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo $urlmain . 'pages.php?url=' . urlencode($page_url); ?>">
+    <?php if(!empty($page_image)): ?>
+        <meta property="og:image" content="<?php echo $urlmain . 'images/category/' . $page_image; ?>">
     <?php endif; ?>
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo htmlspecialchars($display_title); ?>">
+    <meta name="twitter:description" content="<?php echo htmlspecialchars($display_description); ?>">
+    <?php if(!empty($page_image)): ?>
+        <meta name="twitter:image" content="<?php echo $urlmain . 'images/category/' . $page_image; ?>">
+    <?php endif; ?>
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="author" content="<?php echo $company_website_name; ?>">
+    <link rel="canonical" href="<?php echo $urlmain . 'pages.php?url=' . urlencode($page_url); ?>">
     
     <?php include "include/css.php"; ?> 
    

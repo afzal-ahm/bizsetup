@@ -1,6 +1,9 @@
 <?php 
 include "data.php";
- 
+
+$page_title = 'Service Categories - BizSetup Business Registration & Compliances';
+$page_description = 'Browse business registration and tax compliance services offered by BizSetup, including Company setup, LLP, GST, Accounting, and Trademark.';
+$page_keywords = 'business services, business setup categories, legal compliance categories';
 ?> 
 
 <!DOCTYPE html>

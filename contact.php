@@ -1,6 +1,9 @@
 <?php 
 include "data.php";
- 
+
+$page_title = 'Contact BizSetup - Reach Out for Business Registration & Tax Help';
+$page_description = 'Contact BizSetup for company registration, GST return filing, trademark registration, and other legal compliance queries. Our team of experts is ready to assist you.';
+$page_keywords = 'contact bizsetup, company registration help, GST filing inquiry, tax registration support, customer support';
 ?> 
 
 <!DOCTYPE html>

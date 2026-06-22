@@ -30,7 +30,7 @@ while($product = mysqli_fetch_assoc($products_result)) {
 
 if(mysqli_num_rows($sub_subcategory_result) > 0) {
     $service_data = mysqli_fetch_assoc($sub_subcategory_result);
-    $page_title = $service_data['sub_subcategory_name'];
+    $service_name = $service_data['sub_subcategory_name'];
     $category_name = $service_data['category_name'];
     $subcategory_name = $service_data['subcategory_name'];
     
@@ -45,17 +45,22 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     $offer_price = isset($service_data['price']) && !empty(trim($service_data['price'])) ? trim($service_data['price']) : '';
     $price_note = isset($service_data['meal']) && !empty(trim($service_data['meal'])) ? trim($service_data['meal']) : '';
     
-    // Check if we have SEO data
-    $has_seo_data = !empty($seo_title) || !empty($seo_keywords) || !empty($meta_description);
+    // Set page-level override variables for include/title.php
+    $page_title = !empty($seo_title) ? $seo_title : $service_name . ' - ' . $company_website_name;
+    $page_description = !empty($meta_description) ? $meta_description : 'Get professional consultation, pricing, and compliance requirements for ' . $service_name . ' in India with BizSetup.';
+    $page_keywords = !empty($seo_keywords) ? $seo_keywords : $service_name . ', compliance, registration, tax returns';
     
     // Check if we have price data
     $has_price_data = !empty($main_price) || !empty($offer_price);
     
 } else {
-    $page_title = "Service Not Found";
+    $service_name = "Service Not Found";
     $category_name = "";
     $subcategory_name = "";
-    $has_seo_data = false;
+    $page_title = "Service Not Found - " . $company_website_name;
+    $page_description = "The requested business registration or compliance service could not be found. Contact BizSetup for assistance.";
+    $page_keywords = "service not found, business setup help";
+    $service_image = '';
     $has_price_data = false;
     $main_price = '';
     $offer_price = '';
@@ -71,49 +76,28 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <?php if($has_seo_data): ?>
-        <!-- Dynamic SEO Meta Tags -->
-        <title><?php echo !empty($seo_title) ? htmlspecialchars($seo_title) : htmlspecialchars($page_title . ' - ' . $company_website_name); ?></title>
-        
-        <?php if(!empty($meta_description)): ?>
-        <meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
-        <?php endif; ?>
-        
-        <?php if(!empty($seo_keywords)): ?>
-        <meta name="keywords" content="<?php echo htmlspecialchars($seo_keywords); ?>">
-        <?php endif; ?>
-        
-        <!-- Open Graph Tags -->
-        <meta property="og:title" content="<?php echo !empty($seo_title) ? htmlspecialchars($seo_title) : htmlspecialchars($page_title); ?>">
-        <?php if(!empty($meta_description)): ?>
-        <meta property="og:description" content="<?php echo htmlspecialchars($meta_description); ?>">
-        <?php endif; ?>
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="<?php echo $urlmain . 'service_detail.php?cat_url=' . urlencode($cat_url) . '&sub_url=' . urlencode($sub_url) . '&subsub_url=' . urlencode($subsub_url); ?>">
-        <?php if(!empty($service_image)): ?>
-        <meta property="og:image" content="<?php echo $urlmain . 'images/category/' . $service_image; ?>">
-        <?php endif; ?>
-        
-        <!-- Twitter Card Tags -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="<?php echo !empty($seo_title) ? htmlspecialchars($seo_title) : htmlspecialchars($page_title); ?>">
-        <?php if(!empty($meta_description)): ?>
-        <meta name="twitter:description" content="<?php echo htmlspecialchars($meta_description); ?>">
-        <?php endif; ?>
-        <?php if(!empty($service_image)): ?>
-        <meta name="twitter:image" content="<?php echo $urlmain . 'images/category/' . $service_image; ?>">
-        <?php endif; ?>
-        
-        <!-- Additional SEO Tags -->
-        <meta name="robots" content="index, follow">
-        <meta name="author" content="<?php echo $company_website_name; ?>">
-        <link rel="canonical" href="<?php echo $urlmain . 'service_detail.php?cat_url=' . urlencode($cat_url) . '&sub_url=' . urlencode($sub_url) . '&subsub_url=' . urlencode($subsub_url); ?>">
-        
-    <?php else: ?>
-        <!-- Fallback to default title -->
-        <title><?php echo $page_title; ?> - <?php echo $company_website_name; ?></title>
-        <?php include "include/title.php"; ?>
+    <?php include "include/title.php"; ?>
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="<?php echo htmlspecialchars($display_title); ?>">
+    <meta property="og:description" content="<?php echo htmlspecialchars($display_description); ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo $urlmain . 'service_detail.php?cat_url=' . urlencode($cat_url) . '&sub_url=' . urlencode($sub_url) . '&subsub_url=' . urlencode($subsub_url); ?>">
+    <?php if(!empty($service_image)): ?>
+    <meta property="og:image" content="<?php echo $urlmain . 'images/category/' . $service_image; ?>">
     <?php endif; ?>
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo htmlspecialchars($display_title); ?>">
+    <meta name="twitter:description" content="<?php echo htmlspecialchars($display_description); ?>">
+    <?php if(!empty($service_image)): ?>
+    <meta name="twitter:image" content="<?php echo $urlmain . 'images/category/' . $service_image; ?>">
+    <?php endif; ?>
+    
+    <!-- Additional SEO Tags -->
+    <meta name="author" content="<?php echo $company_website_name; ?>">
+    <link rel="canonical" href="<?php echo $urlmain . 'service_detail.php?cat_url=' . urlencode($cat_url) . '&sub_url=' . urlencode($sub_url) . '&subsub_url=' . urlencode($subsub_url); ?>">
     
     <?php include "include/css.php";?> 
     

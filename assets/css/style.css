@@ -189,6 +189,7 @@ p {
   color: #262627;
   line-height: 1.6;
   font-weight: 300;
+  text-align: justify;
 }
 
 p:last-child {
