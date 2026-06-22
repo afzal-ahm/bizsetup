@@ -730,39 +730,121 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
         </div>
     </section>
     <!-- /About Section -->
-     <style>
-        @media (max-width: 768px) {
-  .countearli {
-    width: 50% !important; /* 2 in a row on mobile */
-    float: left; /* or use flex/grid */
-  }
-}
+      <style>
+        .feedback-banner-custom {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f5f9;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .feedback-item-custom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 15px 10px;
+        }
+        .feedback-icon-container-custom {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+        .feedback-icon-blue {
+            background: linear-gradient(135deg, #1c4c82 0%, #0b2545 100%);
+            box-shadow: 0 8px 16px rgba(28, 76, 130, 0.15);
+        }
+        .feedback-icon-orange {
+            background: linear-gradient(135deg, #f18d2d 0%, #d97706 100%);
+            box-shadow: 0 8px 16px rgba(241, 141, 45, 0.15);
+        }
+        .feedback-number-custom {
+            font-size: 34px;
+            font-weight: 800;
+            color: #0b2545; /* Dark blue */
+            margin-bottom: 8px;
+            line-height: 1.1;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.5px;
+        }
+        .feedback-label-custom {
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b; /* Cool grey label */
+            margin-bottom: 0;
+            text-transform: capitalize;
+        }
+        /* Divider borders on desktop (992px and up) */
+        @media (min-width: 992px) {
+            .feedback-col-custom:not(:last-child) {
+                border-right: 1px solid #e2e8f0;
+            }
+        }
+        /* Responsive adjustments on smaller screens */
+        @media (max-width: 991px) {
+            .feedback-number-custom {
+                font-size: 28px;
+            }
+            .feedback-icon-container-custom {
+                margin-bottom: 15px;
+            }
+        }
      </style>
-   <section class="feeback-section" style="    background-color: #f8fafb;">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="rating-feedback wow zoomIn">
-                        <div class="bg-div">
-                            <img src="assets/img/bg/bg-02.png" class="bg-2" alt="img">
-                        </div>
-                        <ul class="countear">
+     
+     <?php
+     if (!function_exists('render_counter_value')) {
+         function render_counter_value($val) {
+             if (preg_match('/^([0-9\.,]+)(.*)$/', trim($val), $matches)) {
+                 $num = $matches[1];
+                 $suffix = $matches[2];
+                 return '<span class="counter">' . $num . '</span>' . $suffix;
+             }
+             return '<span class="counter">' . htmlspecialchars($val) . '</span>';
+         }
+     }
+     ?>
 
-                        <?php
-                                $ss="SELECT * from  extra_content where type='counter' limit 4";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){       ?>   
-                            <li class="countearli">
-                                <h6><img src="<?php echo $urlmain;?>images/extra/<?php echo $socila['image'];?>" alt="Img"> <br> <?php echo $socila['heading1'];?></h6>
-                                <h4><span class="counter"><?php echo $socila['heading2'];?></span>+</h4>
-                            </li>
-                            <?php } ?>
-                            
-                        </ul>
-                        <div class="bg-div">
-                            <img src="assets/img/bg/bg-01.png" class="bg-1" alt="img">
+   <section class="feeback-section" style="background-color: #f8fafb; padding: 60px 0;">
+        <div class="container">
+            <div class="feedback-banner-custom wow zoomIn" data-wow-delay="0.2s">
+                <div class="row g-4 align-items-center text-center">
+                    <?php
+                    $ss = "SELECT * FROM extra_content WHERE type='counter' LIMIT 4";
+                    $re = mysqli_query($conn, $ss);
+                    
+                    // Predefined icons and styling rotating based on index
+                    $counter_icons = [
+                        ['icon' => 'fas fa-users', 'class' => 'feedback-icon-blue'],
+                        ['icon' => 'fas fa-star', 'class' => 'feedback-icon-orange'],
+                        ['icon' => 'fas fa-thumbs-up', 'class' => 'feedback-icon-blue'],
+                        ['icon' => 'fas fa-trophy', 'class' => 'feedback-icon-orange']
+                    ];
+                    
+                    foreach($re as $key => $socila) {
+                        $icon_config = $counter_icons[$key % count($counter_icons)];
+                    ?>
+                        <div class="col-lg-3 col-6 feedback-col-custom">
+                            <div class="feedback-item-custom">
+                                <div class="feedback-icon-container-custom <?= $icon_config['class']; ?>">
+                                    <i class="<?= $icon_config['icon']; ?>"></i>
+                                </div>
+                                <div class="feedback-number-custom">
+                                    <?= render_counter_value($socila['heading2']); ?>
+                                </div>
+                                <p class="feedback-label-custom"><?= htmlspecialchars($socila['heading1']); ?></p>
+                            </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
