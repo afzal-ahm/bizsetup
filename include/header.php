@@ -29,7 +29,7 @@
                                     <div class="header-dropdown d-flex flex-fill">
                                        
                                     </div>
-                                    <div class="btn btn-dark w-100 mb-3">  <a href="javascript:void(0);" class="text-white" data-bs-toggle="modal" data-bs-target="#register-modal">Contact Us</a></div>
+                                    <div class="btn btn-contact-custom w-100 mb-3">  <a href="javascript:void(0);" class="text-white" data-bs-toggle="modal" data-bs-target="#register-modal">Contact Us</a></div>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@ if($subt > 0) {
                         <div class="header-btn d-flex align-items-center">
                             
                             
-                            <a href="<?php echo $urlmain;?>contact.php" class="btn btn-dark d-inline-flex align-items-center me-3"><i class="isax isax-lock me-2"></i>Contact Us</a>
+                            <a href="<?php echo $urlmain;?>contact.php" class="btn btn-contact-custom d-inline-flex align-items-center me-3"><i class="isax isax-lock me-2"></i>Contact Us</a>
                           
                             <div class="header__hamburger d-xl-none my-auto">
                                 <div class="sidebar-menu">
@@ -131,6 +131,19 @@ if($subt > 0) {
         <!-- /Header -->
         
         <style>
+        .btn-contact-custom {
+            background-color: #f18d2d !important;
+            border-color: #f18d2d !important;
+            color: #ffffff !important;
+        }
+        .btn-contact-custom:hover,
+        .btn-contact-custom:focus,
+        .btn-contact-custom:active,
+        .btn-contact-custom.active {
+            background-color: #d97706 !important;
+            border-color: #d97706 !important;
+            color: #ffffff !important;
+        }
         /* Responsive Megamenu Styling - Yellow Theme */
         .mega-submenu {
             width: 100vw !important;
