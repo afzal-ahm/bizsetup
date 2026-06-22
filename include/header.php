@@ -29,6 +29,26 @@
                                     <div class="header-dropdown d-flex flex-fill">
                                        
                                     </div>
+                                    <div class="mb-3">
+                                        <a href="tel:<?php echo $company_whatsapp_no; ?>" class="btn btn-talk-expert-custom w-100 d-inline-flex align-items-center justify-content-center">
+                                            <span class="talk-expert-content-wrapper">
+                                                <span class="talk-expert-inner">
+                                                    <span class="talk-expert-default">
+                                                        <i class="isax isax-call-calling5 me-2"></i>Talk to Experts
+                                                    </span>
+                                                    <span class="talk-expert-hover">
+                                                        <i class="isax isax-call-calling5 me-2"></i><?php 
+                                                            $formatted_phone = $company_whatsapp_no;
+                                                            if (strlen($formatted_phone) == 10) {
+                                                                $formatted_phone = '+91 ' . substr($formatted_phone, 0, 5) . ' ' . substr($formatted_phone, 5);
+                                                            }
+                                                            echo htmlspecialchars($formatted_phone); 
+                                                        ?>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </div>
                                     <div class="btn btn-contact-custom w-100 mb-3">  <a href="javascript:void(0);" class="text-white" data-bs-toggle="modal" data-bs-target="#register-modal">Contact Us</a></div>
                                 </div>
                             </div>
@@ -115,8 +135,25 @@ if($subt > 0) {
                         </nav>
                         <div class="header-btn d-flex align-items-center">
                             
-                            
-                            <a href="<?php echo $urlmain;?>contact.php" class="btn btn-contact-custom d-inline-flex align-items-center me-3"><i class="isax isax-lock me-2"></i>Contact Us</a>
+                                                        <a href="tel:<?php echo $company_whatsapp_no; ?>" class="btn btn-talk-expert-custom d-inline-flex align-items-center me-3">
+                                 <span class="talk-expert-content-wrapper">
+                                     <span class="talk-expert-inner">
+                                         <span class="talk-expert-default">
+                                             <i class="isax isax-call-calling5 me-2"></i>Talk to Experts
+                                         </span>
+                                         <span class="talk-expert-hover">
+                                             <i class="isax isax-call-calling5 me-2"></i><?php 
+                                                 $formatted_phone = $company_whatsapp_no;
+                                                 if (strlen($formatted_phone) == 10) {
+                                                     $formatted_phone = '+91 ' . substr($formatted_phone, 0, 5) . ' ' . substr($formatted_phone, 5);
+                                                 }
+                                                 echo htmlspecialchars($formatted_phone); 
+                                             ?>
+                                         </span>
+                                     </span>
+                                 </span>
+                             </a>
+                             <a href="<?php echo $urlmain;?>contact.php" class="btn btn-contact-custom d-inline-flex align-items-center me-3"><i class="isax isax-lock me-2"></i>Contact Us</a>
                           
                             <div class="header__hamburger d-xl-none my-auto">
                                 <div class="sidebar-menu">
@@ -135,6 +172,12 @@ if($subt > 0) {
             background-color: #f18d2d !important;
             border-color: #f18d2d !important;
             color: #ffffff !important;
+            height: 42px !important;
+            padding: 0 20px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
         }
         .btn-contact-custom:hover,
         .btn-contact-custom:focus,
@@ -143,6 +186,52 @@ if($subt > 0) {
             background-color: #d97706 !important;
             border-color: #d97706 !important;
             color: #ffffff !important;
+        }
+        .btn-talk-expert-custom {
+            background-color: #f18d2d !important;
+            border-color: #f18d2d !important;
+            color: #ffffff !important;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            font-weight: 500;
+            padding: 0 20px !important;
+            height: 42px !important;
+            box-sizing: border-box !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: background-color 0.3s ease, border-color 0.3s ease !important;
+        }
+        .btn-talk-expert-custom:hover,
+        .btn-talk-expert-custom:focus,
+        .btn-talk-expert-custom:active,
+        .btn-talk-expert-custom.active {
+            background-color: #d97706 !important;
+            border-color: #d97706 !important;
+            color: #ffffff !important;
+        }
+        .talk-expert-content-wrapper {
+            position: relative;
+            display: block;
+            height: 24px;
+            overflow: hidden;
+        }
+        .talk-expert-inner {
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .talk-expert-default,
+        .talk-expert-hover {
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+        .btn-talk-expert-custom:hover .talk-expert-inner {
+            transform: translateY(-24px);
         }
         /* Responsive Megamenu Styling - Yellow Theme */
         .mega-submenu {
