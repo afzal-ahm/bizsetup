@@ -1,5 +1,9 @@
  <!-- Favicon -->
-    <link rel="icon" href="<?php echo $urlmain;?>images/<?php echo $company_favicon;?>" type="image/x-icon"> 
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $urlmain;?>favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo $urlmain;?>favicon/favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="<?php echo $urlmain;?>favicon/favicon.svg">
+    <link rel="shortcut icon" href="<?php echo $urlmain;?>favicon/favicon.ico">
+    <link rel="manifest" href="<?php echo $urlmain;?>favicon/site.webmanifest">
 
     <!-- Theme Settings Js -->
 	<script src="<?php echo $urlmain;?>assets/js/theme-script.js"></script>

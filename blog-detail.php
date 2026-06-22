@@ -165,10 +165,7 @@ if (!empty($blog['tags'])) {
     <!-- Canonical URL -->
     <link rel="canonical" href="<?php echo htmlspecialchars($canonical_url); ?>">
     
-    <!-- Favicon and other meta from settings -->
-    <?php if (!empty($company_favicon)): ?>
-    <link rel="icon" type="image/x-icon" href="<?php echo htmlspecialchars($company_favicon); ?>">
-    <?php endif; ?>
+
     
    <?php include "include/css.php";?> 
    

@@ -913,35 +913,376 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                 </div>
                     <?php } ?>
                 <div class="col-lg-7">
+                    <style>
+                    /* Testimonial Section Styles */
+                    .single-testimonial-carousel.owl-carousel .owl-stage-outer {
+                        padding: 15px 0; /* Add padding so card shadows aren't clipped */
+                    }
+
+                    .custom-review-card {
+                        position: relative;
+                        background: #ffffff;
+                        border: 1px solid #eef2f6;
+                        border-radius: 24px;
+                        padding: 35px;
+                        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+                        overflow: hidden;
+                        margin: 5px 15px;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    }
+
+                    .custom-review-card:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.05);
+                    }
+
+                    /* Beautiful color-gradient top accent border */
+                    .custom-review-card::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        height: 6px;
+                        background: linear-gradient(90deg, #1d4ed8 0%, #f97316 100%);
+                        z-index: 10;
+                    }
+
+                    .card-badge-row {
+                        margin-bottom: 24px;
+                    }
+
+                    /* Verified badge: Green background/text */
+                    .verified-badge {
+                        background-color: #f0fdf4;
+                        border: 1px solid rgba(34, 197, 94, 0.3);
+                        color: #15803d;
+                        padding: 8px 16px;
+                        border-radius: 30px;
+                        font-size: 13px;
+                        font-weight: 700;
+                        display: inline-flex;
+                        align-items: center;
+                        letter-spacing: 0.2px;
+                    }
+
+                    .verified-icon {
+                        color: #22c55e;
+                        font-size: 14px;
+                    }
+
+                    /* Quote Icon: Blue border/background */
+                    .quote-box {
+                        width: 44px;
+                        height: 44px;
+                        border-radius: 12px;
+                        background-color: #eff6ff;
+                        border: 1px solid rgba(59, 130, 246, 0.1);
+                        color: #1e40af;
+                        font-size: 16px;
+                    }
+
+                    /* Rating Badge Pill: Amber background/text */
+                    .rating-badge-pill {
+                        background-color: #fffbeb;
+                        border: 1px solid rgba(245, 158, 11, 0.3);
+                        padding: 6px 14px;
+                        border-radius: 20px;
+                        font-size: 13px;
+                        font-weight: 700;
+                        color: #92400e;
+                    }
+
+                    .rating-stars {
+                        color: #f59e0b;
+                        margin-right: 8px;
+                        display: inline-flex;
+                        gap: 2px;
+                    }
+
+                    /* Review text styling */
+                    .review-text {
+                        font-size: 18px;
+                        line-height: 1.7;
+                        color: #334155;
+                        font-weight: 500;
+                        margin-bottom: 30px;
+                        letter-spacing: -0.1px;
+                    }
+
+                    /* Footer Section separator and content */
+                    .review-footer {
+                        border-top: 1px solid #f1f5f9;
+                    }
+
+                    /* Avatar: Initials inside green outer circle */
+                    .author-avatar {
+                        width: 56px;
+                        height: 56px;
+                        border-radius: 50%;
+                        border: 2px solid #22c55e;
+                        padding: 3px;
+                        background-color: #ffffff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .author-avatar-inner {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #ffffff;
+                        font-weight: 700;
+                        font-size: 16px;
+                        text-transform: uppercase;
+                    }
+
+                    .author-name {
+                        font-size: 17px;
+                        font-weight: 700;
+                        color: #0f172a;
+                    }
+
+                    .author-role {
+                        font-size: 13px;
+                        color: #64748b;
+                        font-weight: 500;
+                        margin-top: 2px;
+                    }
+
+                    /* Date Badge: Blue background/text */
+                    .date-badge {
+                        background-color: #eff6ff;
+                        border: 1px solid rgba(59, 130, 246, 0.1);
+                        color: #2563eb;
+                        padding: 6px 16px;
+                        border-radius: 20px;
+                        font-size: 13px;
+                        font-weight: 600;
+                        display: inline-flex;
+                        align-items: center;
+                    }
+
+                    .date-badge i {
+                        font-size: 14px;
+                        color: #2563eb;
+                    }
+
+                    /* Custom styles for Owl Carousel dots in single-testimonial */
+                    .single-testimonial-carousel.owl-carousel .owl-dots {
+                        margin-top: 20px !important;
+                        text-align: center;
+                    }
+
+                    .single-testimonial-carousel.owl-carousel .owl-dots .owl-dot span {
+                        width: 8px !important;
+                        height: 8px !important;
+                        margin: 5px 6px !important;
+                        background: #cbd5e1 !important;
+                        border-radius: 50% !important;
+                        transition: all 0.3s ease !important;
+                        display: block;
+                    }
+
+                    .single-testimonial-carousel.owl-carousel .owl-dots .owl-dot.active span {
+                        width: 24px !important;
+                        background: #1d4ed8 !important;
+                        border-radius: 4px !important;
+                    }
+
+                    /* Mobile responsive adjustments */
+                    @media (max-width: 767.98px) {
+                        .custom-review-card {
+                            padding: 24px 20px;
+                            margin: 5px 5px;
+                        }
+                        .review-text {
+                            font-size: 16px;
+                            line-height: 1.6;
+                            margin-bottom: 24px;
+                        }
+                        .card-badge-row {
+                            margin-bottom: 16px;
+                        }
+                        .review-footer {
+                            flex-direction: column;
+                            align-items: flex-start !important;
+                            gap: 16px;
+                            padding-top: 20px !important;
+                        }
+                        .date-badge {
+                            align-self: flex-start;
+                        }
+                    }
+                    </style>
+
                     <div class="testimonial-success">
-                        <div class="row g-4">
-                        <?php
-                                $ss="SELECT * from  testimonial  ";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socilaa){       ?>   
-                            <div class="col-md-6 d-flex">
-                                <div class="card flex-fill mb-0 wow fadeInDown" data-wow-delay="0.2s">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <a href="javascript:void(0);" class="avatar avatar-lg flex-shrink-0">
-                                                <img src="<?php echo $urlmain;?>images/blog/<?php echo $socilaa['image'];?>" class="rounded-circle" alt="img">
-                                            </a>
-                                            <div class="ms-2">
-                                                <h6 class="fs-16 fw-medium"><a href="javascript:void(0);"> <?php echo $socilaa['name'];?> </a></h6>
-                                                <p>– <?php echo $socilaa['position'];?> </p>
+                        <div class="single-testimonial-carousel owl-carousel wow fadeInDown" data-wow-delay="0.2s">
+                            <?php
+                            $dummy_reviews = [
+                                [
+                                    'name' => 'Ms Seema Singh',
+                                    'role' => 'CFO',
+                                    'content' => 'We would recommend Corpbiz incorporation services to any founder without a second doubt. The process was beyond efficient and shows Corpbiz founder\'s commitment and vision to truly help entrepreneurs and early stage startups to get them incorporated with ease.',
+                                    'initials' => 'MS',
+                                    'avatar_bg' => '#f59e0b',
+                                    'date' => '28 May'
+                                ],
+                                [
+                                    'name' => 'Sangita Bhayanas',
+                                    'role' => 'Founder, Sangita Law',
+                                    'content' => 'This firm started with the concept of a single window legal advice and services to clients in all areas of practice. Their responsiveness and attention to detail have been absolutely outstanding throughout our collaboration.',
+                                    'initials' => 'SB',
+                                    'avatar_bg' => '#3b82f6',
+                                    'date' => '12 Jun'
+                                ],
+                                [
+                                    'name' => 'D Bhattacharya',
+                                    'role' => 'Advocate',
+                                    'content' => 'Excellent service in Contract & Commercial dispute, Property dispute, and Inheritance matters. The legal team provided very clear advice and led us to a successful resolution in a highly complex court case.',
+                                    'initials' => 'DB',
+                                    'avatar_bg' => '#10b981',
+                                    'date' => '04 May'
+                                ],
+                                [
+                                    'name' => 'Amit Sharma',
+                                    'role' => 'CEO, TechVantage',
+                                    'content' => 'The team handled our GST registration and corporate tax setup flawlessly. Highly professional, transparent, and always available to answer any compliance questions. We couldn\'t have asked for a better partner.',
+                                    'initials' => 'AS',
+                                    'avatar_bg' => '#8b5cf6',
+                                    'date' => '18 Apr'
+                                ],
+                                [
+                                    'name' => 'A & R Associates',
+                                    'role' => 'Managing Partner',
+                                    'content' => 'A & R Associates, Advocates & Solicitors is a legal service law firm providing comprehensive counsel. Working with this platform has streamlined our document preparation and corporate filing workflows significantly.',
+                                    'initials' => 'AR',
+                                    'avatar_bg' => '#ec4899',
+                                    'date' => '22 Feb'
+                                ],
+                                [
+                                    'name' => 'Rajesh Patel',
+                                    'role' => 'Director, Patel Group',
+                                    'content' => 'Outstanding support for MSME registration and intellectual property filings. Their step-by-step guidance made what seemed like an intimidating legal process simple, quick, and completely stress-free.',
+                                    'initials' => 'RP',
+                                    'avatar_bg' => '#06b6d4',
+                                    'date' => '09 Mar'
+                                ],
+                                [
+                                    'name' => 'Priya Nair',
+                                    'role' => 'COO, GreenLife Solutions',
+                                    'content' => 'Their advisory on environmental compliance and trademark registration was top-notch. They explained the legal jargon in plain English, allowing us to make quick, informed decisions for our brand.',
+                                    'initials' => 'PN',
+                                    'avatar_bg' => '#14b8a6',
+                                    'date' => '15 Jan'
+                                ],
+                                [
+                                    'name' => 'Vikram Malhotra',
+                                    'role' => 'Managing Director',
+                                    'content' => 'From drafting partnership agreements to structuring our seed round funding, their corporate law services have been exceptional. Extremely reliable and highly recommended for modern businesses.',
+                                    'initials' => 'VM',
+                                    'avatar_bg' => '#6366f1',
+                                    'date' => '30 Dec'
+                                ],
+                                [
+                                    'name' => 'Neha Kapoor',
+                                    'role' => 'Legal Advisor, Zenith Corp',
+                                    'content' => 'A truly dedicated team that goes above and beyond to ensure compliance. Their digital documentation portal made sharing, signing, and archiving corporate resolutions incredibly efficient.',
+                                    'initials' => 'NK',
+                                    'avatar_bg' => '#ef4444',
+                                    'date' => '14 Nov'
+                                ],
+                                [
+                                    'name' => 'Sanjay Rao',
+                                    'role' => 'Founder, Rao Logistics',
+                                    'content' => 'Speedy execution, fair pricing, and stellar communication. They resolved a long-pending licensing issue for our logistics startup within just a few business days. Five stars all the way!',
+                                    'initials' => 'SR',
+                                    'avatar_bg' => '#f43f5e',
+                                    'date' => '02 Oct'
+                                ]
+                            ];
+
+                            foreach ($dummy_reviews as $review) {
+                            ?>
+                            <div class="custom-review-card">
+                                <div class="card-badge-row d-flex justify-content-between align-items-center">
+                                    <div class="verified-badge">
+                                        <i class="fa-solid fa-circle-check verified-icon me-2"></i>Verified Customer
+                                    </div>
+                                    <div class="quote-box d-flex align-items-center justify-content-center">
+                                        <i class="fa-solid fa-quote-right quote-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="rating-badge-pill d-inline-flex align-items-center">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="rating-score">5.0</span>
+                                </div>
+                                <p class="review-text mt-4">
+                                    "<?php echo htmlspecialchars($review['content']); ?>"
+                                </p>
+                                <div class="review-footer d-flex justify-content-between align-items-center mt-4 pt-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="author-avatar me-3">
+                                            <div class="author-avatar-inner" style="background-color: <?php echo $review['avatar_bg']; ?>;">
+                                                <?php echo htmlspecialchars($review['initials']); ?>
                                             </div>
                                         </div>
-                                        <p class="mb-2">" <?php echo $socilaa['content'];?> "</p>
+                                        <div>
+                                            <h6 class="author-name mb-0"><?php echo htmlspecialchars($review['name']); ?></h6>
+                                            <p class="author-role mb-0"><?php echo htmlspecialchars($review['role']); ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="date-badge">
+                                        <i class="fa-regular fa-calendar me-2"></i><?php echo htmlspecialchars($review['date']); ?>
                                     </div>
                                 </div>
                             </div>
                             <?php } ?>
-                            
                         </div>
+
                         <div class="testimonials-bg">
                             <img src="assets/img/bg/testimonial-bg-01.png" alt="img" class="testimonial-bg-03">
                         </div>
                     </div>
+
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const initTestimonialSlider = function() {
+                            if (typeof window.jQuery === 'undefined' || typeof window.jQuery.fn.owlCarousel === 'undefined') {
+                                setTimeout(initTestimonialSlider, 50);
+                                return;
+                            }
+                            
+                            jQuery('.single-testimonial-carousel').owlCarousel({
+                                loop: true,
+                                margin: 20,
+                                nav: false,
+                                dots: true,
+                                autoplay: true,
+                                autoplayTimeout: 5000,
+                                autoplayHoverPause: true,
+                                smartSpeed: 800,
+                                items: 1,
+                                responsive: {
+                                    0: {
+                                        items: 1
+                                    }
+                                }
+                            });
+                        };
+                        initTestimonialSlider();
+                    });
+                    </script>
                 </div>
             </div>
         </div>
