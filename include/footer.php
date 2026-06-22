@@ -9,7 +9,7 @@
                         <div class="footer-about">
                             <span class="d-block mb-2 footer-logo-light"><img src="<?php echo $urlmain;?>images/<?php echo $company_logo;?>" style="    max-width: 150px;" alt="Img"></span>
                              
-                            <p><?php echo $socila['content'];?> </p>
+                            <p>At BizSetup, we specialize in making legal compliance and business incorporation simple, affordable, and seamless for startups, SMEs, and businesses of all sizes.</p>
 
                             
                            

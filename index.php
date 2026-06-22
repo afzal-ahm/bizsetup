@@ -474,7 +474,7 @@ foreach($re as $key => $socila) {
                     </span>
                 </div>
                 <p>
-                    Talk to lawyers, chartered accountants (CAs), and company secretaries (CSs) to meet your legal and
+                    Dedicated assistance from qualified CAs, CSs, and compiance experts to help your business grow with confidence.
                 </p>
             </div>
         </div>
@@ -676,7 +676,7 @@ foreach($re as $key => $socila) {
                 <div class="col-lg-5 wow fadeInDown" data-wow-delay="0.2s">
                     <div class="section-header section-header-four mb-4">
                         <h2 class="mb-2"><?php echo $socila['heading1'];?> <span><?php echo $socila['heading2'];?></span></h2>
-                        <p class="sub-title">At Biz Setup Pvt. Ltd., we understand that starting and running a business in India can be a complex journey filled with legal, regulatory, and administrative hurdles.  <br>
+                        <p class="sub-title">At BizSetup, we understand that starting and running a business in India can be a complex journey filled with legal, regulatory, and administrative hurdles.  <br>
 Here’s why thousands of entrepreneurs, startups, and businesses choose us over traditional consultants or other platforms:</p>
                     
                     <?php if($socila['link']!='')  { ?>
@@ -1267,11 +1267,11 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
  
   <script>
   const phrases = [
-    "Search for Private Limited Registration",
-    "Search for GST Registration",
-    "Search for Company Registration",
-    "Search for Trust Registration",
-    "Search for Startup Compliance"
+    "Private Limited Registration",
+    "GST Registration",
+    "Company Registration",
+    "Trust Registration",
+    "Startup Compliance"
   ];
 
   const input = document.getElementById("searchBox");
