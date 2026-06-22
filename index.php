@@ -1125,84 +1125,100 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                             <?php
                             $dummy_reviews = [
                                 [
-                                    'name' => 'Ms Seema Singh',
-                                    'role' => 'CFO',
-                                    'content' => 'We would recommend Corpbiz incorporation services to any founder without a second doubt. The process was beyond efficient and shows Corpbiz founder\'s commitment and vision to truly help entrepreneurs and early stage startups to get them incorporated with ease.',
-                                    'initials' => 'MS',
-                                    'avatar_bg' => '#f59e0b',
-                                    'date' => '28 May'
+                                    'name' => 'Rahul Sharma',
+                                    'role' => 'Founder',
+                                    'content' => 'Starting a business felt complicated until I connected with BizSetup. Their team handled my company registration professionally and kept me informed throughout the process. Everything was completed smoothly, and their support was available whenever I needed guidance.',
+                                    'initials' => 'RS',
+                                    'avatar_bg' => '#3b82f6',
+                                    'date' => '20 Jun'
                                 ],
                                 [
-                                    'name' => 'Sangita Bhayanas',
-                                    'role' => 'Founder, Sangita Law',
-                                    'content' => 'This firm started with the concept of a single window legal advice and services to clients in all areas of practice. Their responsiveness and attention to detail have been absolutely outstanding throughout our collaboration.',
-                                    'initials' => 'SB',
-                                    'avatar_bg' => '#3b82f6',
+                                    'name' => 'Priya Verma',
+                                    'role' => 'Co-Founder',
+                                    'content' => 'BizSetup made our GST registration process incredibly simple. The team was responsive, knowledgeable, and ensured all documentation was completed correctly. I appreciate their professionalism and would gladly recommend them to anyone starting a new business.',
+                                    'initials' => 'PV',
+                                    'avatar_bg' => '#10b981',
+                                    'date' => '18 Jun'
+                                ],
+                                [
+                                    'name' => 'Amit Gupta',
+                                    'role' => 'Director',
+                                    'content' => 'We approached BizSetup for trademark registration and were impressed by their expertise. They explained every step clearly and handled the filing process efficiently. The experience was smooth, transparent, and completely hassle-free.',
+                                    'initials' => 'AG',
+                                    'avatar_bg' => '#f59e0b',
+                                    'date' => '15 Jun'
+                                ],
+                                [
+                                    'name' => 'Neha Singh',
+                                    'role' => 'Entrepreneur',
+                                    'content' => 'The team at BizSetup is highly professional and genuinely committed to helping entrepreneurs. They assisted us with company incorporation, compliance requirements, and regulatory filings. Their guidance saved us significant time and allowed us to focus on growing our business with confidence.',
+                                    'initials' => 'NS',
+                                    'avatar_bg' => '#ec4899',
                                     'date' => '12 Jun'
                                 ],
                                 [
-                                    'name' => 'D Bhattacharya',
-                                    'role' => 'Advocate',
-                                    'content' => 'Excellent service in Contract & Commercial dispute, Property dispute, and Inheritance matters. The legal team provided very clear advice and led us to a successful resolution in a highly complex court case.',
-                                    'initials' => 'DB',
-                                    'avatar_bg' => '#10b981',
-                                    'date' => '04 May'
-                                ],
-                                [
-                                    'name' => 'Amit Sharma',
-                                    'role' => 'CEO, TechVantage',
-                                    'content' => 'The team handled our GST registration and corporate tax setup flawlessly. Highly professional, transparent, and always available to answer any compliance questions. We couldn\'t have asked for a better partner.',
-                                    'initials' => 'AS',
+                                    'name' => 'Rohit Agarwal',
+                                    'role' => 'Proprietor',
+                                    'content' => 'Excellent service and great customer support. Every question was answered promptly, and the registration process was completed within the promised timeline. A reliable partner for any business owner.',
+                                    'initials' => 'RA',
                                     'avatar_bg' => '#8b5cf6',
-                                    'date' => '18 Apr'
+                                    'date' => '10 Jun'
                                 ],
                                 [
-                                    'name' => 'A & R Associates',
-                                    'role' => 'Managing Partner',
-                                    'content' => 'A & R Associates, Advocates & Solicitors is a legal service law firm providing comprehensive counsel. Working with this platform has streamlined our document preparation and corporate filing workflows significantly.',
-                                    'initials' => 'AR',
-                                    'avatar_bg' => '#ec4899',
-                                    'date' => '22 Feb'
-                                ],
-                                [
-                                    'name' => 'Rajesh Patel',
-                                    'role' => 'Director, Patel Group',
-                                    'content' => 'Outstanding support for MSME registration and intellectual property filings. Their step-by-step guidance made what seemed like an intimidating legal process simple, quick, and completely stress-free.',
-                                    'initials' => 'RP',
-                                    'avatar_bg' => '#06b6d4',
-                                    'date' => '09 Mar'
-                                ],
-                                [
-                                    'name' => 'Priya Nair',
-                                    'role' => 'COO, GreenLife Solutions',
-                                    'content' => 'Their advisory on environmental compliance and trademark registration was top-notch. They explained the legal jargon in plain English, allowing us to make quick, informed decisions for our brand.',
-                                    'initials' => 'PN',
-                                    'avatar_bg' => '#14b8a6',
-                                    'date' => '15 Jan'
-                                ],
-                                [
-                                    'name' => 'Vikram Malhotra',
+                                    'name' => 'Kavita Mishra',
                                     'role' => 'Managing Director',
-                                    'content' => 'From drafting partnership agreements to structuring our seed round funding, their corporate law services have been exceptional. Extremely reliable and highly recommended for modern businesses.',
-                                    'initials' => 'VM',
-                                    'avatar_bg' => '#6366f1',
-                                    'date' => '30 Dec'
+                                    'content' => 'BizSetup helped us with Startup India registration and ongoing compliance support. Their experts demonstrated deep knowledge of legal and regulatory requirements while maintaining clear communication throughout. I highly appreciate their dedication, transparency, and customer-focused approach.',
+                                    'initials' => 'KM',
+                                    'avatar_bg' => '#06b6d4',
+                                    'date' => '08 Jun'
                                 ],
                                 [
-                                    'name' => 'Neha Kapoor',
-                                    'role' => 'Legal Advisor, Zenith Corp',
-                                    'content' => 'A truly dedicated team that goes above and beyond to ensure compliance. Their digital documentation portal made sharing, signing, and archiving corporate resolutions incredibly efficient.',
-                                    'initials' => 'NK',
+                                    'name' => 'Sandeep Kumar',
+                                    'role' => 'Founder',
+                                    'content' => 'I had a wonderful experience working with BizSetup. From consultation to final documentation, everything was handled efficiently and professionally. Their team pays close attention to detail and ensures clients understand every step of the process.',
+                                    'initials' => 'SK',
                                     'avatar_bg' => '#ef4444',
-                                    'date' => '14 Nov'
+                                    'date' => '05 Jun'
                                 ],
                                 [
-                                    'name' => 'Sanjay Rao',
-                                    'role' => 'Founder, Rao Logistics',
-                                    'content' => 'Speedy execution, fair pricing, and stellar communication. They resolved a long-pending licensing issue for our logistics startup within just a few business days. Five stars all the way!',
-                                    'initials' => 'SR',
+                                    'name' => 'Anjali Srivastava',
+                                    'role' => 'Partner',
+                                    'content' => 'Finding a trustworthy compliance partner can be difficult, but BizSetup exceeded our expectations. They provided accurate guidance, completed filings on time, and were always available whenever we needed assistance. Their professionalism and commitment to quality service truly stand out.',
+                                    'initials' => 'AS',
+                                    'avatar_bg' => '#14b8a6',
+                                    'date' => '03 Jun'
+                                ],
+                                [
+                                    'name' => 'Vivek Tiwari',
+                                    'role' => 'CEO',
+                                    'content' => 'We have been using BizSetup for business compliance and taxation services for several months. Their team consistently delivers quality work, meets deadlines, and provides practical solutions whenever challenges arise. A dependable and highly recommended service provider.',
+                                    'initials' => 'VT',
+                                    'avatar_bg' => '#6366f1',
+                                    'date' => '30 May'
+                                ],
+                                [
+                                    'name' => 'Deepak Jain',
+                                    'role' => 'Director',
+                                    'content' => 'BizSetup made the entire company registration process effortless. Their experts handled all formalities efficiently and kept us updated at every stage. The experience was smooth, transparent, and far better than we expected.',
+                                    'initials' => 'DJ',
                                     'avatar_bg' => '#f43f5e',
-                                    'date' => '02 Oct'
+                                    'date' => '28 May'
+                                ],
+                                [
+                                    'name' => 'Shikhar Kakkar',
+                                    'role' => 'Co-Founder',
+                                    'content' => 'What impressed me most about BizSetup was their commitment to customer satisfaction. They don\'t just process applications; they take the time to understand your business requirements and provide the right guidance. Their expertise and professional approach make them a valuable partner for entrepreneurs.',
+                                    'initials' => 'SK',
+                                    'avatar_bg' => '#059669',
+                                    'date' => '25 May'
+                                ],
+                                [
+                                    'name' => 'Pooja Sharma',
+                                    'role' => 'CEO',
+                                    'content' => 'The team was friendly, knowledgeable, and extremely supportive throughout our engagement. Whether it was GST compliance, registrations, or general business queries, they provided prompt assistance and reliable solutions every time.',
+                                    'initials' => 'PS',
+                                    'avatar_bg' => '#d97706',
+                                    'date' => '22 May'
                                 ]
                             ];
 
