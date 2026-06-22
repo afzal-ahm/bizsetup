@@ -474,7 +474,7 @@ foreach($re as $key => $socila) {
                     </span>
                 </div>
                 <p>
-                    Dedicated assistance from qualified CAs, CSs, and compiance experts to help your business grow with confidence.
+                    <?= $socila['content']; ?>
                 </p>
             </div>
         </div>
