@@ -1,36 +1,6 @@
  <div class="main-header main-header-four" style="box-shadow: -2px 3px 43px  -20px rgba(0, 0, 0, 0.25);">
         <!-- Header Topbar-->
-        <div class="header-topbar topbar-four text-center bg-transparent">
-            <div class="container ">
-                <div class="d-flex align-items-center justify-content-between flex-wrap">
-                    <div class="d-flex align-items-center flex-wrap">
-                        <p class="d-flex align-items-center fs-14 mb-2 me-3 "><i class="isax isax-whatsapp me-2"></i>
-Whats Up  on  : <a style="color: #fff;" href="https://wa.me/<?php echo $company_whatsapp_no; ?>" target="_blank">
-   Chat on WhatsApp
-</a></p>
-                        <p class="mb-2 d-flex align-items-center fs-14"><i class="isax isax-message-text-15 me-2"></i>Email : <a style="color: #fff;" href="<?php echo $company_enquiry_email; ?>" class="__cf_email__" data-cfemail="d4bdbab2bb94b1acb5b9a4b8b1fab7bbb9"><?php echo $company_enquiry_email; ?></a></p>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="dropdown flag-dropdown mb-2 me-3">
-                           
-                              <ul class="social-icon">
-                              
-                              <?php
-                              $ss="SELECT * from  extra_content where type='social_link'";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){                              ?>
-                                    <li>
-                                        <a href="<?php echo $socila['link'];?>"><img src="<?php echo $urlmain;?>images/extra/<?php echo $socila['image'];?>"></a>
-                                    </li>
-                                    
-                                    <?php } ?>
-                                </ul>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- /Header Topbar-->
 
         <!-- Header -->
@@ -146,7 +116,7 @@ if($subt > 0) {
                         <div class="header-btn d-flex align-items-center">
                             
                             
-                            <a href="<?php echo $urlmain;?>contact/" class="btn btn-dark d-inline-flex align-items-center me-3"><i class="isax isax-lock me-2"></i>Contact Us</a>
+                            <a href="<?php echo $urlmain;?>contact.php" class="btn btn-dark d-inline-flex align-items-center me-3"><i class="isax isax-lock me-2"></i>Contact Us</a>
                           
                             <div class="header__hamburger d-xl-none my-auto">
                                 <div class="sidebar-menu">

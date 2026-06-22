@@ -1201,7 +1201,7 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                                         <h4 class="mb-3">Ready to Get Started?</h4>
                                         <p class="mb-4">Choose our <?php echo htmlspecialchars($service_data['sub_subcategory_name']); ?> services and take your business to the next level.</p>
                                         <div class="d-flex gap-2 justify-content-center flex-wrap">
-                                            <a href="<?php echo $urlmain;?>contact/" class="btn btn-primary btn-lg">Contact Now</a>
+                                            <a href="<?php echo $urlmain;?>contact.php" class="btn btn-primary btn-lg">Contact Now</a>
                                             
                                         </div>
                                     </div>

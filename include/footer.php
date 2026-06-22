@@ -23,7 +23,7 @@
                                 <li>
                                     <a href="<?php echo $urlmain;?>">Home</a>
                                 </li>
-                            <li> <a href="<?php echo $urlmain;?>contact">Contact</a> </li>
+                            <li> <a href="<?php echo $urlmain;?>contact.php">Contact</a> </li>
                           
                             <?php $c='1';
                            $ss="SELECT * from category where is_active='0' and  show_in_footer='1' order by position asc";

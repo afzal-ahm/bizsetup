@@ -2,7 +2,7 @@ RewriteEngine On
 
 # Handle pages URLs
 RewriteRule ^pages/([^/]+)/?$ pages.php?url=$1 [L,QSA]
-RewriteRule ^contact/$ contact.php [NC,L]
+RewriteRule ^contact/?$ contact.php [NC,L]
 # Handle other clean URLs if needed
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

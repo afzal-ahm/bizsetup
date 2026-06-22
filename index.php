@@ -372,7 +372,8 @@ include "data.php";
                 <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="banner-content-custom">
                         <h1 class="hero-title-main">
-                            Empower Your Business <span class="highlight-orange">Compliance & Management</span> Made Easy With Us
+                            Start, <span class="highlight-orange">Manage & Grow</span> Your Business With Confidence!
+                            <!-- Empower Your Business <span class="highlight-orange">Compliance & Management</span> Made Easy With Us -->
                         </h1>
                         <p class="hero-subtitle-main">
                             Connecting you with top-rated experts to simplify your business registrations, tax filings, legal agreements, and corporate compliance.

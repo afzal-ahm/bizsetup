@@ -184,7 +184,7 @@ if ($locations_result && mysqli_num_rows($locations_result) > 0) {
                 </div>
             </div>
             <div class="map-grid">
-                <iframe class="w-100" height="300" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                <iframe class="w-100" height="300" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1876.5507404667003!2d77.33258435812277!3d28.641926246613043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfb9ddcb1429b%3A0xe900df59c30670e1!2sCloud%209%20Apartments%20Vaishali!5e0!3m2!1sen!2sin!4v1781865860588!5m2!1sen!2sin"  allowfullscreen="" loading="lazy" ></iframe>
             </div>
         </div>
     </div>
