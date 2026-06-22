@@ -1,9 +1,9 @@
  <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $urlmain;?>favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo $urlmain;?>favicon/favicon-96x96.png">
-    <link rel="icon" type="image/svg+xml" href="<?php echo $urlmain;?>favicon/favicon.svg">
-    <link rel="shortcut icon" href="<?php echo $urlmain;?>favicon/favicon.ico">
-    <link rel="manifest" href="<?php echo $urlmain;?>favicon/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $urlmain;?>favicon/apple-touch-icon.png?v=1">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo $urlmain;?>favicon/favicon-96x96.png?v=1">
+    <link rel="icon" type="image/svg+xml" href="<?php echo $urlmain;?>favicon/favicon.svg?v=1">
+    <link rel="shortcut icon" href="<?php echo $urlmain;?>favicon/favicon.ico?v=1">
+    <link rel="manifest" href="<?php echo $urlmain;?>favicon/site.webmanifest?v=1">
 
     <!-- Theme Settings Js -->
 	<script src="<?php echo $urlmain;?>assets/js/theme-script.js"></script>
