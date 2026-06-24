@@ -7,14 +7,13 @@ include_once"config.php";
   
 if(isset($_GET['deletesubcat'])){
     
-    $deletesubcatid = $_GET['deletesubcat'];
+    $deletesubcatid = mysqli_real_escape_string($conn, $_GET['deletesubcat']);
      
     
        
     $g="DELETE FROM `subcategory` WHERE subcategory_id='".$deletesubcatid."'";
       $gf=mysqli_query($conn,$g);
     if($gf)
-    if($delete_promo)
     {
         ?>
         <script>

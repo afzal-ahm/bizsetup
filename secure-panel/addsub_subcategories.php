@@ -11,25 +11,44 @@ $table="category";
 if(isset($_POST['btn-save']))
 {
 $table = "sub_subcategory";
-$subcategory_name = $_POST['subcategory_name'];
-$category_name  = $_POST['category_name'];
-$sub_subname = $_POST['sub_subname'];
-$content = $_POST['content'];
+$subcategory_name = mysqli_real_escape_string($conn, $_POST['subcategory_name']);
+$category_name  = mysqli_real_escape_string($conn, $_POST['category_name']);
+$sub_subname = mysqli_real_escape_string($conn, $_POST['sub_subname']);
+$content = mysqli_real_escape_string($conn, $_POST['content']);
 
 // SEO Fields
-$seo_title = $_POST['seo_title'];
-$seo_keywords = $_POST['seo_keywords'];
-$meta_description = $_POST['meta_description'];
+$seo_title = mysqli_real_escape_string($conn, $_POST['seo_title']);
+$seo_keywords = mysqli_real_escape_string($conn, $_POST['seo_keywords']);
+$meta_description = mysqli_real_escape_string($conn, $_POST['meta_description']);
+
+// Validate category and subcategory are valid positive integers
+if (!is_numeric($category_name) || intval($category_name) <= 0) {
+    ?>
+    <script>
+    alert("Please select a valid Category.");
+    window.history.back();
+    </script>
+    <?php
+    exit;
+}
+if (!is_numeric($subcategory_name) || intval($subcategory_name) <= 0) {
+    ?>
+    <script>
+    alert("Please select a valid Sub Category.");
+    window.history.back();
+    </script>
+    <?php
+    exit;
+}
 
 // Timestamps
 $created_at = date('Y-m-d H:i:s');
 $updated_at = date('Y-m-d H:i:s');
 
-                  $hyphenTag1111 = str_replace( '-', '', $subcategory_name );
-                  $hyphenTag1111 = str_replace( '(', '', $hyphenTag1111 );
-                  $hyphenTag1111 = str_replace( ')', '', $hyphenTag1111 );
-                  $hyphenTag1111 = str_replace( ',', '', $hyphenTag1111 );
+                  $hyphenTag1111 = str_replace( ' ', '-', $_POST['sub_subname'] );
+                  $hyphenTag1111 = preg_replace("/[^a-zA-Z0-9_-]/", "", $hyphenTag1111);
                   $hyphenTag1x= strtolower($hyphenTag1111);
+                  $hyphenTag1x= mysqli_real_escape_string($conn, $hyphenTag1x);
 
 $image_name = $_FILES['image']['name'];
 if($image_name !="" ){
@@ -39,6 +58,7 @@ if($image_name !="" ){
 	 $random_digit=rand(0000,9999);
 	   $imagename = $random_digit.$image_name;
 	  move_uploaded_file($image_tmp,"../images/category/$imagename");
+	  $imagename = mysqli_real_escape_string($conn, $imagename);
     
 }
 else
@@ -53,6 +73,7 @@ if($image_name1 !="" ){
 	 $random_digit1=rand(0000,9999);
 	   $imagename1 = $random_digit1.$image_name1;
 	  move_uploaded_file($image_tmp1,"../images/category/$imagename1");
+	  $imagename1 = mysqli_real_escape_string($conn, $imagename1);
     
 }
 else
@@ -64,32 +85,35 @@ else
 	 
 	        $extra = mysqli_real_escape_string($conn,$extra);
 	             $price = mysqli_real_escape_string($conn,$price); 
-$meal = $_POST['meal'];
-$day = $_POST['day'];
+$meal = mysqli_real_escape_string($conn, $_POST['meal']);
+$day = mysqli_real_escape_string($conn, $_POST['day']);
 
   $ff="INSERT INTO `sub_subcategory`(  `subcategory_id`, `category_id`, `sub_subcategory_name`, `content`, `image`, `url`, `banner`, `meal`, `day`, `extra`, `price`, `image1`, `status`, `seo_title`, `seo_keywords`, `meta_description`, `created_at`, `updated_at`) 
-	  VALUES ('".$subcategory_name."','".$category_name."', '".$sub_subname."','".$content."','".$imagename."','".$hyphenTag1x."','".$imagename1."','".$meal."','".$day."','".$extra."' ,'".$price."','','','".$seo_title."','".$seo_keywords."','".$meta_description."','".$created_at."','".$updated_at."')";
-	   
+	  VALUES ('".$subcategory_name."','".$category_name."', '".$sub_subname."','".$content."','".$imagename."','".$hyphenTag1x."','".$imagename1."','".$meal."','".$day."','".$extra."' ,'".$price."','','1','".$seo_title."','".$seo_keywords."','meta_description','".$created_at."','".$updated_at."')";
 
-$f=mysqli_query($conn,$ff);
- 
-if($f)
-{
-?>
-<script>
-alert("Sub Subcategory Inserted");
-window.location ='index.php'
-</script>
-<?php
-}
-else{
-	?>
-    
-	<script>
-alert("Sub Subcategory Not Inserted");
-window.location ='index.php'
-</script>
-<?php
+try {
+    $f=mysqli_query($conn,$ff);
+    if($f)
+    {
+        ?>
+        <script>
+        alert("Sub Subcategory Inserted Successfully");
+        window.location ='viewsub-subcat.php';
+        </script>
+        <?php
+    }
+    else {
+        throw new Exception(mysqli_error($conn));
+    }
+} catch (Exception $e) {
+    $error_msg = mysqli_real_escape_string($conn, $e->getMessage());
+    ?>
+    <script>
+    alert("Database Error: <?php echo htmlspecialchars($error_msg); ?>");
+    window.history.back();
+    </script>
+    <?php
+    exit;
 }
 	}
 	?>
@@ -430,8 +454,8 @@ $(document).ready(function(){
           
           <div class="vd_title-section clearfix">
             <div class="vd_panel-header">
-              <h1>Add Detail of packages  </h1>
-              <small class="subtitle">admin Dashboard</small>
+              <h1>Add Sub-sub Category Panel</h1>
+              <small class="subtitle">Admin Dashboard</small>
               <div class="vd_panel-menu  hidden-xs">
   <div class="menu no-bg vd_red" data-original-title="Start Layout Tour Guide" data-toggle="tooltip" data-placement="bottom" onClick="javascript:introJs().setOption('showBullets', false).start();"> <span class="menu-icon font-md"><i class="fa fa-question-circle"></i></span> </div>
   <!-- menu -->
@@ -449,10 +473,10 @@ $(document).ready(function(){
               <div class="col-md-12">
                 <div class="panel widget">
                   <div class="panel-heading vd_bg-grey">
-                    <h3 class="panel-title"> <span class="menu-icon"> <i class="fa fa-bar-chart-o"></i> </span>  Detail of packages </h3>
+                    <h3 class="panel-title"> <span class="menu-icon"> <i class="fa fa-bar-chart-o"></i> </span>  Add Sub-sub Category </h3>
                   </div>
                   <div class="panel-body">
-                    <form class="form-horizontal" action="#" enctype="multipart/form-data" role="form" method="post">
+                    <form class="form-horizontal" action="" enctype="multipart/form-data" role="form" method="post">
                     
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Select Category</label>
@@ -493,7 +517,7 @@ $(document).ready(function(){
                       
                       
                  <div class="form-group">
-                        <label class="col-sm-2 control-label">Add title  </label>
+                        <label class="col-sm-2 control-label">Sub-sub Category Name</label>
                         <div class="col-sm-7 controls">
                           <input class="width-70" type="text" placeholder="Input" data-toggle="tooltip" data-placement="top" name="sub_subname" required>
                         </div>

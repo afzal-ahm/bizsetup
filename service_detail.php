@@ -11,7 +11,7 @@ $sub_subcategory_query = "SELECT ssc.*, c.category_name, c.url as category_url, 
                          FROM sub_subcategory ssc 
                          LEFT JOIN category c ON ssc.category_id = c.category_id 
                          LEFT JOIN subcategory sc ON ssc.subcategory_id = sc.subcategory_id 
-                         WHERE ssc.sub_subcategory_id = '".mysqli_real_escape_string($conn, $subsub_url)."'";
+                         WHERE ssc.sub_subcategory_id = '".mysqli_real_escape_string($conn, $subsub_url)."' AND ssc.status = 1";
 $sub_subcategory_result = mysqli_query($conn, $sub_subcategory_query);
 
 // Fetch products for this sub_subcategory with price information
@@ -42,16 +42,30 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     
     // Extract price data from service_data
     $main_price = isset($service_data['extra']) && !empty(trim($service_data['extra'])) ? trim($service_data['extra']) : '';
-    $offer_price = isset($service_data['price']) && !empty(trim($service_data['price'])) ? trim($service_data['price']) : '';
     $price_note = isset($service_data['meal']) && !empty(trim($service_data['meal'])) ? trim($service_data['meal']) : '';
+    
+    // Custom Standard and Premium Prices with fallback
+    $standard_price = !empty($service_data['price']) ? trim($service_data['price']) : (is_numeric($main_price) ? (intval($main_price) + 3000) : '');
+    $premium_price = !empty($service_data['day']) ? trim($service_data['day']) : (is_numeric($main_price) ? (intval($main_price) + 6000) : '');
+
+    // Features JSON parsing
+    $pricing_features_json = isset($service_data['pricing_features']) ? $service_data['pricing_features'] : '';
+    $features_list = [];
+    if (!empty($pricing_features_json)) {
+        $features_list = json_decode($pricing_features_json, true);
+    }
+    if (!is_array($features_list)) {
+        $features_list = [];
+    }
     
     // Set page-level override variables for include/title.php
     $page_title = !empty($seo_title) ? $seo_title : $service_name . ' - ' . $company_website_name;
     $page_description = !empty($meta_description) ? $meta_description : 'Get professional consultation, pricing, and compliance requirements for ' . $service_name . ' in India with BizSetup.';
     $page_keywords = !empty($seo_keywords) ? $seo_keywords : $service_name . ', compliance, registration, tax returns';
     
-    // Check if we have price data
-    $has_price_data = !empty($main_price) || !empty($offer_price);
+    // Check if we have price data and card is active
+    $show_pricing = isset($service_data['show_pricing']) ? intval($service_data['show_pricing']) : 1;
+    $has_price_data = ($show_pricing == 1) && (!empty($main_price));
     
 } else {
     $service_name = "Service Not Found";
@@ -971,7 +985,55 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                             <?php if(!empty($products)) { ?>
                             
                             <!-- 3-Tier Pricing Section -->
-                            <?php if($has_price_data) { ?>
+                            <?php if($has_price_data) { 
+                                if (!function_exists('renderFeatures')) {
+                                    function renderFeatures($features, $tier) {
+                                        if (!empty($features)) {
+                                            foreach ($features as $f) {
+                                                $isEnabled = isset($f[$tier]) && $f[$tier] == 1;
+                                                if ($isEnabled) {
+                                                    echo '<li><i class="fas fa-check check-icon"></i> ' . htmlspecialchars($f['text']) . '</li>';
+                                                } else {
+                                                    echo '<li class="disabled"><i class="fas fa-times cross-icon"></i> ' . htmlspecialchars($f['text']) . '</li>';
+                                                }
+                                            }
+                                        } else {
+                                            // Fallback to defaults
+                                            if ($tier == 'basic') {
+                                                echo '<li><i class="fas fa-check check-icon"></i> 1 DSC (Digital Signature)</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> 1 DIN (Director Identification)</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>';
+                                                echo '<li class="disabled"><i class="fas fa-times cross-icon"></i> GST Registration</li>';
+                                                echo '<li class="disabled"><i class="fas fa-times cross-icon"></i> MSME (Udyam) Certificate</li>';
+                                                echo '<li class="disabled"><i class="fas fa-times cross-icon"></i> PF & ESIC Registration</li>';
+                                            } elseif ($tier == 'standard') {
+                                                echo '<li><i class="fas fa-check check-icon"></i> 2 DSC (Digital Signatures)</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> 2 DIN (Director Identifications)</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> GST Registration</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> MSME (Udyam) Certificate</li>';
+                                                echo '<li class="disabled"><i class="fas fa-times cross-icon"></i> PF & ESIC Registration</li>';
+                                            } else {
+                                                echo '<li><i class="fas fa-check check-icon"></i> 2 DSC (Digital Signatures)</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> 2 DIN (Director Identifications)</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> GST Registration</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> MSME (Udyam) Certificate</li>';
+                                                echo '<li><i class="fas fa-check check-icon"></i> PF & ESIC Registration</li>';
+                                            }
+                                        }
+                                    }
+                                }
+                            ?>
                             <section class="pricing-section">
                                 <div class="container">
                                     <div class="text-center mb-5">
@@ -993,15 +1055,7 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                                                 <div class="pricing-card-body">
                                                     <p class="features-title">What you'll get:</p>
                                                     <ul class="features-list">
-                                                        <li><i class="fas fa-check check-icon"></i> 1 DSC (Digital Signature)</li>
-                                                        <li><i class="fas fa-check check-icon"></i> 1 DIN (Director Identification)</li>
-                                                        <li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>
-                                                        <li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>
-                                                        <li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>
-                                                        <li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>
-                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> GST Registration</li>
-                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> MSME (Udyam) Certificate</li>
-                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> PF & ESIC Registration</li>
+                                                        <?php renderFeatures($features_list, 'basic'); ?>
                                                     </ul>
                                                 </div>
                                                 <div class="pricing-card-footer mt-auto">
@@ -1017,22 +1071,14 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                                                 <div class="card-badge">Standard Plan</div>
                                                 <div class="pricing-card-header">
                                                     <div class="price">
-                                                        <span class="currency">₹</span><?php echo htmlspecialchars((int)$main_price + 3000); ?>
+                                                        <span class="currency">₹</span><?php echo htmlspecialchars($standard_price); ?>
                                                     </div>
                                                     <div class="price-subtext"><?php echo !empty($price_note) ? htmlspecialchars($price_note) : '+ Govt Fees Extra'; ?></div>
                                                 </div>
                                                 <div class="pricing-card-body">
                                                     <p class="features-title">What you'll get:</p>
                                                     <ul class="features-list">
-                                                        <li><i class="fas fa-check check-icon"></i> 2 DSC (Digital Signatures)</li>
-                                                        <li><i class="fas fa-check check-icon"></i> 2 DIN (Director Identifications)</li>
-                                                        <li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>
-                                                        <li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>
-                                                        <li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>
-                                                        <li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>
-                                                        <li><i class="fas fa-check check-icon"></i> GST Registration</li>
-                                                        <li><i class="fas fa-check check-icon"></i> MSME (Udyam) Certificate</li>
-                                                        <li class="disabled"><i class="fas fa-times cross-icon"></i> PF & ESIC Registration</li>
+                                                        <?php renderFeatures($features_list, 'standard'); ?>
                                                     </ul>
                                                 </div>
                                                 <div class="pricing-card-footer mt-auto">
@@ -1047,22 +1093,14 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                                                 <div class="card-badge">Premium Plan</div>
                                                 <div class="pricing-card-header">
                                                     <div class="price">
-                                                        <span class="currency">₹</span><?php echo htmlspecialchars((int)$main_price + 6000); ?>
+                                                        <span class="currency">₹</span><?php echo htmlspecialchars($premium_price); ?>
                                                     </div>
                                                     <div class="price-subtext"><?php echo !empty($price_note) ? htmlspecialchars($price_note) : '+ Govt Fees Extra'; ?></div>
                                                 </div>
                                                 <div class="pricing-card-body">
                                                     <p class="features-title">What you'll get:</p>
                                                     <ul class="features-list">
-                                                        <li><i class="fas fa-check check-icon"></i> 2 DSC (Digital Signatures)</li>
-                                                        <li><i class="fas fa-check check-icon"></i> 2 DIN (Director Identifications)</li>
-                                                        <li><i class="fas fa-check check-icon"></i> Name Reservation filing</li>
-                                                        <li><i class="fas fa-check check-icon"></i> SPICe+ Form Preparation</li>
-                                                        <li><i class="fas fa-check check-icon"></i> MOA & AOA Drafting</li>
-                                                        <li><i class="fas fa-check check-icon"></i> PAN & TAN Allotment</li>
-                                                        <li><i class="fas fa-check check-icon"></i> GST Registration</li>
-                                                        <li><i class="fas fa-check check-icon"></i> MSME (Udyam) Certificate</li>
-                                                        <li><i class="fas fa-check check-icon"></i> PF & ESIC Registration</li>
+                                                        <?php renderFeatures($features_list, 'premium'); ?>
                                                     </ul>
                                                 </div>
                                                 <div class="pricing-card-footer mt-auto">

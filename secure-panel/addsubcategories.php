@@ -11,15 +11,15 @@ $table="category";
 if(isset($_POST['btn-save']))
 {
 $table = "subcategory";
-$subcategory_name = $_POST['subcategory_name'];
- $content = $_POST['content'];
+$subcategory_name = mysqli_real_escape_string($conn, $_POST['subcategory_name']);
+ $content = mysqli_real_escape_string($conn, $_POST['content']);
 ////$content1 = $_POST['long_content'];
    
-  $category_name  = $_POST['category_name'];
-$duration  = $_POST['duration'];
-$startfrom  = $_POST['startfrom'];
-$long_content  = $_POST['long_content'];
-  $seotopic = strip_tags($subcategory_name);
+  $category_name  = mysqli_real_escape_string($conn, $_POST['category_name']);
+$duration  = mysqli_real_escape_string($conn, $_POST['duration']);
+$startfrom  = mysqli_real_escape_string($conn, $_POST['startfrom']);
+$long_content  = mysqli_real_escape_string($conn, $_POST['long_content']);
+  $seotopic = strip_tags($_POST['subcategory_name']);
                   $hee=strtolower($seotopic);
                   $hee=strtolower($seotopic);
                   
@@ -30,30 +30,43 @@ $long_content  = $_POST['long_content'];
                   $string1 = preg_replace("/[^a-zA-Z0-9 _-]/", "", $string);
                   $string12 = preg_replace("/[ ]+/", " ", $string1);                
                   $hyphenTag1 = str_replace( ' ', '-', $string12 );
+                  $hyphenTag1 = mysqli_real_escape_string($conn, $hyphenTag1);
      
 
  $image_name1 = $_FILES['image1']['name'];
- 
+ if($image_name1 != '')
+ {
 	 $image_type1 = $_FILES['image1']['type'];
 	 $image_size1 = $_FILES['image1']['size'];
 	 $image_tmp1 = $_FILES['image1']['tmp_name'];
 	 $random_digit1=rand(0000,9999);
 	   $imagename1 = $random_digit1.$image_name1;
 	  move_uploaded_file($image_tmp1,"../images/category/$imagename1");
+	  $imagename1 = mysqli_real_escape_string($conn, $imagename1);
+ }
+ else {
+	  $imagename1 = '';
+ }
 
 
  $image_name = $_FILES['image']['name'];
- 
+ if($image_name != '')
+ {
 	 $image_type = $_FILES['image']['type'];
 	 $image_size = $_FILES['image']['size'];
 	 $image_tmp = $_FILES['image']['tmp_name'];
 	 $random_digit=rand(0000,9999);
 	   $imagename = $random_digit.$image_name;
 	  move_uploaded_file($image_tmp,"../images/category/$imagename");
+	  $imagename = mysqli_real_escape_string($conn, $imagename);
+ }
+ else {
+	  $imagename = '';
+ }
 
   
  $ff="INSERT INTO `subcategory`(  `subcategory_name`, `category_id`, `icon_image`, `content`, `url`, `status`, `banner`, `duration`, `startfrom`, `long_content`)
- VALUES ('".$subcategory_name."','".$category_name."','".$imagename."','".$content."','".$hyphenTag1."','1','','".$duration."','".$startfrom."','".$long_content."')";
+ VALUES ('".$subcategory_name."','".$category_name."','".$imagename."','".$content."','".$hyphenTag1."','1','".$imagename1."','".$duration."','".$startfrom."','".$long_content."')";
  
  $f=mysqli_query($conn,$ff);
   

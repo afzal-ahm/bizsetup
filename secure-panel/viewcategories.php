@@ -6,7 +6,7 @@ include_once"config.php";
   
 if(isset($_GET['deletecat'])){
    
-    $deletecatid = $_GET['deletecat'];
+    $deletecatid = mysqli_real_escape_string($conn, $_GET['deletecat']);
    
     
     $g="DELETE FROM `category` WHERE category_id='".$deletecatid."'";

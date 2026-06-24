@@ -10,145 +10,165 @@ $table="category";
 //data insert here
 if(isset($_POST['btn-save']))
 {
-
-$product_name = $_POST['product_name'];
- 	$seotopic = strip_tags($product_name);
-                  $hee=strtolower($seotopic);
-                  $hee=strtolower($seotopic);
-                  
-                  $myTag = trim($seotopic); 
-                  $string01 = str_replace("'", "$%", $myTag); 
-                 
-                  $string = str_replace("&", "and", $string01); 
-                  $string1 = preg_replace("/[^a-zA-Z0-9 _-]/", "", $string);
-                  $string12 = preg_replace("/[ ]+/", " ", $string1);                
-                  $hyphenTag1 = str_replace( ' ', '-', $string12 );
-     
-
-
-
-$image_name = $_FILES['image']['name'];
-if($image_name !="" ){
-	 $image_type = $_FILES['image']['type'];
-	 $image_size = $_FILES['image']['size'];
-	 $image_tmp = $_FILES['image']['tmp_name'];
-	 $random_digit=rand(0000,9999);
-	   $imagename = $random_digit.$image_name;
-	  move_uploaded_file($image_tmp,"../images/product/$imagename");
+    $category_id = isset($_POST['category_name']) ? $_POST['category_name'] : '';
+    $subcategory_id = isset($_POST['subcategory_name']) ? $_POST['subcategory_name'] : '';
+    $sub_subcategory_id = isset($_POST['sub_subcategory_name']) ? $_POST['sub_subcategory_name'] : '';
     
+    // Validate inputs
+    if (!is_numeric($category_id) || intval($category_id) <= 0) {
+        ?>
+        <script>
+        alert("Please select a valid Category.");
+        window.history.back();
+        </script>
+        <?php
+        exit;
+    }
+    if (!is_numeric($subcategory_id) || intval($subcategory_id) <= 0) {
+        ?>
+        <script>
+        alert("Please select a valid Sub Category.");
+        window.history.back();
+        </script>
+        <?php
+        exit;
+    }
+    if (!is_numeric($sub_subcategory_id) || intval($sub_subcategory_id) <= 0) {
+        ?>
+        <script>
+        alert("Please select a valid Sub-sub Category.");
+        window.history.back();
+        </script>
+        <?php
+        exit;
+    }
+
+    // Look up category name
+    $category_id_escaped = mysqli_real_escape_string($conn, $category_id);
+    $query2 = "SELECT * from category where category_id='$category_id_escaped'";
+    $runx = mysqli_query($conn, $query2);
+    $category_name = '';
+    if ($runx && $cat_row = mysqli_fetch_assoc($runx)) {
+        $category_name = mysqli_real_escape_string($conn, $cat_row['category_name']);
+    }
+     
+    // Look up subcategory name
+    $subcategory_id_escaped = mysqli_real_escape_string($conn, $subcategory_id);
+    $query = "SELECT * from subcategory where subcategory_id='$subcategory_id_escaped'";
+    $run = mysqli_query($conn, $query);
+    $sub_name = '';
+    if ($run && $sub_row = mysqli_fetch_assoc($run)) {
+        $sub_name = mysqli_real_escape_string($conn, $sub_row['subcategory_name']);
+    }
+     
+    // Look up sub-subcategory name
+    $sub_subcategory_id_escaped = mysqli_real_escape_string($conn, $sub_subcategory_id);
+    $query3 = "SELECT * from sub_subcategory where sub_subcategory_id='$sub_subcategory_id_escaped'";
+    $run_subsub = mysqli_query($conn, $query3);
+    $sub_sub_name = '';
+    if ($run_subsub && $subsub_row = mysqli_fetch_assoc($run_subsub)) {
+        $sub_sub_name = mysqli_real_escape_string($conn, $subsub_row['sub_subcategory_name']);
+    }
+
+    $show_pricing = isset($_POST['show_pricing']) ? 1 : 0;
+    $price_card_amount = isset($_POST['price_card_amount']) ? mysqli_real_escape_string($conn, $_POST['price_card_amount']) : '';
+    $price_card_standard = isset($_POST['price_card_standard']) ? mysqli_real_escape_string($conn, $_POST['price_card_standard']) : '';
+    $price_card_premium = isset($_POST['price_card_premium']) ? mysqli_real_escape_string($conn, $_POST['price_card_premium']) : '';
+    $price_card_note = isset($_POST['price_card_note']) ? mysqli_real_escape_string($conn, $_POST['price_card_note']) : '';
+    $pricing_features_json = isset($_POST['pricing_features_json']) ? mysqli_real_escape_string($conn, $_POST['pricing_features_json']) : '[]';
+
+    $headings = isset($_POST['headings']) ? $_POST['headings'] : [];
+    $descriptions = isset($_POST['descriptions']) ? $_POST['descriptions'] : [];
+
+    try {
+        // Update parent sub-subcategory pricing card details
+        $update_subsub_query = "UPDATE `sub_subcategory` 
+                                SET `extra` = '$price_card_amount', 
+                                    `price` = '$price_card_standard', 
+                                    `day` = '$price_card_premium', 
+                                    `meal` = '$price_card_note',
+                                    `show_pricing` = '$show_pricing',
+                                    `pricing_features` = '$pricing_features_json'
+                                WHERE `sub_subcategory_id` = '$sub_subcategory_id_escaped'";
+        $res_subsub = mysqli_query($conn, $update_subsub_query);
+        if (!$res_subsub) {
+            throw new Exception(mysqli_error($conn));
+        }
+
+        $inserted_count = 0;
+        for ($i = 0; $i < count($headings); $i++) {
+            $product_name = mysqli_real_escape_string($conn, $headings[$i]);
+            $product_des = mysqli_real_escape_string($conn, $descriptions[$i]);
+            
+            if (empty(trim($product_name))) {
+                continue;
+            }
+            
+            // Safe URL generation
+            $seotopic = strip_tags($product_name);
+            $myTag = trim($seotopic); 
+            $string01 = str_replace("'", "$%", $myTag); 
+            $string = str_replace("&", "and", $string01); 
+            $string1 = preg_replace("/[^a-zA-Z0-9 _-]/", "", $string);
+            $string12 = preg_replace("/[ ]+/", " ", $string1);                
+            $hyphenTag1 = str_replace( ' ', '-', $string12 );
+            $hyphenTag1 = mysqli_real_escape_string($conn, $hyphenTag1);
+            
+            // Safe SKU Generation
+            $sku_query = "SELECT sku from product order by id desc limit 0,1";
+            $run_sku = mysqli_query($conn, $sku_query);
+            $sku2 = 1;
+            if ($run_sku && mysqli_num_rows($run_sku) > 0) {
+                $sku_row = mysqli_fetch_assoc($run_sku);
+                $sku_id1 = $sku_row['sku'];
+                $sku1 = intval(preg_replace('/[^0-9]+/', '', $sku_id1), 10);
+                $sku2 = $sku1 + 1;
+            }
+            $p = "Fosso"; 
+            $product_sku = $p . $sku2;
+            
+            $hyphenTag1111 = str_replace( '-', '', $hyphenTag1 );
+            $hyphenTag1111 = str_replace( '(', '', $hyphenTag1111 );
+            $hyphenTag1111 = str_replace( ')', '', $hyphenTag1111 );
+            $hyphenTag1111 = str_replace( ',', '', $hyphenTag1111 );
+            $hyphenTag1x = strtolower($hyphenTag1111);
+            $dd = date('dm');
+            $hyphenTag1x = strip_tags($hyphenTag1x);
+            $random_digit = rand(000000, 999999);
+            $codep = $hyphenTag1x . $random_digit . $dd;
+            
+            $in = "INSERT INTO `product`( `sku`, `product_category`, `product_subcategory`, `sub_subcategory_id`, `product_name`, `description`, `mrp`, `offer`, `offer_amount`, `status`, `featured`, `brandactive`, `delivery`, `category`, `subcategory`, `subsubcategory`, `url`) 
+                   VALUES ( '".$codep."','".$category_id."','".$subcategory_id."','".$sub_subcategory_id."','".$product_name."','".$product_des."','0','0','0','0','0','0','0','".$category_name."','".$sub_name."','".$sub_sub_name."','".$hyphenTag1."')";
+            
+            if (mysqli_query($conn, $in)) {
+                $inserted_count++;
+            } else {
+                throw new Exception(mysqli_error($conn));
+            }
+        }
+
+        if ($inserted_count > 0) {
+            ?>
+            <script type="text/javascript">
+            alert('Added Successfully');
+            window.location.assign("addproduct.php");
+            </script>
+            <?php
+            exit;
+        } else {
+            throw new Exception("Please add at least one valid Heading Block.");
+        }
+    } catch (Exception $e) {
+        $error_msg = mysqli_real_escape_string($conn, $e->getMessage());
+        ?>
+        <script>
+        alert("Database Error: <?php echo htmlspecialchars($error_msg); ?>");
+        window.history.back();
+        </script>
+        <?php
+        exit;
+    }
 }
-else
-{
-	$imagename='';
-}
- 
-
-
- $subcategory_name = $_POST['subcategory_name'];
- $subcategory_name1=$subcategory_name;
-   $query="SELECT * from subcategory where subcategory_id='$subcategory_name1'";
- $run=mysqli_query($conn,$query);
- foreach($run as $key =>$subname)
- $sub_name=$subname['subcategory_name'];
- 
- $category_name = $_POST['category_name'];
- $category_name1=$category_name;
-   $query2="SELECT * from category where category_id='$category_name1'";
- $runx=mysqli_query($conn,$query2);
- foreach($runx as $key =>$subname1)
-  $category_name=$subname1['category_name'];
- 
- $sub_subcategory_name = $_POST['sub_subcategory_name'];
- $sub_subcategory_name1=$sub_subcategory_name;
-  $query3="SELECT * from sub_subcategory where sub_subcategory_id='$sub_subcategory_name1'";
- $run=mysqli_query($conn,$query3);
- foreach($run as $key =>$subname2)
-  $sub_sub_name=$subname2['sub_subcategory_name'];
-  
-$sub_subcategory_name  = $_POST['sub_subcategory_name'];
-
-$delivery = $_POST['delivery'];$brand = $_POST['brand'];
-
-$product_price = $_POST['product_price'];
-$product_offer = $_POST['product_offer'];
-$status = '0';
-$brandactive = '0';
-$number='100';
-		 	$discounttoltal =$product_price*$product_offer/$number;
-$offer_amount=$product_price-$discounttoltal;
-$offer_amount=round($offer_amount);
-
- 
- $id="SELECT * from product order by id desc limit 0,1";
-	$run=mysqli_query($conn,$id);
-	foreach($run as $key=> $sku_id)
-	  $sku_id1=$sku_id['sku'];
-	  $sku1 = intval(preg_replace('/[^0-9]+/', '', $sku_id1), 10);
-      $sku2=$sku1+'1';
-	 
-	$p="Fosso"; 
-	  $product_sku=$p.$sku2;
- if($product_offer=="")
- {
- 	$product_offer='0';
- }
- 	$productprice2=$_POST['product_offer'];
- if($productprice2!='')
-{
-$discounttoltal=$product_price-$productprice2;
-$product_offer=         ($discounttoltal / $product_price) * 100;
-//$//update1=$product_price1-$discounttoltal1;
-$product_offer2=round($product_offer);
-$product_offer2 = str_replace( '-', '', $product_offer2 ); 
-
-$offer_amount=$productprice2;
-$productprice21=$productprice2;
- 
-}
- 
-                
-                  $hyphenTag1111 = str_replace( '-', '', $hyphenTag1 );
-                  $hyphenTag1111 = str_replace( '(', '', $hyphenTag1111 );
-                  $hyphenTag1111 = str_replace( ')', '', $hyphenTag1111 );
-                  $hyphenTag1111 = str_replace( ',', '', $hyphenTag1111 );
-                 $hyphenTag1x= strtolower($hyphenTag1111);
- 
-   //$hyphenTag1x= str_replace( ' ', '', $product_name );
- //  $hyphenTag1x= str_replace( '~!@#$%^&*()-=+_][{},', '', $hyphenTag1x );
- $dd=date('dm');
-   $hyphenTag1x= strip_tags($hyphenTag1x);
-   $random_digit=rand(000000,999999);
-	   $codep = $hyphenTag1x.$random_digit.$dd;
-  
-  $theme = $_POST['theme'];
-  $brand = $_POST['brand'];
-  $type = $_POST['type'];
-  $gender = $_POST['gender'];
-  $design = $_POST['design'];
-  $stock = $_POST['stock'];
-  $new_exclusive = $_POST['new_exclusive'];
-   $sleeves = $_POST['sleeves'];
-     $material = $_POST['material'];
-    $product_des = $_POST['content'];
-$table = "product";$ac=''; 
-
-
-
-
-  $in="INSERT INTO `product`(  `sku`, `product_category`, `product_subcategory`, `sub_subcategory_id`, `product_name`, `description`, `mrp`, `offer`, `offer_amount`, `status`, `featured`, `brandactive`, `delivery`, `category`, `subcategory`, `subsubcategory`, `url`) VALUES ( '".$codep."','".$category_name1."','".$subcategory_name."','".$sub_subcategory_name."','".$product_name."','".$product_des."','".$product_price."','".$product_offer2."','".$productprice2."','".$status."','".$status."','".$status."','".$status."','".$category_name."','".$sub_name."','".$sub_sub_name."','".$hyphenTag1."')";
-
-
-$f=mysqli_query($conn,$in);
-if($f)
-  {
-  	
-
- 
-  echo "<script type=\"text/javascript\">".
-        "alert('Added Sucessfully');".
-        "</script>";
-  echo'<script>location.assign("addproduct.php")</script>';
-	}  }
 	?>
    
 <!DOCTYPE html>
@@ -382,82 +402,146 @@ $(document).ready(function(){
                     <h3 class="panel-title"> <span class="menu-icon"> <i class="fa fa-bar-chart-o"></i> </span> Add Product Categories & Sub Categories </h3>
                   </div>
                   <div class="panel-body">
-                    <form class="form-horizontal" enctype="multipart/form-data" action="#" role="form" method="post">
-                    
-                     
+                    <form class="form-horizontal" enctype="multipart/form-data" action="" role="form" method="post" onsubmit="serializeFeatures()">
+                      <input type="hidden" name="pricing_features_json" id="pricing_features_json" value="">
+                      
                       <div class="row">
-                      	<div class="col-md-4">
-                      		 <div class="form-group">
-                      		  <label class="  control-label">Select Category</label>
-                        <div class="  controls">
-                          <select class=" " name="category_name" id="myselect" > 
-                            <option>----All------</option>
-                             <?php
-                               $g="SELECT * from  category ";
-                             $gf=mysqli_query($conn,$g);
-							 foreach($gf as $key)
-									  
-								  // echo $key;
-										echo'<option value="'.$key['category_id'].'">'.$key['category_name'].'</option>';
-										
-                                      ?> 
-                          </select>
+                        <div class="col-md-4">
+                           <div class="form-group">
+                            <label class="control-label">Select Category</label>
+                            <div class="controls">
+                              <select class="form-control" name="category_name" id="myselect" style="width: 90%;"> 
+                                <option>----All------</option>
+                                 <?php
+                                   $g="SELECT * from category ";
+                                   $gf=mysqli_query($conn,$g);
+                                   foreach($gf as $key) {
+                                       echo'<option value="'.$key['category_id'].'">'.$key['category_name'].'</option>';
+                                   }
+                                  ?> 
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="control-label">Select Sub Category</label>
+                            <div class="controls">
+                              <select class="form-control" name="subcategory_name" id="myselect1" style="width: 90%;">
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="control-label">Select Sub SubCategory</label>
+                            <div class="controls">
+                              <select class="form-control" name="sub_subcategory_name" id="sub_subcategory" style="width: 90%;">
+                              </select>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      	</div>
-                      	<div class="col-md-4">
-                      		  <div class="form-group">
-                        <label class="  control-label">Select Sub Category</label>
-                        <div class="  controls">
-                          <select class=" " name="subcategory_name" id = "myselect1" >
+
+                      <hr style="margin-top: 10px; margin-bottom: 20px; border-color: #ddd;">
+
+                      <!-- Pricing Plan Details Section -->
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div style="margin-bottom: 25px; padding: 20px; border: 1px solid #ddd; background-color: #fcfcfc; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                            <h4 style="margin-top: 0; margin-bottom: 20px; font-weight: bold; border-bottom: 2px solid #5d9cec; padding-bottom: 8px; color: #333;">
+                              <i class="fa fa-money"></i> Pricing Plan Details
+                            </h4>
                             
-                          </select>
+                            <div class="row" style="margin-bottom: 20px;">
+                              <div class="col-md-12">
+                                <label style="font-weight: bold; cursor: pointer; font-size: 14px;">
+                                  <input type="checkbox" name="show_pricing" value="1" checked style="transform: scale(1.2); margin-right: 8px; vertical-align: middle;"> 
+                                  <span style="vertical-align: middle;">Active (Show Pricing Cards on Frontend)</span>
+                                </label>
+                                <p class="help-block" style="margin-top: 5px; margin-left: 23px;">Toggle this off if you don't want to display pricing cards on the service details page.</p>
+                              </div>
+                            </div>
+
+                            <div class="row" style="margin-bottom: 20px;">
+                              <div class="col-md-3">
+                                <div class="form-group" style="padding: 0 10px;">
+                                  <label style="font-weight: bold;">Basic Plan Price (₹)</label>
+                                  <input class="form-control" type="text" placeholder="e.g. 9999" name="price_card_amount">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group" style="padding: 0 10px;">
+                                  <label style="font-weight: bold;">Standard Plan Price (₹)</label>
+                                  <input class="form-control" type="text" placeholder="e.g. 12999" name="price_card_standard">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group" style="padding: 0 10px;">
+                                  <label style="font-weight: bold;">Premium Plan Price (₹)</label>
+                                  <input class="form-control" type="text" placeholder="e.g. 15999" name="price_card_premium">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group" style="padding: 0 10px;">
+                                  <label style="font-weight: bold;">Price Note / Subtext</label>
+                                  <input class="form-control" type="text" placeholder="e.g. + Govt Fees Extra" name="price_card_note">
+                                </div>
+                              </div>
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                              <label style="font-weight: bold; margin-bottom: 12px; font-size: 14px;">What you'll get (Features Comparison Ticks/Crosses):</label>
+                              <table class="table table-bordered table-striped" id="features_table" style="background-color: #fff;">
+                                <thead>
+                                  <tr style="background-color: #f1f1f1;">
+                                    <th style="font-weight: bold;">Feature Description</th>
+                                    <th style="width: 100px; text-align: center; font-weight: bold;">Basic</th>
+                                    <th style="width: 100px; text-align: center; font-weight: bold;">Standard</th>
+                                    <th style="width: 100px; text-align: center; font-weight: bold;">Premium</th>
+                                    <th style="width: 60px; text-align: center; font-weight: bold;">Remove</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="features_tbody">
+                                  <!-- Rows populated via JS -->
+                                </tbody>
+                              </table>
+                              <button type="button" class="btn btn-sm btn-info" onclick="addFeatureRow('', false, false, false)">
+                                <i class="fa fa-plus"></i> Add Feature Row
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      	</div>
-                      	<div class="col-md-4">
-                      		<div class="form-group">
-                        <label class="  control-label">Select Sub SubCategory</label>
-                        <div class=" controls">
-                          <select class=" " name="sub_subcategory_name" id = "sub_subcategory" >
+
+                      <!-- Heading & Description Blocks Section -->
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div style="margin-bottom: 25px; padding: 20px; border: 1px solid #ddd; background-color: #fcfcfc; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                            <h4 style="margin-top: 0; margin-bottom: 20px; font-weight: bold; border-bottom: 2px solid #8cc152; padding-bottom: 8px; color: #333;">
+                              <i class="fa fa-list"></i> Heading Name & Description Blocks (Tabs)
+                            </h4>
                             
-                          </select>
+                            <div id="headings_container">
+                              <!-- Dynamic heading blocks will be added here -->
+                            </div>
+                            
+                            <div style="margin-top: 15px;">
+                              <button type="button" class="btn btn-success" id="add_heading_btn">
+                                <i class="fa fa-plus"></i> Add Another Heading Block
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      	</div>
-                      	<div class="col-md-12">
-                      		      
-                    <div class="form-group">
-                        <label class="  control-label">Add Heading Name</label>
-                        <div class="  controls">
-                          <input class=" " type="text" placeholder="Input"  name="product_name" required>
+
+                      <div class="row">
+                        <div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px;">
+                          <button class="btn vd_btn vd_bg-green vd_white btn-lg" type="submit" name="btn-save">
+                            <i class="icon-ok"></i> Save Service Details
+                          </button>
                         </div>
                       </div>
-                      	</div>
-                      	
-                      		<div class="col-md-12">
-                      		 <div class="form-group">
-                        <label class="  control-label">Add Heading Description/about</label>
-                        <div class="  controls">
-                          <textarea class="ckeditor"  id="" cols="70" name="content"    rows="20"  ></textarea>
-                        </div>
-                      </div> 
-                      		  </div>
-                      </div>
-                       
-                     
-                 
-                       
-                     
-                
-                     
-                       
-                      
-                         
-                      
-                               
-                                      
-                     <button class="btn vd_btn vd_bg-green vd_white" type="submit" name="btn-save" ><i class="icon-ok"></i> Save</button>
                     </form>
                   </div>
                 </div>
@@ -557,6 +641,131 @@ $(document).ready(function(){
 
 
 
+
+<script type="text/javascript">
+var defaultFeatures = [
+    { text: "1 DSC (Digital Signature)", basic: 1, standard: 0, premium: 0 },
+    { text: "2 DSC (Digital Signatures)", basic: 0, standard: 1, premium: 1 },
+    { text: "1 DIN (Director Identification)", basic: 1, standard: 0, premium: 0 },
+    { text: "2 DIN (Director Identifications)", basic: 0, standard: 1, premium: 1 },
+    { text: "Name Reservation filing", basic: 1, standard: 1, premium: 1 },
+    { text: "SPICe+ Form Preparation", basic: 1, standard: 1, premium: 1 },
+    { text: "MOA & AOA Drafting", basic: 1, standard: 1, premium: 1 },
+    { text: "PAN & TAN Allotment", basic: 1, standard: 1, premium: 1 },
+    { text: "GST Registration", basic: 0, standard: 1, premium: 1 },
+    { text: "MSME (Udyam) Certificate", basic: 0, standard: 1, premium: 1 },
+    { text: "PF & ESIC Registration", basic: 0, standard: 0, premium: 1 }
+];
+
+function addFeatureRow(text, basic, standard, premium) {
+    var rowId = 'feature_row_' + Math.random().toString(36).substr(2, 9);
+    var html = `
+        <tr id="${rowId}">
+            <td>
+                <input type="text" class="form-control feature-text" value="${text || ''}" placeholder="Feature Description" style="width: 100%;">
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <input type="checkbox" class="feature-basic" ${basic ? 'checked' : ''} style="transform: scale(1.2);">
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <input type="checkbox" class="feature-standard" ${standard ? 'checked' : ''} style="transform: scale(1.2);">
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <input type="checkbox" class="feature-premium" ${premium ? 'checked' : ''} style="transform: scale(1.2);">
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <button type="button" class="btn btn-xs btn-danger" onclick="$('#${rowId}').remove()"><i class="fa fa-times"></i></button>
+            </td>
+        </tr>
+    `;
+    $('#features_tbody').append(html);
+}
+
+function serializeFeatures() {
+    // Force CKEditor to update the underlying textarea values before submitting
+    for (var instanceName in CKEDITOR.instances) {
+        if (CKEDITOR.instances[instanceName]) {
+            CKEDITOR.instances[instanceName].updateElement();
+        }
+    }
+
+    var features = [];
+    $('#features_tbody tr').each(function() {
+        var text = $(this).find('.feature-text').val();
+        if (text && text.trim() !== '') {
+            var basic = $(this).find('.feature-basic').is(':checked') ? 1 : 0;
+            var standard = $(this).find('.feature-standard').is(':checked') ? 1 : 0;
+            var premium = $(this).find('.feature-premium').is(':checked') ? 1 : 0;
+            features.push({
+                text: text.trim(),
+                basic: basic,
+                standard: standard,
+                premium: premium
+            });
+        }
+    });
+    $('#pricing_features_json').val(JSON.stringify(features));
+}
+
+var headingIndex = 0;
+function addHeadingBlock(name, content) {
+    headingIndex++;
+    var blockId = 'heading_block_' + headingIndex;
+    var textareaId = 'heading_content_' + headingIndex;
+    
+    var html = `
+        <div class="heading-block-item" id="${blockId}" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; background-color: #fff; border-radius: 4px; position: relative;">
+            <button type="button" class="btn btn-xs btn-danger remove-heading-btn" onclick="removeHeadingBlock('${blockId}')" style="position: absolute; top: 10px; right: 10px;"><i class="fa fa-times"></i> Remove</button>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: bold;">Heading Name</label>
+                <input class="form-control heading-name-input" type="text" name="headings[]" value="${name || ''}" placeholder="e.g. Overview" required style="width: 100%; max-width: 100%;">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 0;">
+                <label style="font-weight: bold;">Heading Description/about</label>
+                <textarea id="${textareaId}" name="descriptions[]" rows="10" class="form-control heading-desc-input" required>${content || ''}</textarea>
+            </div>
+        </div>
+    `;
+    
+    $('#headings_container').append(html);
+    
+    // Initialize CKEditor on the new textarea
+    CKEDITOR.replace(textareaId);
+}
+
+function removeHeadingBlock(blockId) {
+    if ($('.heading-block-item').length <= 1) {
+        alert('You must have at least one Heading Block.');
+        return;
+    }
+    if (confirm('Are you sure you want to remove this Heading Block?')) {
+        var textareaId = $('#' + blockId).find('textarea').attr('id');
+        if (CKEDITOR.instances[textareaId]) {
+            CKEDITOR.instances[textareaId].destroy();
+        }
+        $('#' + blockId).remove();
+    }
+}
+
+$(document).ready(function() {
+    // Populate default features
+    if ($('#features_tbody tr').length === 0) {
+        defaultFeatures.forEach(function(f) {
+            addFeatureRow(f.text, f.basic, f.standard, f.premium);
+        });
+    }
+
+    // Add first heading block automatically
+    addHeadingBlock('Overview', '');
+
+    // Add heading block button click handler
+    $('#add_heading_btn').click(function() {
+        addHeadingBlock('', '');
+    });
+});
+</script>
 
 </body>
 

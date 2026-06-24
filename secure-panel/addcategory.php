@@ -12,20 +12,20 @@ include_once 'config.php';
 if(isset($_POST['btn-save']))
 {
 $table = "category";
- $design=$_POST['category_content'];
- $category_name = $_POST['category_name'];
- $heading2 = $_POST['heading2'];
+ $design = mysqli_real_escape_string($conn, $_POST['category_content']);
+ $category_name = mysqli_real_escape_string($conn, $_POST['category_name']);
+ $heading2 = mysqli_real_escape_string($conn, $_POST['heading2']);
  
  // SEO Fields
- $seo_title = $_POST['seo_title'];
- $seo_keywords = $_POST['seo_keywords'];
- $meta_description = $_POST['meta_description'];
+ $seo_title = mysqli_real_escape_string($conn, $_POST['seo_title']);
+ $seo_keywords = mysqli_real_escape_string($conn, $_POST['seo_keywords']);
+ $meta_description = mysqli_real_escape_string($conn, $_POST['meta_description']);
  
  // Timestamps
  $created_at = date('Y-m-d H:i:s');
  $updated_at = date('Y-m-d H:i:s');
  
- 	$seotopic = strip_tags($category_name);
+ 	$seotopic = strip_tags($_POST['category_name']);
                  $hee=strtolower($seotopic);
                  $hee=strtolower($seotopic);
                  
@@ -36,8 +36,9 @@ $table = "category";
                  $string1 = preg_replace("/[^a-zA-Z0-9 _-]/", "", $string);
                  $string12 = preg_replace("/[ ]+/", " ", $string1);                
                  $hyphenTag1 = str_replace( ' ', '-', $string12 );
-    $type = $_POST['type'];
-	 $image_name = $_FILES['image']['name'];
+                 $hyphenTag1 = mysqli_real_escape_string($conn, $hyphenTag1);
+    $type = mysqli_real_escape_string($conn, $_POST['type']);
+ 	 $image_name = $_FILES['image']['name'];
  if($image_name!='')
  {
 	 $image_type = $_FILES['image']['type'];
@@ -46,13 +47,13 @@ $table = "category";
 	 $random_digit=rand(0000,9999);
 	   $imagename = $random_digit.$image_name;
 	  move_uploaded_file($image_tmp,"../images/category/$imagename");
-	  
+	  $imagename = mysqli_real_escape_string($conn, $imagename);
 	}
 	 else{
 	 	$imagename='';
 	 }
 	  $image_name1 = $_FILES['image1']['name'];
- if($image_name!='')
+ if($image_name1!='')
  {
 	 $image_type1 = $_FILES['image1']['type'];
 	 $image_size1 = $_FILES['image1']['size'];
@@ -60,7 +61,7 @@ $table = "category";
 	 $random_digit1=rand(0000,9999);
 	   $imagename1 = $random_digit1.$image_name1;
 	  move_uploaded_file($image_tmp1,"../images/category/$imagename1");
-	  
+	  $imagename1 = mysqli_real_escape_string($conn, $imagename1);
 	 } 
 	 else{
 	 	$imagename1='';

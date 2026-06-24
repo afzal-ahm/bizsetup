@@ -49,10 +49,7 @@ if($image_name !="" ){
 	 $random_digit=rand(0000,9999);
 	   $imagename = $random_digit.$image_name;
 	  move_uploaded_file($image_tmp,"../images/category/$imagename");
-    $field_value=array($catid,$imagename);
-        $field =array('category_id','image');
-        $res1 = $con->update($field_value,$table,$field);
-
+    $res1 = mysqli_query($conn, "UPDATE `category` SET `image`='$imagename' WHERE `category_id`='$catid'");
 	}    
    $image_name1 = $_FILES['image1']['name'];
 if($image_name1 !="" ){
@@ -62,10 +59,7 @@ if($image_name1 !="" ){
 	 $random_digit1=rand(0000,9999);
 	   $imagename1 = $random_digit1.$image_name1;
 	  move_uploaded_file($image_tmp1,"../images/category/$imagename1");
- $field_value=array($catid,$imagename1);
-        $field =array('category_id','banner');
-        $res1 = $con->update($field_value,$table,$field);
-
+    $res1 = mysqli_query($conn, "UPDATE `category` SET `banner`='$imagename1' WHERE `category_id`='$catid'");
 	}
 	 
  	$te="UPDATE `category` SET `category_name`='$catname',`heading2`='$heading2' ,`content`='$content',`position`='$position',`is_active`='$is_active',`show_in_header`='$show_in_header',`show_in_footer`='$show_in_footer',`seo_title`='$seo_title',`seo_keywords`='$seo_keywords',`meta_description`='$meta_description',`updated_at`='$updated_at' where category_id='$catid'";

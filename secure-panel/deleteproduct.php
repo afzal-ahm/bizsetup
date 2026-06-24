@@ -5,7 +5,7 @@
 
 include_once 'config.php';
 
-$sku = $_GET['sku'];
+$sku = mysqli_real_escape_string($conn, $_GET['sku']);
 	
 	$query = "delete from product where id ='".$sku."'";
 	

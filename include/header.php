@@ -99,7 +99,7 @@ if($subt > 0) {
                                                     <?php
                                                     foreach($subcategories_result as $scate) {
                                                         // Get sub-subcategories for this subcategory
-                                                        $sub_subcategories_query = "SELECT * FROM sub_subcategory WHERE category_id='".$cate['category_id']."' AND subcategory_id='".$scate['subcategory_id']."' ORDER BY sub_subcategory_id ASC";
+                                                        $sub_subcategories_query = "SELECT * FROM sub_subcategory WHERE category_id='".$cate['category_id']."' AND subcategory_id='".$scate['subcategory_id']."' AND status = 1 ORDER BY sub_subcategory_id ASC";
                                                         $sub_subcategories_result = mysqli_query($conn, $sub_subcategories_query);
                                                         
                                                         if(mysqli_num_rows($sub_subcategories_result) > 0) {

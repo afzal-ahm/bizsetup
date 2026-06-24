@@ -9,7 +9,7 @@ error_reporting(0);
 include_once 'config.php'; 
 //data insert here
 if(isset($_GET['subcatid'])){
-    $subcatid = $_GET['subcatid'];
+    $subcatid = mysqli_real_escape_string($conn, $_GET['subcatid']);
      $table = "sub_subcategory";
     $field_value=array($subcatid);
     
@@ -22,66 +22,73 @@ if(isset($_GET['subcatid'])){
 if(isset($_POST['btn-save']))
 {
     $table = "sub_subcategory";
+    
+    $subcatid = isset($_POST['subcatid']) ? mysqli_real_escape_string($conn, $_POST['subcatid']) : (isset($_GET['subcatid']) ? mysqli_real_escape_string($conn, $_GET['subcatid']) : 0);
+    if (!is_numeric($subcatid) || intval($subcatid) <= 0) {
+        ?>
+        <script>
+            alert("Invalid Sub-sub Category ID");
+            window.location ='viewsub-subcat.php';
+        </script>
+        <?php
+        exit;
+    }
    
-    $catname = $_POST['sub_subcategory_name'];
-    $content = $_POST['content'];
+    $catname = mysqli_real_escape_string($conn, $_POST['sub_subcategory_name']);
+    $content = mysqli_real_escape_string($conn, $_POST['content']);
     
     // SEO Fields
-    $seo_title = $_POST['seo_title'];
-    $seo_keywords = $_POST['seo_keywords'];
-    $meta_description = $_POST['meta_description'];
+    $seo_title = mysqli_real_escape_string($conn, $_POST['seo_title']);
+    $seo_keywords = mysqli_real_escape_string($conn, $_POST['seo_keywords']);
+    $meta_description = mysqli_real_escape_string($conn, $_POST['meta_description']);
     
     // Updated timestamp
     $updated_at = date('Y-m-d H:i:s');
     
-	   
-   $image_name = $_FILES['image']['name'];
-if($image_name !="" ){
-	 $image_type = $_FILES['image']['type'];
-	 $image_size = $_FILES['image']['size'];
-	 $image_tmp = $_FILES['image']['tmp_name'];
-	 $random_digit=rand(0000,9999);
-	   $imagename = $random_digit.$image_name;
-	  move_uploaded_file($image_tmp,"../images/category/$imagename");
+    $meal = mysqli_real_escape_string($conn, $_POST['meal']);
+    $extra = mysqli_real_escape_string($conn, $_POST['extra']);
+    $price = mysqli_real_escape_string($conn, $_POST['price']);
     
-       	   
-   $ttu="UPDATE `sub_subcategory` SET  `image`='".$imagename."'  WHERE sub_subcategory_id='".$subcatid."'";
-   $res1=mysqli_query($conn,$ttu);
-	}  
-	 
-	   
-	   
-	      $meal = $_POST['meal'];
-	      $extra = $_POST['extra'];
-	         $price = $_POST['price'];
-	 
-	        $extra = mysqli_real_escape_string($conn,$extra);
-	              $price = mysqli_real_escape_string($conn,$price);
-	   
- $ttu="UPDATE `sub_subcategory` SET  `sub_subcategory_name`='".$catname."',`meal`='".$meal."',`content`='".$content."', `extra`='".$extra."',`price`='".$price."',`seo_title`='".$seo_title."',`seo_keywords`='".$seo_keywords."',`meta_description`='".$meta_description."',`updated_at`='".$updated_at."' WHERE sub_subcategory_id='".$subcatid."'";
+    try {
+        $image_name = $_FILES['image']['name'];
+        if($image_name !="" ){
+            $image_type = $_FILES['image']['type'];
+            $image_size = $_FILES['image']['size'];
+            $image_tmp = $_FILES['image']['tmp_name'];
+            $random_digit=rand(0000,9999);
+            $imagename = $random_digit.$image_name;
+            move_uploaded_file($image_tmp,"../images/category/$imagename");
+            $imagename = mysqli_real_escape_string($conn, $imagename);
+            
+            $ttu="UPDATE `sub_subcategory` SET  `image`='".$imagename."'  WHERE sub_subcategory_id='".$subcatid."'";
+            mysqli_query($conn,$ttu);
+        }  
+        
+        $ttu="UPDATE `sub_subcategory` SET  `sub_subcategory_name`='".$catname."',`meal`='".$meal."',`content`='".$content."', `extra`='".$extra."',`price`='".$price."',`seo_title`='".$seo_title."',`seo_keywords`='".$seo_keywords."',`meta_description`='".$meta_description."',`updated_at`='".$updated_at."' WHERE sub_subcategory_id='".$subcatid."'";
         $res1=mysqli_query($conn,$ttu);
-	   
-		 
+        
         if($res1)
         {
             ?>
             <script>
                 alert("Edit Successfully");
-                window.location ='viewsub-subcat.php'
+                window.location ='viewsub-subcat.php';
             </script>
             <?php
         }
-        else{
-            ?>
-
-            <script>
-                alert("Some Problem Occured");
-                window.location ='viewsub-subcat.php'
-            </script>
-            <?php
+        else {
+            throw new Exception("Update query failed.");
         }
-	
-
+    } catch (Exception $e) {
+        $error_msg = mysqli_real_escape_string($conn, $e->getMessage());
+        ?>
+        <script>
+            alert("Error updating database: <?php echo htmlspecialchars($error_msg); ?>");
+            window.location ='viewsub-subcat.php';
+        </script>
+        <?php
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -409,8 +416,8 @@ if($image_name !="" ){
 
                         <div class="vd_title-section clearfix">
                             <div class="vd_panel-header">
-                                <h1>admin Dashboard</h1>
-                                <small class="subtitle">admin Dashboard</small>
+                                <h1>Edit Sub-sub Category Panel</h1>
+                                <small class="subtitle">Admin Dashboard</small>
                                 <div class="vd_panel-menu  hidden-xs">
                                     <div class="menu no-bg vd_red" data-original-title="Start Layout Tour Guide" data-toggle="tooltip" data-placement="bottom" onClick="javascript:introJs().setOption('showBullets', false).start();"> <span class="menu-icon font-md"><i class="fa fa-question-circle"></i></span> </div>
                                     <!-- menu -->
@@ -428,24 +435,31 @@ if($image_name !="" ){
                             <div class="col-md-12">
                                 <div class="panel widget">
                                     <div class="panel-heading vd_bg-grey">
-                                        <h3 class="panel-title"> <span class="menu-icon"> <i class="fa fa-bar-chart-o"></i> </span> Edit Category </h3>
+                                        <h3 class="panel-title"> <span class="menu-icon"> <i class="fa fa-bar-chart-o"></i> </span> Edit Sub-sub Category </h3>
                                     </div>
                                     <div class="panel-body">
                                         <?php
-                                        foreach($res as $key => $dataval)
-                                       $catid= $dataval['category_id']; 
-                                       $subcatid= $dataval['subcategory_id']; 
+                                         $catid = 0;
+                                         $subcatid = 0;
+                                         $dataval = [];
+                                         if (isset($res) && $res && mysqli_num_rows($res) > 0) {
+                                             $dataval = mysqli_fetch_assoc($res);
+                                             $catid = $dataval['category_id']; 
+                                             $subcatid = $dataval['subcategory_id'];
+                                         }
                                         ?>
                                         <form class="form-horizontal" action="" method="post" role="form" enctype="multipart/form-data">
                                           <div class="form-group">
                                                 <label class="col-sm-2 control-label">Category Name</label>
                                                 <div class="col-sm-7 controls">
                                                <?php 
-                                               include "config.php";
-                                                   $query= "SELECT * from category where category_id='$catid'";
-														$run = mysqli_query($conn,$query);
-														foreach($run as $key=>$val_cat1)
-														echo $catname =$val_cat1['category_name']; 
+                                               if ($catid > 0) {
+                                                   $query = "SELECT * from category where category_id='$catid'";
+														$run = mysqli_query($conn, $query);
+														if ($run && $val_cat1 = mysqli_fetch_assoc($run)) {
+														    echo htmlspecialchars($val_cat1['category_name']); 
+                                                        }
+                                               }
                                                 ?>
                                                     
                                                 </div>
@@ -455,11 +469,13 @@ if($image_name !="" ){
                                                 <label class="col-sm-2 control-label">Sub Category Name</label>
                                                 <div class="col-sm-7 controls">
                                                    <?php 
-                                              // include "config.php";
-                                                   $query= "SELECT * from subcategory where subcategory_id='$subcatid'";
-														$run = mysqli_query($conn,$query);
-														foreach($run as $key=>$val_cat2)
-														echo $subcatname =$val_cat2['subcategory_name']; 
+                                                   if ($subcatid > 0) {
+                                                        $query = "SELECT * from subcategory where subcategory_id='$subcatid'";
+														$run = mysqli_query($conn, $query);
+														if ($run && $val_cat2 = mysqli_fetch_assoc($run)) {
+															echo htmlspecialchars($val_cat2['subcategory_name']); 
+                                                        }
+                                                   }
                                                 ?>
                                                 </div>
                                             </div>

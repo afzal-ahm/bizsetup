@@ -89,7 +89,7 @@ try {
     FROM sub_subcategory ssc 
     LEFT JOIN category c ON ssc.category_id = c.category_id 
     LEFT JOIN subcategory sc ON ssc.subcategory_id = sc.subcategory_id 
-    WHERE ($where_sql)
+    WHERE ($where_sql) AND ssc.status = 1
     ORDER BY 
         CASE 
             WHEN ssc.sub_subcategory_name LIKE '$search_term%' THEN 1

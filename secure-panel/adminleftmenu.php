@@ -67,7 +67,7 @@ if(isset($_SESSION['email'])){
                 </li>              
                 <li>
                     <a href="addsub_subcategories.php">
-                        <span class="menu-text">ADD Service</span>  
+                        <span class="menu-text">ADD Sub-sub Category</span>  
                     </a>
                 </li> 
                  <li>
@@ -101,7 +101,7 @@ if(isset($_SESSION['email'])){
                 </li>
 				<li>
                     <a href="viewsub-subcat.php">
-                        <span class="menu-text">View  Service</span>
+                        <span class="menu-text">View Sub-sub Category</span>
                     </a>
                 </li>
 				<li>

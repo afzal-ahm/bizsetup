@@ -8,18 +8,16 @@ include_once"config.php";
 //print_r($res);
 if(isset($_GET['deletecat'])){
     
-    $deletecatid = $_GET['deletecat'];
+    $deletecatid = mysqli_real_escape_string($conn, $_GET['deletecat']);
     
     
       $g="DELETE FROM `sub_subcategory` WHERE sub_subcategory_id='".$deletecatid."'";
       $gf=mysqli_query($conn,$g);
     if($gf)
-    
-     
     {
         ?>
         <script>
-            alert("Category Successfully Deleted");
+            alert("Service Successfully Deleted");
             window.location ='viewsub-subcat.php'
         </script>
         <?php

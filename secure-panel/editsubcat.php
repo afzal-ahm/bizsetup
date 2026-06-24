@@ -15,67 +15,49 @@ include_once 'config.php';
 if(isset($_POST['btn-save']))
 {
     $table = "subcategory";
-    $catid = $_POST['subcatid'];
-    $catname = $_POST['subcategory_name'];
+    $catid = mysqli_real_escape_string($conn, $_POST['subcatid']);
+    $catname = mysqli_real_escape_string($conn, $_POST['subcategory_name']);
+    $category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
     
-  $content = $_POST['category_content'];
+    $content = mysqli_real_escape_string($conn, $_POST['category_content']);
+    $duration  = mysqli_real_escape_string($conn, $_POST['duration']);
+    $startfrom  = mysqli_real_escape_string($conn, $_POST['startfrom']);
+    $long_content  = mysqli_real_escape_string($conn, $_POST['long_content']);
     
-    
-    $duration  = $_POST['duration'];
-$startfrom  = $_POST['startfrom'];
-$long_content  = $_POST['long_content'];
-      $image_name1 = $_FILES['image1']['name'];
-if($image_name1 !="" ){
-	 $image_type1 = $_FILES['image1']['type'];
-	 $image_size1 = $_FILES['image1']['size'];
-	 $image_tmp1 = $_FILES['image1']['tmp_name'];
-	 $random_digit1=rand(0000,9999);
-	   $imagename1 = $random_digit1.$image_name1;
-	  move_uploaded_file($image_tmp1,"../images/category/$imagename1");
- $field_value=array($catid,$imagename1);
-        $field =array('subcategory_id','banner');
-      //  $res1 = $con->update($field_value,$table,$field);
+    $image_name = $_FILES['image']['name'];
+    if($image_name!='')
+    {
+        $image_type = $_FILES['image']['type'];
+        $image_size = $_FILES['image']['size'];
+        $image_tmp = $_FILES['image']['tmp_name'];
+        $random_digit=rand(0000,9999);
+        $imagename = $random_digit.$image_name;
+        move_uploaded_file($image_tmp,"../images/category/$imagename");
         
-     //   $h="UPDATE subcategory SET   subcategory_name='$catname'  where subcategory_id='".$_GET['subcatid']."' ";
-
-	}
-     $image_name = $_FILES['image']['name'];
- if($image_name!='')
- {
-	 $image_type = $_FILES['image']['type'];
-	 $image_size = $_FILES['image']['size'];
-	 $image_tmp = $_FILES['image']['tmp_name'];
-	 $random_digit=rand(0000,9999);
-	 $imagename = $random_digit.$image_name;
-	  move_uploaded_file($image_tmp,"../images/category/$imagename");
-	 
-    $ty="UPDATE subcategory SET   icon_image='$imagename'  where subcategory_id='".$_GET['subcatid']."' ";
-    	 $t=mysqli_query($conn,$ty);
-	}
-	
-$ty="UPDATE subcategory SET   subcategory_name='$catname'  where subcategory_id='".$_GET['subcatid']."' ";
-	 $t=mysqli_query($conn,$ty);
-	 
-        if($t)
-        {
-            ?>
-            <script>
-                alert("Edit Successfully");
-                window.location ='viewsubcategory.php'
-            </script>
-            <?php
-        }
-        else{
-            ?>
-
-            <script>
-                alert("Some Problem Occured");
-                window.location ='viewsubcategory.php'
-            </script>
-            <?php
-        }
-	
-
+        $ty="UPDATE `subcategory` SET `icon_image`='$imagename' where `subcategory_id`='$catid'";
+        mysqli_query($conn,$ty);
+    }
+    
+    $ty="UPDATE `subcategory` SET `subcategory_name`='$catname', `category_id`='$category_id' where `subcategory_id`='$catid'";
+    $t=mysqli_query($conn,$ty);
+    
+    if($t)
+    {
+        ?>
+        <script>
+            alert("Edit Successfully");
+            window.location ='viewsubcategory.php'
+        </script>
+        <?php
+    }
+    else{
+        ?>
+        <script>
+            alert("Some Problem Occured");
+            window.location ='viewsubcategory.php'
+        </script>
+        <?php
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -360,18 +342,34 @@ $ty="UPDATE subcategory SET   subcategory_name='$catname'  where subcategory_id=
                                         <h3 class="panel-title"> <span class="menu-icon"> <i class="fa fa-bar-chart-o"></i> </span> Edit Category </h3>
                                     </div>
                                     <div class="panel-body">
-                                        <?php
-                                        $gh="SELECT * from subcategory where subcategory_id='".$_GET['subcatid']."' ";
-                                        $gt=mysqli_query($conn,$gh);
-                                        foreach($gt as $key => $dataval)
-                                        ?>
-                                        <form class="form-horizontal" action="" method="post" role="form" enctype="multipart/form-data">
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">Package Name</label>
-                                                <div class="col-sm-7 controls">
-                                                    <input class="width-70" type="text" value="<?php echo $dataval['subcategory_name']; ?>" data-toggle="tooltip" data-placement="top" name="subcategory_name">
-                                                </div>
-                                            </div>
+                                         <?php
+                                         $gh="SELECT * from subcategory where subcategory_id='".mysqli_real_escape_string($conn, $_GET['subcatid'])."' ";
+                                         $gt=mysqli_query($conn,$gh);
+                                         foreach($gt as $key => $dataval)
+                                         ?>
+                                         <form class="form-horizontal" action="" method="post" role="form" enctype="multipart/form-data">
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">Select Category</label>
+                                                 <div class="col-sm-7 controls">
+                                                     <select class="width-40" name="category_id" required>
+                                                         <option value="">----Select Category------</option>
+                                                          <?php
+                                                          $g="SELECT * from category";
+                                                          $gf=mysqli_query($conn,$g);
+                                                          foreach($gf as $cat_row) {
+                                                              $selected = ($cat_row['category_id'] == $dataval['category_id']) ? 'selected' : '';
+                                                              echo '<option value="'.$cat_row['category_id'].'" '.$selected.'>'.htmlspecialchars($cat_row['category_name']).'</option>';
+                                                          }
+                                                          ?>
+                                                     </select>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">Package Name</label>
+                                                 <div class="col-sm-7 controls">
+                                                     <input class="width-70" type="text" value="<?php echo htmlspecialchars($dataval['subcategory_name']); ?>" data-toggle="tooltip" data-placement="top" name="subcategory_name">
+                                                 </div>
+                                             </div>
                                           
                                             
 
