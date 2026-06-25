@@ -69,12 +69,18 @@
                         <nav id="mobile-menu">
                             <ul class="main-nav">
 
-                            <?php $c='1';
+                            <?php
                            $ss="SELECT * from category where is_active='1' and  show_in_header='1' order by position asc";
                            $re=mysqli_query($conn,$ss);
                            foreach($re as $key=> $cate){
+                               $is_active = false;
+                               if (isset($cat_url) && !empty($cat_url) && strcasecmp($cat_url, $cate['url']) === 0) {
+                                   $is_active = true;
+                               } elseif (isset($page_url) && !empty($page_url) && strcasecmp($page_url, $cate['url']) === 0) {
+                                   $is_active = true;
+                               }
                             ?>
-                                <li class="has-submenu megamenu <?php if($c=='1') { echo 'active';}?>">
+                                <li class="has-submenu megamenu <?php if($is_active) { echo 'active';}?>">
                                     <a href="javascript:void(0);"><?php echo $cate['category_name'];?><i class="fa-solid fa-angle-down"></i></a>
                                     <?php
                                    $sql="select count(*) as total from subcategory where category_id='".$cate['category_id']."'";
@@ -128,7 +134,7 @@ if($subt > 0) {
                                     </ul>
                                     <?php } ?>
                                 </li>
-                               <?php $c++;} ?>
+                               <?php } ?>
                                  
                                
                             </ul>
