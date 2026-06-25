@@ -331,6 +331,29 @@ include "data.php";
             object-fit: contain;
         }
 
+        @media (max-width: 1199px) {
+            .hero-section-four-custom {
+                padding: 60px 0;
+            }
+            .banner-content-custom {
+                padding-right: 15px;
+            }
+            .hero-title-main {
+                font-size: 32px;
+                line-height: 1.3;
+            }
+            .hero-subtitle-main {
+                font-size: 14.5px;
+                margin-bottom: 20px;
+            }
+            .search-section-custom {
+                margin-bottom: 20px;
+            }
+            .search-tags-custom {
+                margin-bottom: 20px;
+            }
+        }
+
         @media (max-width: 991px) {
             .hero-section-four-custom {
                 padding: 50px 0;
@@ -670,7 +693,7 @@ foreach($re as $key => $socila) {
     
     <section class="section about-section-four bg-light-200">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center justify-content-lg-between">
 
             <?php
                                 $ss="SELECT * from  extra_content where type='heading' limit 1 OFFSET 1";
@@ -678,7 +701,7 @@ foreach($re as $key => $socila) {
                               foreach($re as $key=> $socila){       ?>   
 
 
-                <div class="col-lg-5 wow fadeInDown" data-wow-delay="0.2s">
+                <div class="col-lg-5 col-xl-5 wow fadeInDown" data-wow-delay="0.2s">
                     <div class="section-header section-header-four mb-4">
                         <h2 class="mb-2"><?php echo $socila['heading1'];?> <span><?php echo $socila['heading2'];?></span></h2>
                         <p class="sub-title">At BizSetup, we understand that starting and running a business in India can be a complex journey filled with legal, regulatory, and administrative hurdles.  <br>
@@ -693,23 +716,100 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                   <?php } ?>
                     
                 </div>
-                <div class="col-lg-7 d-flex ps-lg-0 wow zoomIn" data-wow-delay="0.2s">
+                <div class="col-lg-7 col-xl-5 d-flex ps-lg-0 wow zoomIn" data-wow-delay="0.2s">
                     <div class="flight-about d-lg-flex align-items-center flex-fill">
                         <div class="row">
+    <style>
+    /* Why Choose Us Custom Square Cards */
+    .why-choose-card-custom {
+        background: #ffffff;
+        border: 1px solid #f1f5f9 !important;
+        border-radius: 20px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        margin-bottom: 20px;
+    }
+    .why-choose-card-custom .card-body {
+        padding: 24px 20px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        height: 100%;
+    }
+    .why-choose-card-custom:hover {
+        transform: translateY(-6px);
+        border-color: rgba(241, 141, 45, 0.2) !important;
+        box-shadow: 0 15px 30px rgba(241, 141, 45, 0.05), 0 5px 15px rgba(0, 0, 0, 0.02) !important;
+    }
+    .why-choose-icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(241, 141, 45, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+    }
+    .why-choose-icon-box img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+        transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+        filter: brightness(0);
+        opacity: 0.6;
+    }
+    .why-choose-card-custom:hover .why-choose-icon-box {
+        background: #f18d2d;
+    }
+    .why-choose-card-custom:hover .why-choose-icon-box img {
+        transform: scale(1.1);
+        filter: brightness(0) invert(1);
+        opacity: 1;
+    }
+    .why-choose-card-custom h6 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 8px !important;
+    }
+    .why-choose-card-custom p {
+        font-size: 13px;
+        line-height: 1.5;
+        color: #64748b;
+        margin-bottom: 0 !important;
+    }
+
+    @media (min-width: 992px) {
+        .why-choose-card-custom {
+            aspect-ratio: 1.15 / 1;
+        }
+        .why-choose-card-custom .card-body {
+            align-items: center;
+            text-align: center;
+        }
+        .why-choose-icon-box {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+    </style>
+
                         <?php
                                 $ss="SELECT * from  extra_content where type='why_choose_us' limit 6";
                               $re=mysqli_query($conn,$ss);
                               foreach($re as $key=> $socila){       ?>   
-                        <div class="col-lg-6  mb-1 wow fadeInUp">
-                            <div class="card border-0">
+                        <div class="col-lg-6 mb-3 d-flex wow fadeInUp">
+                            <div class="card border-0 why-choose-card-custom flex-fill">
                                 <div class="card-body">
-                                    <div class="d-flex align-items-center">
+                                    <div class="why-choose-icon-box">
                                         <img src="<?php echo $urlmain;?>images/extra/<?php echo $socila['image'];?>" alt="Img">
-                                        <div class="ms-2">
-                                            <h6 class="fs-16 mb-2"><?php echo $socila['heading1'];?></h6>
-                                            <p><?php echo $socila['heading2'];?></p>
-                                        </div>
                                     </div>
+                                    <h6 class="fs-16"><?php echo htmlspecialchars($socila['heading1']);?></h6>
+                                    <p><?php echo htmlspecialchars($socila['heading2']);?></p>
                                 </div>
                             </div>
                         </div>
@@ -1587,6 +1687,18 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                     border-color: #d97706 !important;
                     transform: translateY(-2px);
                     box-shadow: 0 5px 15px rgba(241, 141, 45, 0.3);
+                }
+                
+                @media (max-width: 1199px) {
+                    .custom-cta-section {
+                        padding: 50px 30px;
+                    }
+                }
+                
+                @media (min-width: 992px) and (max-width: 1199px) {
+                    .cta-form-card .row.g-3 > [class*="col-"] {
+                        width: 100% !important;
+                    }
                 }
                 
                 @media (max-width: 991px) {

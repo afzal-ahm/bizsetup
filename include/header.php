@@ -245,6 +245,7 @@ if($subt > 0) {
             border-top: 3px solid #ffc107;
             left: 50% !important;
             transform: translateX(-50%) !important;
+            right: auto !important;
             background: #ffffff;
             z-index: 9999;
         }
@@ -360,11 +361,15 @@ if($subt > 0) {
         
         @media (max-width: 1199px) and (min-width: 992px) {
             .auto-grid {
-                grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-                gap: 15px;
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+                gap: 12px !important;
             }
             .mega-submenu {
+                width: 940px !important;
                 max-width: 95vw !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                right: auto !important;
             }
         }
         
@@ -460,7 +465,7 @@ if($subt > 0) {
         
         /* Ensure proper positioning and prevent overflow */
         .has-submenu.megamenu {
-            position: static;
+            position: static !important;
         }
         
         .has-submenu.megamenu .submenu {
