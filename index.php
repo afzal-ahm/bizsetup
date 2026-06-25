@@ -872,21 +872,152 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
             </div>
             <?php } ?>
             <div class="row g-4">
+    <style>
+    .premium-benefit-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 32px 24px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .premium-benefit-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--accent-color);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.4s ease;
+    }
+    .premium-benefit-card:hover::before {
+        transform: scaleX(1);
+    }
+    .premium-benefit-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent-color-light);
+        box-shadow: 0 20px 40px -10px var(--glow-color), 0 10px 20px -10px rgba(0, 0, 0, 0.05);
+    }
+    .premium-icon-box {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        background: var(--icon-bg);
+        transition: all 0.4s ease;
+    }
+    .premium-icon-box img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        transition: transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+        filter: brightness(0);
+        opacity: 0.45;
+    }
+    .premium-benefit-card:hover .premium-icon-box {
+        transform: scale(1.08) rotate(3deg);
+        background: var(--accent-color);
+    }
+    .premium-benefit-card:hover .premium-icon-box img {
+        transform: scale(1.05);
+        filter: none;
+        opacity: 1;
+    }
+    .premium-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 16px;
+        background: var(--badge-bg);
+        color: var(--badge-color);
+        transition: all 0.3s ease;
+    }
+    .premium-title {
+        font-size: 19px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+    .premium-desc {
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: #64748b;
+        margin-bottom: 0;
+    }
+    </style>
 
             <?php
-                                $ss="SELECT * from  extra_content where type='4_box_content' limit 4";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){       ?>   
+            $card_styles = [
+                [ // Emerald Green
+                    'icon_bg' => 'rgba(16, 185, 129, 0.08)',
+                    'icon_color' => '#10b981',
+                    'badge_bg' => '#e6fdf4',
+                    'badge_color' => '#047857',
+                    'glow_color' => 'rgba(16, 185, 129, 0.15)'
+                ],
+                [ // Royal Blue/Indigo
+                    'icon_bg' => 'rgba(99, 102, 241, 0.08)',
+                    'icon_color' => '#6366f1',
+                    'badge_bg' => '#eef2ff',
+                    'badge_color' => '#4338ca',
+                    'glow_color' => 'rgba(99, 102, 241, 0.15)'
+                ],
+                [ // Warm Amber/Orange
+                    'icon_bg' => 'rgba(245, 158, 11, 0.08)',
+                    'icon_color' => '#f59e0b',
+                    'badge_bg' => '#fffbeb',
+                    'badge_color' => '#b45309',
+                    'glow_color' => 'rgba(245, 158, 11, 0.15)'
+                ],
+                [ // Speed Rose/Red
+                    'icon_bg' => 'rgba(244, 63, 94, 0.08)',
+                    'icon_color' => '#f43f5e',
+                    'badge_bg' => '#fff1f2',
+                    'badge_color' => '#be123c',
+                    'glow_color' => 'rgba(244, 63, 94, 0.15)'
+                ]
+            ];
+
+            $ss="SELECT * from  extra_content where type='4_box_content' order by position asc limit 4";
+            $re=mysqli_query($conn,$ss);
+            $idx = 0;
+            foreach($re as $key=> $socila){
+                $style = $card_styles[$idx % count($card_styles)];
+                $idx++;
+            ?>   
 
                 <div class="col-sm-6 col-lg-3 d-flex">
-                    <div class="card benefit-card mb-0 flex-fill wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="card-body text-center"  style="    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15); border: 1px dashed #cdc1c1;">
-                            <div style="padding: 6px;" class="benefit-icon mb-2 bg-secondary text-gray-9 mx-auto">
+                    <div class="premium-benefit-card flex-fill wow fadeInUp" data-wow-delay="0.2s" style="
+                        --accent-color: <?php echo $style['icon_color']; ?>;
+                        --accent-color-light: <?php echo $style['icon_color']; ?>40;
+                        --glow-color: <?php echo $style['glow_color']; ?>;
+                        --icon-bg: <?php echo $style['icon_bg']; ?>;
+                        --badge-bg: <?php echo $style['badge_bg']; ?>;
+                        --badge-color: <?php echo $style['badge_color']; ?>;
+                    ">
+                        <div class="premium-icon-box">
                             <img src="<?php echo $urlmain;?>images/extra/<?php echo $socila['image'];?>" alt="Img"> 
-                            </div>
-                            <h5 class="mb-2"><?php echo $socila['heading1'];?></h5>
-                            <p class="mb-0"><?php echo $socila['heading2'];?></p> 
                         </div>
+                        <span class="premium-badge"><?php echo htmlspecialchars($socila['heading2']);?></span>
+                        <h5 class="premium-title"><?php echo htmlspecialchars($socila['heading1']);?></h5>
+                        <p class="premium-desc"><?php echo htmlspecialchars(strip_tags($socila['content']));?></p> 
                     </div>
                 </div>
                 <?php } ?>
