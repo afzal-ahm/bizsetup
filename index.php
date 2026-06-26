@@ -516,23 +516,54 @@ foreach($re as $key => $socila) {
     </section>
     
     <?php
-                                $ss="SELECT * from  extra_content where type='long_content' limit 1";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){       ?>   
-   <section class="section adavantages-sec bg-light-200">
+                                 $ss="SELECT * from  extra_content where type='long_content' limit 1";
+                               $re=mysqli_query($conn,$ss);
+                               foreach($re as $key=> $socila){       ?>   
+   <section class="section adavantages-sec bg-light-200 py-5">
         <div class="container">
             <div class="row align-items-center">
-              
                 <div class="col-lg-12">
-                    <div>
-                        <div class="section-header-six mb-4 wow fadeInUp" data-wow-delay="1.5">
-                            <span class="badge badge-soft-primary rounded-pill mb-1"><?php echo $socila['heading1'];?></span>
-                            <h2 class="mb-2"><?php echo $socila['heading2'];?></h2>
-                            <p><?php echo $socila['content'];?></p>
+                    <div class="section-header-six mb-4 wow fadeInUp" data-wow-delay="1.5">
+                        <!-- Badge/Small Tag -->
+                        <?php if(!empty($socila['heading1'])){ ?>
+                        <span class="badge badge-soft-primary rounded-pill mb-3 px-3 py-2" style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;"><?php echo htmlspecialchars($socila['heading1']);?></span>
+                        <?php } ?>
+                        
+                        <!-- Main Heading -->
+                        <h2 class="mb-3" style="font-size: 36px; font-weight: 800; color: #0b2545; line-height: 1.3;">
+                            <?php echo htmlspecialchars($socila['heading2']);?>
+                        </h2>
+                        
+                        <!-- Services List / Subheading -->
+                        <div class="mb-4 d-flex flex-wrap align-items-center gap-2 text-secondary" style="font-size: 16px; font-weight: 600; color: #475569;">
+                            <?php 
+                            // Split the content by '|' and render each item beautifully
+                            $services = explode('|', strip_tags($socila['content']));
+                            $total_services = count($services);
+                            foreach($services as $idx => $service) {
+                                $service = trim($service);
+                                if (!empty($service)) {
+                                    echo '<span class="service-item" style="color: #0b2545;">' . htmlspecialchars($service) . '</span>';
+                                    if ($idx < $total_services - 1) {
+                                        echo '<span class="text-muted opacity-50">|</span>';
+                                    }
+                                }
+                            }
+                            ?>
                         </div>
                         
-                      
-                        
+                        <!-- Call to Action Buttons -->
+                        <div class="d-flex flex-wrap gap-3 mt-4">
+                            <!-- Get Free Consultation Button -->
+                            <a href="#free-consultation" class="btn btn-primary d-inline-flex align-items-center px-4 py-2" style="background-color: #f18d2d !important; border-color: #f18d2d !important; color: #ffffff !important; border-radius: 40px; font-weight: 600; font-size: 15px; transition: all 0.3s ease; height: 48px; box-shadow: 0 4px 14px rgba(241, 141, 45, 0.3);">
+                                <i class="isax isax-message-programming me-2" style="font-size: 18px;"></i>Get Free Consultation
+                            </a>
+                            
+                            <!-- WhatsApp Now Button -->
+                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $company_whatsapp_no); ?>" target="_blank" class="btn d-inline-flex align-items-center px-4 py-2 text-white" style="background-color: #25d366 !important; border-color: #25d366 !important; border-radius: 40px; font-weight: 600; font-size: 15px; transition: all 0.3s ease; height: 48px; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);">
+                                <i class="fab fa-whatsapp me-2" style="font-size: 20px;"></i>WhatsApp Now
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -754,7 +785,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-hand-holding-heart',
                                 'bg' => 'rgba(236, 72, 153, 0.08)',
                                 'color' => '#ec4899',
-                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=257'
+                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=NGO-Services&subsub_url=369'
                             ],
                             [
                                 'title' => 'Sole Proprietorship',
@@ -778,7 +809,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-book',
                                 'bg' => 'rgba(59, 130, 246, 0.08)',
                                 'color' => '#3b82f6',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=276'
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Audit&subsub_url=397'
                             ],
                             [
                                 'title' => 'Company Annual Filing',
@@ -786,7 +817,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-file-invoice',
                                 'bg' => 'rgba(241, 141, 45, 0.08)',
                                 'color' => '#f18d2d',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Corporate-Compliance&subsub_url=273'
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=ROC-Compliance&subsub_url=393'
                             ],
                             [
                                 'title' => 'LLP Annual Filing',
@@ -794,7 +825,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-building-shield',
                                 'bg' => 'rgba(16, 185, 129, 0.08)',
                                 'color' => '#10b981',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Corporate-Compliance&subsub_url=274'
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=ROC-Compliance&subsub_url=394'
                             ],
                             [
                                 'title' => 'Statutory Audit',
@@ -802,7 +833,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-calculator',
                                 'bg' => 'rgba(139, 92, 246, 0.08)',
                                 'color' => '#8b5cf6',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=276'
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Audit&subsub_url=399'
                             ]
                         ]
                     ],
@@ -818,7 +849,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-coins',
                                 'bg' => 'rgba(16, 185, 129, 0.08)',
                                 'color' => '#10b981',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=279'
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Income-Tax&subsub_url=390'
                             ],
                             [
                                 'title' => 'GST Registration',
@@ -826,7 +857,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-percent',
                                 'bg' => 'rgba(59, 130, 246, 0.08)',
                                 'color' => '#3b82f6',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST&subsub_url=287'
+                                'link' => 'service_detail.php?cat_url=Fundraising&sub_url=Tax-Registrations&subsub_url=376'
                             ],
                             [
                                 'title' => 'GST Return Filing',
@@ -834,7 +865,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-receipt',
                                 'bg' => 'rgba(241, 141, 45, 0.08)',
                                 'color' => '#f18d2d',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST&subsub_url=288'
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST-Compliance&subsub_url=386'
                             ],
                             [
                                 'title' => 'TDS Return Filing',
@@ -842,7 +873,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-file-invoice-dollar',
                                 'bg' => 'rgba(139, 92, 246, 0.08)',
                                 'color' => '#8b5cf6',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=278'
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Income-Tax&subsub_url=392'
                             ]
                         ]
                     ],
@@ -858,7 +889,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-registered',
                                 'bg' => 'rgba(241, 141, 45, 0.08)',
                                 'color' => '#f18d2d',
-                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Trademark&subsub_url=299'
+                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Trademark-Services&subsub_url=403'
                             ],
                             [
                                 'title' => 'Copyright Registration',
@@ -866,7 +897,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-copyright',
                                 'bg' => 'rgba(59, 130, 246, 0.08)',
                                 'color' => '#3b82f6',
-                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Copyright&subsub_url=307'
+                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Intellectual-Property&subsub_url=407'
                             ],
                             [
                                 'title' => 'Patent Registration',
@@ -874,7 +905,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-lightbulb',
                                 'bg' => 'rgba(16, 185, 129, 0.08)',
                                 'color' => '#10b981',
-                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Patent&subsub_url=306'
+                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Intellectual-Property&subsub_url=409'
                             ]
                         ]
                     ]
@@ -2014,7 +2045,7 @@ Here’s why thousands of entrepreneurs, startups, and businesses choose us over
                 }
             </style>
 
-            <div class="custom-cta-section wow zoomIn">
+            <div class="custom-cta-section wow zoomIn" id="free-consultation">
                 <div class="cta-orange-slash"></div>
                 <div class="row align-items-center relative-content g-4">
                     <div class="col-xl-4 col-lg-5">
