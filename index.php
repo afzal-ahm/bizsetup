@@ -519,7 +519,67 @@ foreach($re as $key => $socila) {
                                  $ss="SELECT * from  extra_content where type='long_content' limit 1";
                                $re=mysqli_query($conn,$ss);
                                foreach($re as $key=> $socila){       ?>   
-   <section class="section adavantages-sec bg-light-200 py-5">
+    <style>
+        /* Hero section responsive styling */
+        .hero-title-custom {
+            font-size: 36px;
+            font-weight: 800;
+            color: #0b2545;
+            line-height: 1.3;
+        }
+        .hero-services-custom {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0b2545;
+        }
+        .hero-btn-consultation {
+            background-color: #f18d2d !important;
+            border-color: #f18d2d !important;
+            color: #ffffff !important;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            height: 48px;
+            box-shadow: 0 4px 14px rgba(241, 141, 45, 0.3);
+        }
+        .hero-btn-whatsapp {
+            background-color: #25d366 !important;
+            border-color: #25d366 !important;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            height: 48px;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+        }
+        
+        @media (max-width: 767.98px) {
+            .adavantages-sec {
+                padding-top: 2.5rem !important;
+                padding-bottom: 2.5rem !important;
+            }
+            .hero-title-custom {
+                font-size: 22px !important; /* Smaller size on mobile */
+                line-height: 1.25 !important;
+                margin-bottom: 12px !important;
+            }
+            .hero-services-custom {
+                font-size: 13px !important; /* Smaller size on mobile */
+                margin-bottom: 20px !important;
+                gap: 6px !important;
+            }
+            .hero-btn-consultation, .hero-btn-whatsapp {
+                font-size: 13px !important;
+                height: 40px !important;
+                padding: 8px 18px !important;
+            }
+            .hero-btn-consultation i, .hero-btn-whatsapp i {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+    <section class="section adavantages-sec bg-light-200 py-5">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12">
@@ -530,12 +590,12 @@ foreach($re as $key => $socila) {
                         <?php } ?>
                         
                         <!-- Main Heading -->
-                        <h2 class="mb-3" style="font-size: 36px; font-weight: 800; color: #0b2545; line-height: 1.3;">
+                        <h2 class="mb-3 hero-title-custom">
                             <?php echo htmlspecialchars($socila['heading2']);?>
                         </h2>
                         
                         <!-- Services List / Subheading -->
-                        <div class="mb-4 d-flex flex-wrap align-items-center gap-2 text-secondary" style="font-size: 16px; font-weight: 600; color: #475569;">
+                        <div class="mb-4 d-flex flex-wrap align-items-center gap-2 text-secondary hero-services-custom">
                             <?php 
                             // Split the content by '|' and render each item beautifully
                             $services = explode('|', strip_tags($socila['content']));
@@ -555,12 +615,12 @@ foreach($re as $key => $socila) {
                         <!-- Call to Action Buttons -->
                         <div class="d-flex flex-wrap gap-3 mt-4">
                             <!-- Get Free Consultation Button -->
-                            <a href="#free-consultation" class="btn btn-primary d-inline-flex align-items-center px-4 py-2" style="background-color: #f18d2d !important; border-color: #f18d2d !important; color: #ffffff !important; border-radius: 40px; font-weight: 600; font-size: 15px; transition: all 0.3s ease; height: 48px; box-shadow: 0 4px 14px rgba(241, 141, 45, 0.3);">
+                            <a href="#free-consultation" class="btn btn-primary d-inline-flex align-items-center px-4 py-2 hero-btn-consultation">
                                 <i class="isax isax-message-programming me-2" style="font-size: 18px;"></i>Get Free Consultation
                             </a>
                             
                             <!-- WhatsApp Now Button -->
-                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $company_whatsapp_no); ?>" target="_blank" class="btn d-inline-flex align-items-center px-4 py-2 text-white" style="background-color: #25d366 !important; border-color: #25d366 !important; border-radius: 40px; font-weight: 600; font-size: 15px; transition: all 0.3s ease; height: 48px; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);">
+                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $company_whatsapp_no); ?>" target="_blank" class="btn d-inline-flex align-items-center px-4 py-2 text-white hero-btn-whatsapp">
                                 <i class="fab fa-whatsapp me-2" style="font-size: 20px;"></i>WhatsApp Now
                             </a>
                         </div>
@@ -604,9 +664,41 @@ foreach($re as $key => $socila) {
 
                 <style>
                     /* Tab bar at the top */
+                    /* Scrollable tabs container */
+                    .tabs-scroll-container {
+                        position: relative;
+                        width: 100%;
+                        margin-bottom: 35px;
+                    }
+                    .tabs-scroll-btn {
+                        display: none; /* Hidden on desktop */
+                        position: absolute;
+                        right: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 38px;
+                        height: 38px;
+                        border-radius: 50%;
+                        background: #FFFFFF;
+                        border: 1px solid rgba(0, 0, 0, 0.08);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10;
+                        cursor: pointer;
+                        color: #f18d2d;
+                        transition: all 0.2s ease;
+                    }
+                    .tabs-scroll-btn:hover {
+                        background: #f18d2d;
+                        color: #FFF;
+                        border-color: #f18d2d;
+                    }
+                    
+                    /* Tab bar at the top */
                     .custom-service-tabs {
                         border-bottom: 2px solid rgba(28, 76, 130, 0.12);
-                        margin-bottom: 45px;
+                        margin-bottom: 0px; /* Managed by container */
                         display: flex;
                         justify-content: center;
                         flex-wrap: wrap;
@@ -633,6 +725,35 @@ foreach($re as $key => $socila) {
                         border-bottom-color: #f18d2d;
                         color: #f18d2d !important;
                         font-weight: 800;
+                    }
+                    
+                    @media (max-width: 991.98px) {
+                        .tabs-scroll-btn {
+                            display: flex; /* Shown on mobile/tablet */
+                        }
+                        .custom-service-tabs {
+                            justify-content: flex-start !important;
+                            flex-wrap: nowrap !important;
+                            overflow-x: auto !important;
+                            scroll-behavior: smooth;
+                            -webkit-overflow-scrolling: touch;
+                            scrollbar-width: none !important; /* Hide Firefox scrollbar */
+                            padding-right: 50px !important; /* Space for scroll button */
+                            border-bottom: 2px solid rgba(28, 76, 130, 0.08) !important;
+                            gap: 0 !important;
+                        }
+                        .custom-service-tabs::-webkit-scrollbar {
+                            display: none !important; /* Hide Chrome/Safari scrollbar */
+                        }
+                        .custom-service-tabs .nav-item {
+                            flex: 0 0 auto !important;
+                            margin-bottom: -2px !important;
+                        }
+                        .custom-service-tabs .nav-link {
+                            font-size: 15px !important; /* Slightly smaller font for mobile */
+                            padding: 10px 18px !important; /* Tighter padding for mobile */
+                            white-space: nowrap !important;
+                        }
                     }
                     
                     /* Services carousel equal height container */
@@ -913,22 +1034,27 @@ foreach($re as $key => $socila) {
                 ?>
 
                 <!-- Tab Navigation -->
-                <ul class="nav nav-tabs justify-content-center custom-service-tabs mb-4" id="serviceTabs" role="tablist">
-                    <?php foreach ($categories_data as $key => $cat) { ?>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link <?= $cat['active'] ? 'active' : ''; ?>" 
-                                    id="<?= $cat['tab_id']; ?>" 
-                                    data-bs-toggle="tab" 
-                                    data-bs-target="#<?= $cat['pane_id']; ?>" 
-                                    type="button" 
-                                    role="tab" 
-                                    aria-controls="<?= $cat['pane_id']; ?>" 
-                                    aria-selected="<?= $cat['active'] ? 'true' : 'false'; ?>">
-                                <?= $cat['name']; ?>
-                            </button>
-                        </li>
-                    <?php } ?>
-                </ul>
+                <div class="tabs-scroll-container">
+                    <ul class="nav nav-tabs justify-content-center custom-service-tabs" id="serviceTabs" role="tablist">
+                        <?php foreach ($categories_data as $key => $cat) { ?>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link <?= $cat['active'] ? 'active' : ''; ?>" 
+                                        id="<?= $cat['tab_id']; ?>" 
+                                        data-bs-toggle="tab" 
+                                        data-bs-target="#<?= $cat['pane_id']; ?>" 
+                                        type="button" 
+                                        role="tab" 
+                                        aria-controls="<?= $cat['pane_id']; ?>" 
+                                        aria-selected="<?= $cat['active'] ? 'true' : 'false'; ?>">
+                                    <?= $cat['name']; ?>
+                                </button>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                    <button class="tabs-scroll-btn" id="scrollTabsRight" type="button" aria-label="Scroll right">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
 
                 <!-- Tab Content panes -->
                 <div class="tab-content" id="serviceTabsContent">

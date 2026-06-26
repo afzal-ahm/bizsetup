@@ -49,7 +49,7 @@
                                             </span>
                                         </a>
                                     </div>
-                                    <div class="btn btn-contact-custom w-100 mb-3">  <a href="javascript:void(0);" class="text-white" data-bs-toggle="modal" data-bs-target="#register-modal">Contact Us</a></div>
+                                    <div class="btn btn-contact-custom w-100 mb-3">  <a href="/contact.php" class="text-white" >Contact Us</a></div>
                                 </div>
                             </div>
                         </div>
@@ -137,6 +137,49 @@ if($subt > 0) {
                                <?php } ?>
                                  
                                
+                            </ul>
+                        </nav>
+                        <!-- Hidden mobile-specific navigation tree for MeanMenu -->
+                        <nav id="mobile-nav-source" style="display: none !important;">
+                            <ul>
+                                <?php
+                                $ss_mobile = "SELECT * FROM category WHERE is_active='1' AND show_in_header='1' ORDER BY position ASC";
+                                $re_mobile = mysqli_query($conn, $ss_mobile);
+                                while($cate_m = mysqli_fetch_assoc($re_mobile)) {
+                                    $sql_sub = "SELECT COUNT(*) as total FROM subcategory WHERE category_id='".$cate_m['category_id']."'";
+                                    $res_sub = mysqli_query($conn, $sql_sub);
+                                    $data_sub = mysqli_fetch_assoc($res_sub);
+                                    $sub_count = $data_sub['total'];
+                                ?>
+                                    <li>
+                                        <a href="javascript:void(0);"><?php echo htmlspecialchars($cate_m['category_name']); ?></a>
+                                        <?php if($sub_count > 0) { ?>
+                                            <ul>
+                                                <?php
+                                                $sub_query = "SELECT * FROM subcategory WHERE category_id='".$cate_m['category_id']."' ORDER BY subcategory_id ASC";
+                                                $sub_res = mysqli_query($conn, $sub_query);
+                                                while($scate_m = mysqli_fetch_assoc($sub_res)) {
+                                                    $sub_sub_query = "SELECT * FROM sub_subcategory WHERE category_id='".$cate_m['category_id']."' AND subcategory_id='".$scate_m['subcategory_id']."' AND status = 1 ORDER BY sub_subcategory_id ASC";
+                                                    $sub_sub_res = mysqli_query($conn, $sub_sub_query);
+                                                    $has_sub_sub = mysqli_num_rows($sub_sub_res) > 0;
+                                                ?>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><?php echo htmlspecialchars($scate_m['subcategory_name']); ?></a>
+                                                        <?php if($has_sub_sub) { ?>
+                                                            <ul>
+                                                                <?php while($sscate_m = mysqli_fetch_assoc($sub_sub_res)) { ?>
+                                                                    <li>
+                                                                        <a href="<?php echo $urlmain; ?>service_detail.php?cat_url=<?php echo $cate_m['url']; ?>&sub_url=<?php echo $scate_m['url']; ?>&subsub_url=<?php echo $sscate_m['sub_subcategory_id']; ?>"><?php echo htmlspecialchars($sscate_m['sub_subcategory_name']); ?></a>
+                                                                    </li>
+                                                                <?php } ?>
+                                                            </ul>
+                                                        <?php } ?>
+                                                    </li>
+                                                <?php } ?>
+                                            </ul>
+                                        <?php } ?>
+                                    </li>
+                                <?php } ?>
                             </ul>
                         </nav>
                         <div class="header-btn d-flex align-items-center">
@@ -371,11 +414,11 @@ if($subt > 0) {
                 gap: 12px !important;
             }
             .mega-submenu {
-                width: 940px !important;
-                max-width: 95vw !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
-                right: auto !important;
+                width: auto !important;
+                left: 15px !important;
+                right: 15px !important;
+                transform: none !important;
+                max-width: none !important;
             }
         }
         

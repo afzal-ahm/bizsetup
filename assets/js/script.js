@@ -7,10 +7,11 @@ Template Name: DreamsTour - Bootstrap Template
   "use strict";
 
   // Mobile Menu Js
-  $("#mobile-menu").meanmenu({
+  $("#mobile-nav-source").meanmenu({
     meanMenuContainer: ".mobile-menu",
-    meanScreenWidth: "991",
+    meanScreenWidth: "1199",
     meanExpand: ['<i class="ti ti-plus"></i>'],
+    meanDisplay: "none",
   });
 
   // Sidebar Toggle Js
@@ -1879,11 +1880,20 @@ Template Name: DreamsTour - Bootstrap Template
     });
   }
 
-  // Add Comment
-	$('.add-reply').on('click', function () {
-		$('.review-reply').toggleClass('show');
-	});
-
+  // Horizontal scroll handler for service tabs on mobile/tablet
+  $('#scrollTabsRight').on('click', function() {
+    var container = $('#serviceTabs');
+    if (container.length > 0) {
+      var scrollAmount = 150;
+      var newScrollLeft = container.scrollLeft() + scrollAmount;
+      // If we are at the end, wrap around to the start
+      if (container.scrollLeft() + container.outerWidth() >= container[0].scrollWidth - 10) {
+        container.animate({ scrollLeft: 0 }, 300);
+      } else {
+        container.animate({ scrollLeft: newScrollLeft }, 300);
+      }
+    }
+  });
 
 })(jQuery);
 
