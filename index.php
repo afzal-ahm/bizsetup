@@ -558,133 +558,433 @@ foreach($re as $key => $socila) {
                     </div>
                 <?php } ?>
             </div>
-             
-            <div class="popular-hotels" style="padding-top: 15px;">
+                <div class="popular-hotels" style="padding-top: 15px;">
             <?php
-                                $ss="SELECT * from  extra_content where type='heading' limit 1  ";
-                              $re=mysqli_query($conn,$ss);
-                              foreach($re as $key=> $socila){       ?> 
-                <div class="section-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
+                                 $ss="SELECT * from  extra_content where type='heading' limit 1  ";
+                               $re=mysqli_query($conn,$ss);
+                               foreach($re as $key=> $socila){       ?> 
+                <div class="section-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 mb-4">
                     <div>
-                        <p class="mb-2 fw-medium d-flex align-items-center text-white"><span class="text-bar bg-white"></span><?php echo $socila['heading1'];?></p>
-                        <h2 class="text-white"><?php echo $socila['heading2'];?><span class="text-primary">.</span></h2>
+                        <p class="mb-2 fw-medium d-flex align-items-center"><span class="text-bar"></span><?php echo $socila['heading1'];?></p>
+                        <h2 class=""><?php echo $socila['heading2'];?><span class="text-primary">.</span></h2>
                     </div>
                   </div>
                   <?php } ?>
+
                 <style>
-                    .service-card-custom {
-                        background: #ffffff;
-                        border: 1px solid #f1f5f9;
-                        border-radius: 16px;
-                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.025);
-                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    /* Tab bar at the top */
+                    .custom-service-tabs {
+                        border-bottom: 2px solid rgba(28, 76, 130, 0.12);
+                        margin-bottom: 45px;
+                        display: flex;
+                        justify-content: center;
+                        flex-wrap: wrap;
+                        gap: 8px;
+                    }
+                    .custom-service-tabs .nav-item {
+                        margin-bottom: -2px;
+                    }
+                    .custom-service-tabs .nav-link {
+                        background: transparent;
+                        border: none;
+                        border-bottom: 3px solid transparent;
+                        color: #0b2545; /* Dark Navy for high contrast, premium look */
+                        font-size: 18px; /* Bigger font size */
+                        font-weight: 700; /* Bold */
+                        padding: 14px 28px;
+                        transition: all 0.3s ease;
+                    }
+                    .custom-service-tabs .nav-link:hover {
+                        color: #f18d2d;
+                    }
+                    .custom-service-tabs .nav-link.active {
+                        background: transparent;
+                        border-bottom-color: #f18d2d;
+                        color: #f18d2d !important;
+                        font-weight: 800;
+                    }
+                    
+                    /* Services carousel equal height container */
+                    .services-carousel-wrapper {
+                        position: relative;
+                        padding: 0 10px; /* Reset padding here since we handle it in stage-outer */
+                    }
+                    .services-carousel .owl-stage-outer {
+                        padding: 15px 0 30px 0 !important; /* Add padding to prevent clipping of shadows/borders */
+                        margin: -15px 0 -30px 0 !important; /* Negate the padding to maintain layout position */
+                    }
+                    .services-carousel .owl-stage {
+                        display: flex !important; /* Force flex layout to align heights */
+                    }
+                    .services-carousel .owl-item {
+                        display: flex !important;
+                        flex: 1 0 auto;
+                    }
+                    .services-carousel .item {
+                        display: flex !important;
+                        flex-direction: column;
+                        width: 100%;
                         height: 100%;
                     }
+                    
+                    /* Custom Card styling (bigger & equal height) */
+                    .service-card-custom {
+                        background: #ffffff;
+                        border: 1px solid #e2e8f0; /* Crisp premium border */
+                        border-radius: 20px; /* Highly rounded corners */
+                        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02);
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                        height: 100%;
+                        width: 100%;
+                        display: flex !important;
+                        flex-direction: column;
+                        margin: 10px 0;
+                        min-height: 230px; /* Enforces bigger cards */
+                    }
                     .service-card-custom:hover {
-                        transform: translateY(-5px);
-                        box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08), 0 8px 8px -5px rgba(0, 0, 0, 0.04);
-                        border-color: rgba(28, 76, 130, 0.2);
+                        transform: translateY(-8px);
+                        box-shadow: 0 20px 35px rgba(11, 37, 69, 0.08);
+                        border-color: rgba(241, 141, 45, 0.35);
+                    }
+                    .service-card-custom .card-body {
+                        padding: 36px 30px; /* Increased padding for spacious feel */
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        height: 100%;
+                        flex-grow: 1;
                     }
                     .service-card-custom .card-title-custom {
-                        color: #0f172a;
-                        font-size: 20px;
-                        font-weight: 700;
-                        line-height: 1.4;
+                        color: #0b2545;
+                        font-size: 21px; /* Increased font size */
+                        font-weight: 800; /* Extra bold */
+                        line-height: 1.3;
                         margin-bottom: 0;
+                        flex-grow: 1;
                     }
                     .service-card-custom .card-text-custom {
-                        color: #475569;
-                        font-size: 17px;
+                        color: #556275; /* Slightly darker slate for readability */
+                        font-size: 15px; /* Increased font size */
                         line-height: 1.6;
-                        margin-top: 12px;
+                        margin-top: 18px;
+                        margin-bottom: 0;
                     }
                     .icon-container-custom {
-                        width: 48px;
-                        height: 48px;
+                        width: 56px; /* Increased icon container size */
+                        height: 56px;
                         border-radius: 50%;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        font-size: 20px;
+                        font-size: 22px; /* Increased icon size */
                         flex-shrink: 0;
+                        transition: all 0.3s ease;
+                    }
+                    
+                    /* Owl dots custom styling to match the screenshot */
+                    .services-carousel .owl-dots {
+                        text-align: center;
+                        margin-top: 30px;
+                    }
+                    .services-carousel .owl-dot {
+                        display: inline-block;
+                        border: none;
+                        background: transparent;
+                        padding: 0;
+                    }
+                    .services-carousel .owl-dot span {
+                        width: 8px;
+                        height: 8px;
+                        margin: 5px 6px;
+                        background: #cbd5e1;
+                        display: block;
+                        border-radius: 50%;
+                        transition: all 0.3s ease;
+                    }
+                    .services-carousel .owl-dot.active span {
+                        background: #f18d2d;
+                        width: 20px;
+                        border-radius: 4px;
                     }
                 </style>
-                
+
                 <?php
-                $services = [
-                    [
-                        'title' => 'Company Registration',
-                        'desc' => 'Private Limited Company, OPC & Section 8 Company Registration.',
-                        'icon' => 'fas fa-building',
-                        'bg' => 'rgba(241, 141, 45, 0.15)',
-                        'color' => '#f18d2d',
-                        'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=257'
+                $categories_data = [
+                    'registrations' => [
+                        'name' => 'Registrations',
+                        'pane_id' => 'registrations-pane',
+                        'tab_id' => 'registrations-tab',
+                        'active' => true,
+                        'items' => [
+                            [
+                                'title' => 'Private Limited Company',
+                                'desc' => 'Register your company with full legal protection, limited liability, and scale up your business quickly.',
+                                'icon' => 'fa-solid fa-building',
+                                'bg' => 'rgba(241, 141, 45, 0.08)',
+                                'color' => '#f18d2d',
+                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=257'
+                            ],
+                            [
+                                'title' => 'Limited Liability Partnership',
+                                'desc' => 'Combine flexibility of a partnership with liability protection of a company in an easy LLP setup.',
+                                'icon' => 'fa-solid fa-scale-balanced',
+                                'bg' => 'rgba(16, 185, 129, 0.08)',
+                                'color' => '#10b981',
+                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=258'
+                            ],
+                            [
+                                'title' => 'One Person Company',
+                                'desc' => 'Start a corporate entity with just a single owner while enjoying limited liability benefits.',
+                                'icon' => 'fa-solid fa-user-tie',
+                                'bg' => 'rgba(59, 130, 246, 0.08)',
+                                'color' => '#3b82f6',
+                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=259'
+                            ],
+                            [
+                                'title' => 'Partnership',
+                                'desc' => 'Register a partnership firm with custom deed preparation to give your business a strong legal structure.',
+                                'icon' => 'fa-solid fa-users',
+                                'bg' => 'rgba(139, 92, 246, 0.08)',
+                                'color' => '#8b5cf6',
+                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=262'
+                            ],
+                            [
+                                'title' => 'Section 8 Company',
+                                'desc' => 'Establish a non-profit organization (NPO) or NGO to promote social work, art, science, or charity.',
+                                'icon' => 'fa-solid fa-hand-holding-heart',
+                                'bg' => 'rgba(236, 72, 153, 0.08)',
+                                'color' => '#ec4899',
+                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=257'
+                            ],
+                            [
+                                'title' => 'Sole Proprietorship',
+                                'desc' => 'Begin your business easily as a sole owner with quick tax registrations and bank account opening.',
+                                'icon' => 'fa-solid fa-user',
+                                'bg' => 'rgba(6, 182, 212, 0.08)',
+                                'color' => '#06b6d4',
+                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=263'
+                            ]
+                        ]
                     ],
-                    [
-                        'title' => 'LLP Registration',
-                        'desc' => 'Limited Liability Partnership Registration with complete documentation support.',
-                        'icon' => 'fas fa-balance-scale',
-                        'bg' => 'rgba(16, 185, 129, 0.15)',
-                        'color' => '#10b981',
-                        'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=258'
+                    'compliance' => [
+                        'name' => 'Compliance',
+                        'pane_id' => 'compliance-pane',
+                        'tab_id' => 'compliance-tab',
+                        'active' => false,
+                        'items' => [
+                            [
+                                'title' => 'Bookkeeping',
+                                'desc' => 'Maintain neat financial records, reconcile bank accounts, and get monthly MIS reporting from expert accountants.',
+                                'icon' => 'fa-solid fa-book',
+                                'bg' => 'rgba(59, 130, 246, 0.08)',
+                                'color' => '#3b82f6',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=276'
+                            ],
+                            [
+                                'title' => 'Company Annual Filing',
+                                'desc' => 'File your annual financial statements (AOC-4) and annual returns (MGT-7) with the ROC to stay fully compliant.',
+                                'icon' => 'fa-solid fa-file-invoice',
+                                'bg' => 'rgba(241, 141, 45, 0.08)',
+                                'color' => '#f18d2d',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Corporate-Compliance&subsub_url=273'
+                            ],
+                            [
+                                'title' => 'LLP Annual Filing',
+                                'desc' => 'Submit Form 8 (Statement of Accounts) and Form 11 (Annual Return) to keep your LLP in active standing.',
+                                'icon' => 'fa-solid fa-building-shield',
+                                'bg' => 'rgba(16, 185, 129, 0.08)',
+                                'color' => '#10b981',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Corporate-Compliance&subsub_url=274'
+                            ],
+                            [
+                                'title' => 'Statutory Audit',
+                                'desc' => 'Get your books audited by qualified Chartered Accountants to ensure legal compliance and accurate reporting.',
+                                'icon' => 'fa-solid fa-calculator',
+                                'bg' => 'rgba(139, 92, 246, 0.08)',
+                                'color' => '#8b5cf6',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=276'
+                            ]
+                        ]
                     ],
-                    [
-                        'title' => 'GST Registration & Returns',
-                        'desc' => 'GST Registration, Return Filing, Amendments & Compliance.',
-                        'icon' => 'fas fa-file-invoice-dollar',
-                        'bg' => 'rgba(59, 130, 246, 0.15)',
-                        'color' => '#3b82f6',
-                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST&subsub_url=287'
+                    'taxation' => [
+                        'name' => 'Taxation',
+                        'pane_id' => 'taxation-pane',
+                        'tab_id' => 'taxation-tab',
+                        'active' => false,
+                        'items' => [
+                            [
+                                'title' => 'ITR Filing',
+                                'desc' => 'File your personal, corporate, or partnership income tax returns accurately under the correct ITR forms.',
+                                'icon' => 'fa-solid fa-coins',
+                                'bg' => 'rgba(16, 185, 129, 0.08)',
+                                'color' => '#10b981',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=279'
+                            ],
+                            [
+                                'title' => 'GST Registration',
+                                'desc' => 'Get your 15-digit GSTIN tax number smoothly to legally sell goods or services across state boundaries.',
+                                'icon' => 'fa-solid fa-percent',
+                                'bg' => 'rgba(59, 130, 246, 0.08)',
+                                'color' => '#3b82f6',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST&subsub_url=287'
+                            ],
+                            [
+                                'title' => 'GST Return Filing',
+                                'desc' => 'Submit your monthly or quarterly GST returns (GSTR-1, 3B, 4) timely to claim ITC and avoid penalties.',
+                                'icon' => 'fa-solid fa-receipt',
+                                'bg' => 'rgba(241, 141, 45, 0.08)',
+                                'color' => '#f18d2d',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST&subsub_url=288'
+                            ],
+                            [
+                                'title' => 'TDS Return Filing',
+                                'desc' => 'File quarterly TDS returns (Form 24Q, 26Q, 27Q) and generate Form 16/16A for your employees and vendors.',
+                                'icon' => 'fa-solid fa-file-invoice-dollar',
+                                'bg' => 'rgba(139, 92, 246, 0.08)',
+                                'color' => '#8b5cf6',
+                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=278'
+                            ]
+                        ]
                     ],
-                    [
-                        'title' => 'ROC Compliance',
-                        'desc' => 'Annual Filing, DIR-3 KYC, AOC-4, MGT-7 and MCA Compliances.',
-                        'icon' => 'fas fa-clipboard-check',
-                        'bg' => 'rgba(139, 92, 246, 0.15)',
-                        'color' => '#8b5cf6',
-                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Corporate-Compliance&subsub_url=273'
-                    ],
-                    [
-                        'title' => 'Accounting & Bookkeeping',
-                        'desc' => 'Monthly Accounting, Payroll, Financial Statements & MIS Reports.',
-                        'icon' => 'fas fa-calculator',
-                        'bg' => 'rgba(236, 72, 153, 0.15)',
-                        'color' => '#ec4899',
-                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=276'
-                    ],
-                    [
-                        'title' => 'Income Tax Services',
-                        'desc' => 'ITR Filing, Tax Planning, Assessments and Notice Handling.',
-                        'icon' => 'fas fa-wallet',
-                        'bg' => 'rgba(20, 184, 166, 0.15)',
-                        'color' => '#14b8a6',
-                        'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Tax&subsub_url=279'
+                    'ipr' => [
+                        'name' => 'IPR',
+                        'pane_id' => 'ipr-pane',
+                        'tab_id' => 'ipr-tab',
+                        'active' => false,
+                        'items' => [
+                            [
+                                'title' => 'Trademark Registration',
+                                'desc' => 'Secure your brand name, logo, or slogan with exclusive trademark rights and TM symbol usage.',
+                                'icon' => 'fa-solid fa-registered',
+                                'bg' => 'rgba(241, 141, 45, 0.08)',
+                                'color' => '#f18d2d',
+                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Trademark&subsub_url=299'
+                            ],
+                            [
+                                'title' => 'Copyright Registration',
+                                'desc' => 'Protect your creative literary, dramatic, musical, artistic, or software works from piracy and theft.',
+                                'icon' => 'fa-solid fa-copyright',
+                                'bg' => 'rgba(59, 130, 246, 0.08)',
+                                'color' => '#3b82f6',
+                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Copyright&subsub_url=307'
+                            ],
+                            [
+                                'title' => 'Patent Registration',
+                                'desc' => 'Register your unique inventions, technological designs, and industrial processes to secure monopoly rights.',
+                                'icon' => 'fa-solid fa-lightbulb',
+                                'bg' => 'rgba(16, 185, 129, 0.08)',
+                                'color' => '#10b981',
+                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Patent&subsub_url=306'
+                            ]
+                        ]
                     ]
                 ];
                 ?>
-                
-                <div class="row g-4 justify-content-center mt-2">
-                    <?php foreach ($services as $service) { ?>
-                        <div class="col-lg-4 col-md-6 d-flex">
-                            <a href="<?= $urlmain . $service['link']; ?>" class="d-flex flex-column w-100 text-decoration-none">
-                                <div class="card border-0 service-card-custom flex-fill">
-                                    <div class="card-body p-4">
-                                        <div class="d-flex align-items-start justify-content-between">
-                                            <h5 class="card-title-custom"><?= $service['title']; ?></h5>
-                                            <span class="icon-container-custom ms-3" style="background-color: <?= $service['bg']; ?>; color: <?= $service['color']; ?>;">
-                                                 <i class="<?= $service['icon']; ?>"></i>
-                                            </span>
-                                        </div>
-                                        <p class="card-text-custom">
-                                            <?= $service['desc']; ?>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
+
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs justify-content-center custom-service-tabs mb-4" id="serviceTabs" role="tablist">
+                    <?php foreach ($categories_data as $key => $cat) { ?>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link <?= $cat['active'] ? 'active' : ''; ?>" 
+                                    id="<?= $cat['tab_id']; ?>" 
+                                    data-bs-toggle="tab" 
+                                    data-bs-target="#<?= $cat['pane_id']; ?>" 
+                                    type="button" 
+                                    role="tab" 
+                                    aria-controls="<?= $cat['pane_id']; ?>" 
+                                    aria-selected="<?= $cat['active'] ? 'true' : 'false'; ?>">
+                                <?= $cat['name']; ?>
+                            </button>
+                        </li>
+                    <?php } ?>
+                </ul>
+
+                <!-- Tab Content panes -->
+                <div class="tab-content" id="serviceTabsContent">
+                    <?php foreach ($categories_data as $key => $cat) { ?>
+                        <div class="tab-pane fade <?= $cat['active'] ? 'show active' : ''; ?>" 
+                             id="<?= $cat['pane_id']; ?>" 
+                             role="tabpanel" 
+                             aria-labelledby="<?= $cat['tab_id']; ?>">
+                             
+                             <div class="services-carousel-wrapper">
+                                 <div class="owl-carousel services-carousel">
+                                     <?php foreach ($cat['items'] as $item) { ?>
+                                         <div class="item p-1">
+                                             <a href="<?= $urlmain . $item['link']; ?>" class="d-block text-decoration-none h-100">
+                                                 <div class="card border-0 service-card-custom h-100">
+                                                     <div class="card-body d-flex flex-column justify-content-between">
+                                                         <div>
+                                                             <div class="d-flex align-items-start justify-content-between">
+                                                                 <h5 class="card-title-custom"><?= $item['title']; ?></h5>
+                                                                 <span class="icon-container-custom ms-3" style="background-color: <?= $item['bg']; ?>; color: <?= $item['color']; ?>;">
+                                                                      <i class="<?= $item['icon']; ?>"></i>
+                                                                 </span>
+                                                             </div>
+                                                             <p class="card-text-custom">
+                                                                 <?= $item['desc']; ?>
+                                                             </p>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </a>
+                                         </div>
+                                     <?php } ?>
+                                 </div>
+                             </div>
+                             
                         </div>
                     <?php } ?>
                 </div>
-            </div>
+
+                <!-- Tab Carousel Initialization Script -->
+                <script>
+                    window.addEventListener('DOMContentLoaded', (event) => {
+                        // Safe check for jQuery and OwlCarousel
+                        if (typeof jQuery !== 'undefined' && jQuery.fn.owlCarousel) {
+                            (function($) {
+                                // Helper to initialize a carousel
+                                function initOwl(paneSelector) {
+                                    var $carousel = $(paneSelector + ' .services-carousel');
+                                    if ($carousel.length && !$carousel.hasClass('owl-loaded')) {
+                                        $carousel.owlCarousel({
+                                            loop: true,
+                                            margin: 24,
+                                            nav: false,
+                                            dots: true,
+                                            autoplay: true,
+                                            autoplayTimeout: 4000,
+                                            autoplaySpeed: 800,
+                                            autoplayHoverPause: true,
+                                            responsive: {
+                                                0: { items: 1 },
+                                                768: { items: 2 },
+                                                992: { items: 3 }
+                                            }
+                                        });
+                                    }
+                                }
+
+                                // Init registrations tab by default immediately
+                                initOwl('#registrations-pane');
+
+                                // When any tab is clicked, initialize its carousel if not loaded
+                                $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                                    var targetPane = $(e.target).attr('data-bs-target');
+                                    initOwl(targetPane);
+                                    
+                                    // Refresh active carousel to trigger accurate size calculations
+                                    var $activeCarousel = $(targetPane + ' .services-carousel');
+                                    if ($activeCarousel.hasClass('owl-loaded')) {
+                                        $activeCarousel.trigger('refresh.owl.carousel');
+                                    }
+                                });
+                            })(jQuery);
+                        }
+                    });
+                </script>
+
+            </div>    </div>
         </div>
     </section>
  
