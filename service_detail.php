@@ -1136,7 +1136,7 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                                         </div>
                                     </div>
                                     
-                                    <div class="row g-5">
+                                    <div class="row g-4 g-xl-5">
                                         <!-- Left Column: Content Blocks (70% width) -->
                                         <div class="col-lg-8 col-md-12">
                                             <div class="content-blocks">
