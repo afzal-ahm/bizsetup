@@ -18,7 +18,7 @@ header('Content-Type: application/json');
 
 // Function to sanitize input
 function sanitizeInput($input) {
-    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+    return strip_tags(trim($input));
 }
 
 // Function to validate email
