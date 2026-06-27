@@ -87,9 +87,17 @@ else
 	             $price = mysqli_real_escape_string($conn,$price); 
 $meal = mysqli_real_escape_string($conn, $_POST['meal']);
 $day = mysqli_real_escape_string($conn, $_POST['day']);
+$hero_features_raw = isset($_POST['hero_features']) ? $_POST['hero_features'] : '';
+if (is_array($hero_features_raw)) {
+    $hero_features_raw = array_filter(array_map('trim', $hero_features_raw));
+    $hero_features = implode("\n", $hero_features_raw);
+} else {
+    $hero_features = trim($hero_features_raw);
+}
+$hero_features = mysqli_real_escape_string($conn, $hero_features);
 
-  $ff="INSERT INTO `sub_subcategory`(  `subcategory_id`, `category_id`, `sub_subcategory_name`, `content`, `image`, `url`, `banner`, `meal`, `day`, `extra`, `price`, `image1`, `status`, `seo_title`, `seo_keywords`, `meta_description`, `created_at`, `updated_at`) 
-	  VALUES ('".$subcategory_name."','".$category_name."', '".$sub_subname."','".$content."','".$imagename."','".$hyphenTag1x."','".$imagename1."','".$meal."','".$day."','".$extra."' ,'".$price."','','1','".$seo_title."','".$seo_keywords."','meta_description','".$created_at."','".$updated_at."')";
+  $ff="INSERT INTO `sub_subcategory`(  `subcategory_id`, `category_id`, `sub_subcategory_name`, `content`, `image`, `url`, `banner`, `meal`, `day`, `extra`, `price`, `image1`, `status`, `seo_title`, `seo_keywords`, `meta_description`, `hero_features`, `created_at`, `updated_at`) 
+	  VALUES ('".$subcategory_name."','".$category_name."', '".$sub_subname."','".$content."','".$imagename."','".$hyphenTag1x."','".$imagename1."','".$meal."','".$day."','".$extra."' ,'".$price."','','1','".$seo_title."','".$seo_keywords."','".$meta_description."','".$hero_features."','".$created_at."','".$updated_at."')";
 
 try {
     $f=mysqli_query($conn,$ff);
@@ -597,6 +605,20 @@ $(document).ready(function(){
                         </div>
                       </div> 
                       
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Key Features</label>
+                        <div class="col-sm-7 controls">
+                          <div id="features-container">
+                            <div class="feature-row" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                              <input class="width-70 form-control" type="text" name="hero_features[]" placeholder="e.g. Company Incorporated in 7–10 Business Days Guaranteed" style="display: inline-block; vertical-align: middle;">
+                              <button type="button" class="btn vd_btn vd_bg-red vd_white remove-feature-btn" style="padding: 6px 12px; margin-left: 5px; vertical-align: middle;"><i class="fa fa-trash"></i></button>
+                            </div>
+                          </div>
+                          <button type="button" id="add-feature-btn" class="btn vd_btn vd_bg-blue vd_white" style="margin-top: 5px;"><i class="fa fa-plus"></i> Add Point</button>
+                          <small class="help-block" style="margin-top: 10px; display: block;">Add key features that will be shown at the top of the service page.</small>
+                        </div>
+                      </div> 
+                      
                                
                                             
                      <button class="btn vd_btn vd_bg-green vd_white" type="submit" name="btn-save" ><i class="icon-ok"></i> Save</button>
@@ -1075,9 +1097,22 @@ $(window).load(function()
                 updateCharCounter('meta_description', 'meta_description_counter', 160);
             });
             
-            // Initialize counters on page load
+             // Initialize counters on page load
             updateCharCounter('seo_title', 'seo_title_counter', 60);
             updateCharCounter('meta_description', 'meta_description_counter', 160);
+
+            // Dynamic Key Features List
+            $('#add-feature-btn').click(function() {
+                var rowHtml = '<div class="feature-row" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">' +
+                              '<input class="width-70 form-control" type="text" name="hero_features[]" placeholder="Enter feature point" style="display: inline-block; vertical-align: middle;">' +
+                              '<button type="button" class="btn vd_btn vd_bg-red vd_white remove-feature-btn" style="padding: 6px 12px; margin-left: 5px; vertical-align: middle;"><i class="fa fa-trash"></i></button>' +
+                              '</div>';
+                $('#features-container').append(rowHtml);
+            });
+
+            $(document).on('click', '.remove-feature-btn', function() {
+                $(this).closest('.feature-row').remove();
+            });
         });
 
 });

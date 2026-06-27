@@ -852,13 +852,18 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                         <?php } ?>
                         
                         <!-- Checkmark list -->
-                        <ul class="hero-features-list">
-                            <li>Company Incorporated in 7–10 Business Days Guaranteed</li>
-                            <li>500+ MCA-Certified CA & CS Experts Handle Name Approval & Filing</li>
-                            <li>PAN, TAN, DIN, DSC, MoA, AoA & Certificate — All Included</li>
-                            <li>Complete Package from ₹<?php echo htmlspecialchars($main_price); ?> + Govt. Fees — Zero Hidden Charges</li>
-                            <li>Trusted by 50,000+ Startups & Entrepreneurs Across India</li>
-                        </ul>
+                        <?php 
+                        if (!empty($service_data['hero_features'])) {
+                            $features_list = array_filter(array_map('trim', explode("\n", $service_data['hero_features'])));
+                            if (!empty($features_list)) {
+                                echo '<ul class="hero-features-list">';
+                                foreach ($features_list as $feature) {
+                                    echo '<li>' . htmlspecialchars($feature) . '</li>';
+                                }
+                                echo '</ul>';
+                            }
+                        }
+                        ?>
                         
                         <!-- Social Ratings Row -->
                         <div class="hero-ratings-row">

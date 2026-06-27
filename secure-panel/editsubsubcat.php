@@ -48,6 +48,14 @@ if(isset($_POST['btn-save']))
     $meal = mysqli_real_escape_string($conn, $_POST['meal']);
     $extra = mysqli_real_escape_string($conn, $_POST['extra']);
     $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $hero_features_raw = isset($_POST['hero_features']) ? $_POST['hero_features'] : '';
+    if (is_array($hero_features_raw)) {
+        $hero_features_raw = array_filter(array_map('trim', $hero_features_raw));
+        $hero_features = implode("\n", $hero_features_raw);
+    } else {
+        $hero_features = trim($hero_features_raw);
+    }
+    $hero_features = mysqli_real_escape_string($conn, $hero_features);
     
     try {
         $image_name = $_FILES['image']['name'];
@@ -64,7 +72,7 @@ if(isset($_POST['btn-save']))
             mysqli_query($conn,$ttu);
         }  
         
-        $ttu="UPDATE `sub_subcategory` SET  `sub_subcategory_name`='".$catname."',`meal`='".$meal."',`content`='".$content."', `extra`='".$extra."',`price`='".$price."',`seo_title`='".$seo_title."',`seo_keywords`='".$seo_keywords."',`meta_description`='".$meta_description."',`updated_at`='".$updated_at."' WHERE sub_subcategory_id='".$subcatid."'";
+        $ttu="UPDATE `sub_subcategory` SET  `sub_subcategory_name`='".$catname."',`meal`='".$meal."',`content`='".$content."', `extra`='".$extra."',`price`='".$price."',`seo_title`='".$seo_title."',`seo_keywords`='".$seo_keywords."',`meta_description`='".$meta_description."',`hero_features`='".$hero_features."',`updated_at`='".$updated_at."' WHERE sub_subcategory_id='".$subcatid."'";
         $res1=mysqli_query($conn,$ttu);
         
         if($res1)
@@ -600,12 +608,37 @@ if(isset($_POST['btn-save']))
                                                 </div>
                                             </div>
   
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">Edit Description/about</label>
-                                                <div class="col-sm-7 controls">
-                                                    <textarea class="ckeditor" id="" cols="70" name="content" rows="20"><?php echo $dataval['content']; ?></textarea>
-                                                </div>
-                                            </div> 
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">Edit Description/about</label>
+                                                 <div class="col-sm-7 controls">
+                                                     <textarea class="ckeditor" id="" cols="70" name="content" rows="20"><?php echo $dataval['content']; ?></textarea>
+                                                 </div>
+                                             </div> 
+                                             
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">Key Features</label>
+                                                 <div class="col-sm-7 controls">
+                                                     <div id="features-container">
+                                                         <?php 
+                                                         $features = [];
+                                                         if (!empty($dataval['hero_features'])) {
+                                                             $features = array_filter(array_map('trim', explode("\n", $dataval['hero_features'])));
+                                                         }
+                                                         if (empty($features)) {
+                                                             $features = [''];
+                                                         }
+                                                         foreach ($features as $feature) {
+                                                         ?>
+                                                             <div class="feature-row" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                                                 <input class="width-70 form-control" type="text" name="hero_features[]" value="<?php echo htmlspecialchars($feature); ?>" placeholder="Enter feature point" style="display: inline-block; vertical-align: middle;">
+                                                                 <button type="button" class="btn vd_btn vd_bg-red vd_white remove-feature-btn" style="padding: 6px 12px; margin-left: 5px; vertical-align: middle;"><i class="fa fa-trash"></i></button>
+                                                             </div>
+                                                         <?php } ?>
+                                                     </div>
+                                                     <button type="button" id="add-feature-btn" class="btn vd_btn vd_bg-blue vd_white" style="margin-top: 5px;"><i class="fa fa-plus"></i> Add Point</button>
+                                                     <small class="help-block" style="margin-top: 10px; display: block;">Add key features that will be shown at the top of the service page.</small>
+                                                 </div>
+                                             </div>
                     
 
  							
@@ -750,6 +783,19 @@ $(document).ready(function () {
     // Initialize counters on page load
     updateCharCounter('seo_title', 'seo_title_counter', 60);
     updateCharCounter('meta_description', 'meta_description_counter', 160);
+
+    // Dynamic Key Features List
+    $('#add-feature-btn').click(function() {
+        var rowHtml = '<div class="feature-row" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">' +
+                      '<input class="width-70 form-control" type="text" name="hero_features[]" placeholder="Enter feature point" style="display: inline-block; vertical-align: middle;">' +
+                      '<button type="button" class="btn vd_btn vd_bg-red vd_white remove-feature-btn" style="padding: 6px 12px; margin-left: 5px; vertical-align: middle;"><i class="fa fa-trash"></i></button>' +
+                      '</div>';
+        $('#features-container').append(rowHtml);
+    });
+
+    $(document).on('click', '.remove-feature-btn', function() {
+        $(this).closest('.feature-row').remove();
+    });
 });
 </script>
 
