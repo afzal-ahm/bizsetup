@@ -44,7 +44,13 @@
 
   <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'></script>
         <script>
-          var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"WhatsApp Us","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"left","whatsAppNumber":"<?php echo $company_whatsapp_no; ?>","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
+          <?php 
+          $wa_phone = preg_replace('/[^0-9]/', '', $company_whatsapp_no);
+          if (strlen($wa_phone) == 10) {
+              $wa_phone = '91' . $wa_phone;
+          }
+          ?>
+          var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"WhatsApp Us","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"left","whatsAppNumber":"<?php echo $wa_phone; ?>","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
           window.onload = () => {
             _waEmbed(wa_btnSetting);
           };

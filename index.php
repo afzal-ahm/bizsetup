@@ -620,7 +620,13 @@ foreach($re as $key => $socila) {
                             </a>
                             
                             <!-- WhatsApp Now Button -->
-                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $company_whatsapp_no); ?>" target="_blank" class="btn d-inline-flex align-items-center px-4 py-2 text-white hero-btn-whatsapp">
+                            <?php 
+                            $wa_phone = preg_replace('/[^0-9]/', '', $company_whatsapp_no);
+                            if (strlen($wa_phone) == 10) {
+                                $wa_phone = '91' . $wa_phone;
+                            }
+                            ?>
+                            <a href="https://wa.me/<?php echo $wa_phone; ?>" target="_blank" class="btn d-inline-flex align-items-center px-4 py-2 text-white hero-btn-whatsapp">
                                 <i class="fab fa-whatsapp me-2" style="font-size: 20px;"></i>WhatsApp Now
                             </a>
                         </div>
