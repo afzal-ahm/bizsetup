@@ -854,10 +854,10 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
                         <!-- Checkmark list -->
                         <?php 
                         if (!empty($service_data['hero_features'])) {
-                            $features_list = array_filter(array_map('trim', explode("\n", $service_data['hero_features'])));
-                            if (!empty($features_list)) {
+                            $hero_features_list = array_filter(array_map('trim', explode("\n", $service_data['hero_features'])));
+                            if (!empty($hero_features_list)) {
                                 echo '<ul class="hero-features-list">';
-                                foreach ($features_list as $feature) {
+                                foreach ($hero_features_list as $feature) {
                                     echo '<li>' . htmlspecialchars($feature) . '</li>';
                                 }
                                 echo '</ul>';
