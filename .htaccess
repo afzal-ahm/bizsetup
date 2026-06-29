@@ -3,6 +3,11 @@ RewriteEngine On
 # Handle pages URLs
 RewriteRule ^pages/([^/]+)/?$ pages.php?url=$1 [L,QSA]
 RewriteRule ^contact/?$ contact.php [NC,L]
+# Handle service detail clean URLs (single segment)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/?$ service_detail.php?subsub_url=$1 [L,QSA]
+
 # Handle other clean URLs if needed
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

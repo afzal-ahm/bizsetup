@@ -45,7 +45,11 @@ if (!is_numeric($subcategory_name) || intval($subcategory_name) <= 0) {
 $created_at = date('Y-m-d H:i:s');
 $updated_at = date('Y-m-d H:i:s');
 
-                  $hyphenTag1111 = str_replace( ' ', '-', $_POST['sub_subname'] );
+                  $url_slug = isset($_POST['url']) ? trim($_POST['url']) : '';
+                  if (empty($url_slug)) {
+                      $url_slug = $_POST['sub_subname'];
+                  }
+                  $hyphenTag1111 = str_replace( ' ', '-', $url_slug );
                   $hyphenTag1111 = preg_replace("/[^a-zA-Z0-9_-]/", "", $hyphenTag1111);
                   $hyphenTag1x= strtolower($hyphenTag1111);
                   $hyphenTag1x= mysqli_real_escape_string($conn, $hyphenTag1x);
@@ -528,6 +532,14 @@ $(document).ready(function(){
                         <label class="col-sm-2 control-label">Sub-sub Category Name</label>
                         <div class="col-sm-7 controls">
                           <input class="width-70" type="text" placeholder="Input" data-toggle="tooltip" data-placement="top" name="sub_subname" required>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">URL Slug</label>
+                        <div class="col-sm-7 controls">
+                          <input class="width-70" type="text" placeholder="e.g. limited-liability-partnership (Leave empty to auto-generate)" data-toggle="tooltip" data-placement="top" name="url">
+                          <small class="help-block">This will be used in the URL. If left empty, it will be auto-generated from the name.</small>
                         </div>
                       </div>
                       

@@ -118,7 +118,7 @@ if($subt > 0) {
                                                                 foreach($sub_subcategories_result as $subcategory1) {
                                                                 ?>
                                                                 <div class="sub-subcategory-item">
-                                                                    <a href="<?php echo $urlmain;?>service_detail.php?cat_url=<?php echo $cate['url'];?>&sub_url=<?php echo $scate['url'];?>&subsub_url=<?php echo $subcategory1['sub_subcategory_id'];?>" class="sub-subcategory-link"><?php echo $subcategory1['sub_subcategory_name'];?></a>
+                                                                    <a href="<?php echo $urlmain; ?><?php echo !empty($subcategory1['url']) ? $subcategory1['url'] : 'service_detail.php?cat_url=' . $cate['url'] . '&sub_url=' . $scate['url'] . '&subsub_url=' . $subcategory1['sub_subcategory_id']; ?>" class="sub-subcategory-link"><?php echo $subcategory1['sub_subcategory_name'];?></a>
                                                                 </div>
                                                                 <?php } ?>
                                                             </div>
@@ -169,7 +169,7 @@ if($subt > 0) {
                                                             <ul>
                                                                 <?php while($sscate_m = mysqli_fetch_assoc($sub_sub_res)) { ?>
                                                                     <li>
-                                                                        <a href="<?php echo $urlmain; ?>service_detail.php?cat_url=<?php echo $cate_m['url']; ?>&sub_url=<?php echo $scate_m['url']; ?>&subsub_url=<?php echo $sscate_m['sub_subcategory_id']; ?>"><?php echo htmlspecialchars($sscate_m['sub_subcategory_name']); ?></a>
+                                                                        <a href="<?php echo $urlmain; ?><?php echo !empty($sscate_m['url']) ? $sscate_m['url'] : 'service_detail.php?cat_url=' . $cate_m['url'] . '&sub_url=' . $scate_m['url'] . '&subsub_url=' . $sscate_m['sub_subcategory_id']; ?>"><?php echo htmlspecialchars($sscate_m['sub_subcategory_name']); ?></a>
                                                                     </li>
                                                                 <?php } ?>
                                                             </ul>

@@ -35,6 +35,20 @@ if(isset($_POST['btn-save']))
     }
    
     $catname = mysqli_real_escape_string($conn, $_POST['sub_subcategory_name']);
+    $url_slug = isset($_POST['url']) ? trim($_POST['url']) : '';
+    if (empty($url_slug)) {
+        $url_slug = strtolower(trim($catname));
+        $url_slug = preg_replace('/[^a-z0-9-]/', '-', $url_slug);
+        $url_slug = preg_replace('/-+/', '-', $url_slug);
+        $url_slug = trim($url_slug, '-');
+    } else {
+        $url_slug = strtolower(trim($url_slug));
+        $url_slug = preg_replace('/[^a-z0-9-]/', '-', $url_slug);
+        $url_slug = preg_replace('/-+/', '-', $url_slug);
+        $url_slug = trim($url_slug, '-');
+    }
+    $url_slug = mysqli_real_escape_string($conn, $url_slug);
+    
     $content = mysqli_real_escape_string($conn, $_POST['content']);
     
     // SEO Fields
@@ -72,7 +86,7 @@ if(isset($_POST['btn-save']))
             mysqli_query($conn,$ttu);
         }  
         
-        $ttu="UPDATE `sub_subcategory` SET  `sub_subcategory_name`='".$catname."',`meal`='".$meal."',`content`='".$content."', `extra`='".$extra."',`price`='".$price."',`seo_title`='".$seo_title."',`seo_keywords`='".$seo_keywords."',`meta_description`='".$meta_description."',`hero_features`='".$hero_features."',`updated_at`='".$updated_at."' WHERE sub_subcategory_id='".$subcatid."'";
+        $ttu="UPDATE `sub_subcategory` SET  `sub_subcategory_name`='".$catname."',`url`='".$url_slug."',`meal`='".$meal."',`content`='".$content."', `extra`='".$extra."',`price`='".$price."',`seo_title`='".$seo_title."',`seo_keywords`='".$seo_keywords."',`meta_description`='".$meta_description."',`hero_features`='".$hero_features."',`updated_at`='".$updated_at."' WHERE sub_subcategory_id='".$subcatid."'";
         $res1=mysqli_query($conn,$ttu);
         
         if($res1)
@@ -491,7 +505,15 @@ if(isset($_POST['btn-save']))
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Sub Sub_Category Name</label>
                                                 <div class="col-sm-7 controls">
-                                                    <input class="width-70" type="text" value="<?php echo $dataval['sub_subcategory_name']; ?>" data-toggle="tooltip" data-placement="top" name="sub_subcategory_name">
+                                                    <input class="width-70" type="text" value="<?php echo htmlspecialchars($dataval['sub_subcategory_name']); ?>" data-toggle="tooltip" data-placement="top" name="sub_subcategory_name">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">URL Slug</label>
+                                                <div class="col-sm-7 controls">
+                                                    <input class="width-70" type="text" value="<?php echo isset($dataval['url']) ? htmlspecialchars($dataval['url']) : ''; ?>" placeholder="e.g. limited-liability-partnership (Leave empty to auto-generate)" name="url">
+                                                    <small class="help-block">This will be used in the URL. If left empty, it will be auto-generated from the name.</small>
                                                 </div>
                                             </div>
                                             

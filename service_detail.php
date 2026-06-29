@@ -6,30 +6,30 @@ $cat_url = isset($_GET['cat_url']) ? $_GET['cat_url'] : '';
 $sub_url = isset($_GET['sub_url']) ? $_GET['sub_url'] : '';
 $subsub_url = isset($_GET['subsub_url']) ? $_GET['subsub_url'] : '';
 
+// Determine if we should query by ID or by URL slug
+if (is_numeric($subsub_url)) {
+    $where_clause = "ssc.sub_subcategory_id = '".mysqli_real_escape_string($conn, $subsub_url)."'";
+} else {
+    $where_clause = "ssc.url = '".mysqli_real_escape_string($conn, $subsub_url)."'";
+}
+
 // Fetch the sub_subcategory record with price information
 $sub_subcategory_query = "SELECT ssc.*, c.category_name, c.url as category_url, sc.subcategory_name, sc.url as subcategory_url 
                          FROM sub_subcategory ssc 
                          LEFT JOIN category c ON ssc.category_id = c.category_id 
                          LEFT JOIN subcategory sc ON ssc.subcategory_id = sc.subcategory_id 
-                         WHERE ssc.sub_subcategory_id = '".mysqli_real_escape_string($conn, $subsub_url)."' AND ssc.status = 1";
+                         WHERE $where_clause AND ssc.status = 1";
 $sub_subcategory_result = mysqli_query($conn, $sub_subcategory_query);
 
-// Fetch products for this sub_subcategory with price information
-$products_query = "SELECT * FROM product WHERE sub_subcategory_id = '".mysqli_real_escape_string($conn, $subsub_url)."' ORDER BY id ASC";
-$products_result = mysqli_query($conn, $products_query);
 $products = [];
-while($product = mysqli_fetch_assoc($products_result)) {
-    // Extract and clean price data for each product
-    $product['clean_mrp'] = isset($product['mrp']) && !empty(trim($product['mrp'])) ? trim($product['mrp']) : '';
-    $product['clean_offer_amount'] = isset($product['offer_amount']) && !empty(trim($product['offer_amount'])) ? trim($product['offer_amount']) : '';
-    $product['clean_offer'] = isset($product['offer']) && !empty(trim($product['offer'])) ? trim($product['offer']) : '';
-    $product['has_product_price'] = !empty($product['clean_mrp']) || !empty($product['clean_offer_amount']);
-    
-    $products[] = $product;
-}
+$service_data = null;
+$has_price_data = false;
+$main_price = '';
+$price_note = '';
 
-if(mysqli_num_rows($sub_subcategory_result) > 0) {
+if($sub_subcategory_result && mysqli_num_rows($sub_subcategory_result) > 0) {
     $service_data = mysqli_fetch_assoc($sub_subcategory_result);
+    $real_subsub_id = $service_data['sub_subcategory_id'];
     $service_name = $service_data['sub_subcategory_name'];
     $category_name = $service_data['category_name'];
     $subcategory_name = $service_data['subcategory_name'];
@@ -67,6 +67,18 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     $show_pricing = isset($service_data['show_pricing']) ? intval($service_data['show_pricing']) : 1;
     $has_price_data = ($show_pricing == 1) && (!empty($main_price));
     
+    // Fetch products for this sub_subcategory using the real integer ID
+    $products_query = "SELECT * FROM product WHERE sub_subcategory_id = '".mysqli_real_escape_string($conn, $real_subsub_id)."' ORDER BY id ASC";
+    $products_result = mysqli_query($conn, $products_query);
+    while($product = mysqli_fetch_assoc($products_result)) {
+        // Extract and clean price data for each product
+        $product['clean_mrp'] = isset($product['mrp']) && !empty(trim($product['mrp'])) ? trim($product['mrp']) : '';
+        $product['clean_offer_amount'] = isset($product['offer_amount']) && !empty(trim($product['offer_amount'])) ? trim($product['offer_amount']) : '';
+        $product['clean_offer'] = isset($product['offer']) && !empty(trim($product['offer'])) ? trim($product['offer']) : '';
+        $product['has_product_price'] = !empty($product['clean_mrp']) || !empty($product['clean_offer_amount']);
+        
+        $products[] = $product;
+    }
 } else {
     $service_name = "Service Not Found";
     $category_name = "";
@@ -96,7 +108,7 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     <meta property="og:title" content="<?php echo htmlspecialchars($display_title); ?>">
     <meta property="og:description" content="<?php echo htmlspecialchars($display_description); ?>">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<?php echo $urlmain . 'service_detail.php?cat_url=' . urlencode($cat_url) . '&sub_url=' . urlencode($sub_url) . '&subsub_url=' . urlencode($subsub_url); ?>">
+    <meta property="og:url" content="<?php echo $urlmain . ($service_data ? $service_data['url'] : $subsub_url); ?>">
     <?php if(!empty($service_image)): ?>
     <meta property="og:image" content="<?php echo $urlmain . 'images/category/' . $service_image; ?>">
     <?php endif; ?>
@@ -111,7 +123,7 @@ if(mysqli_num_rows($sub_subcategory_result) > 0) {
     
     <!-- Additional SEO Tags -->
     <meta name="author" content="<?php echo $company_website_name; ?>">
-    <link rel="canonical" href="<?php echo $urlmain . 'service_detail.php?cat_url=' . urlencode($cat_url) . '&sub_url=' . urlencode($sub_url) . '&subsub_url=' . urlencode($subsub_url); ?>">
+    <link rel="canonical" href="<?php echo $urlmain . ($service_data ? $service_data['url'] : $subsub_url); ?>">
     
     <?php include "include/css.php";?> 
     

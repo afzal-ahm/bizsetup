@@ -880,7 +880,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-building',
                                 'bg' => 'rgba(241, 141, 45, 0.08)',
                                 'color' => '#f18d2d',
-                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=257'
+                                'link' => 'private-limited-company'
                             ],
                             [
                                 'title' => 'Limited Liability Partnership',
@@ -888,7 +888,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-scale-balanced',
                                 'bg' => 'rgba(16, 185, 129, 0.08)',
                                 'color' => '#10b981',
-                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=258'
+                                'link' => 'limited-liability-partnership'
                             ],
                             [
                                 'title' => 'One Person Company',
@@ -896,7 +896,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-user-tie',
                                 'bg' => 'rgba(59, 130, 246, 0.08)',
                                 'color' => '#3b82f6',
-                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=259'
+                                'link' => 'one-person-company'
                             ],
                             [
                                 'title' => 'Partnership',
@@ -904,7 +904,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-users',
                                 'bg' => 'rgba(139, 92, 246, 0.08)',
                                 'color' => '#8b5cf6',
-                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=262'
+                                'link' => 'partnership-firm'
                             ],
                             [
                                 'title' => 'Section 8 Company',
@@ -912,7 +912,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-hand-holding-heart',
                                 'bg' => 'rgba(236, 72, 153, 0.08)',
                                 'color' => '#ec4899',
-                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=NGO-Services&subsub_url=369'
+                                'link' => 'section-8-company'
                             ],
                             [
                                 'title' => 'Sole Proprietorship',
@@ -920,7 +920,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-user',
                                 'bg' => 'rgba(6, 182, 212, 0.08)',
                                 'color' => '#06b6d4',
-                                'link' => 'service_detail.php?cat_url=Business-Setup&sub_url=Business-Registration&subsub_url=263'
+                                'link' => 'sole-proprietorship'
                             ]
                         ]
                     ],
@@ -936,7 +936,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-book',
                                 'bg' => 'rgba(59, 130, 246, 0.08)',
                                 'color' => '#3b82f6',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Audit&subsub_url=397'
+                                'link' => 'bookkeeping'
                             ],
                             [
                                 'title' => 'Company Annual Filing',
@@ -944,7 +944,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-file-invoice',
                                 'bg' => 'rgba(241, 141, 45, 0.08)',
                                 'color' => '#f18d2d',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=ROC-Compliance&subsub_url=393'
+                                'link' => 'company-annual-filing'
                             ],
                             [
                                 'title' => 'LLP Annual Filing',
@@ -952,7 +952,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-building-shield',
                                 'bg' => 'rgba(16, 185, 129, 0.08)',
                                 'color' => '#10b981',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=ROC-Compliance&subsub_url=394'
+                                'link' => 'llp-annual-filing'
                             ],
                             [
                                 'title' => 'Statutory Audit',
@@ -960,7 +960,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-calculator',
                                 'bg' => 'rgba(139, 92, 246, 0.08)',
                                 'color' => '#8b5cf6',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Accounting-and-Audit&subsub_url=399'
+                                'link' => 'statutory-audit'
                             ]
                         ]
                     ],
@@ -976,7 +976,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-coins',
                                 'bg' => 'rgba(16, 185, 129, 0.08)',
                                 'color' => '#10b981',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Income-Tax&subsub_url=390'
+                                'link' => 'itr-filing'
                             ],
                             [
                                 'title' => 'GST Registration',
@@ -984,7 +984,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-percent',
                                 'bg' => 'rgba(59, 130, 246, 0.08)',
                                 'color' => '#3b82f6',
-                                'link' => 'service_detail.php?cat_url=Fundraising&sub_url=Tax-Registrations&subsub_url=376'
+                                'link' => 'gst-registration'
                             ],
                             [
                                 'title' => 'GST Return Filing',
@@ -992,7 +992,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-receipt',
                                 'bg' => 'rgba(241, 141, 45, 0.08)',
                                 'color' => '#f18d2d',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=GST-Compliance&subsub_url=386'
+                                'link' => 'gst-return-filing'
                             ],
                             [
                                 'title' => 'TDS Return Filing',
@@ -1000,7 +1000,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-file-invoice-dollar',
                                 'bg' => 'rgba(139, 92, 246, 0.08)',
                                 'color' => '#8b5cf6',
-                                'link' => 'service_detail.php?cat_url=Tax-and-Compliances&sub_url=Income-Tax&subsub_url=392'
+                                'link' => 'tds-return-filing'
                             ]
                         ]
                     ],
@@ -1016,7 +1016,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-registered',
                                 'bg' => 'rgba(241, 141, 45, 0.08)',
                                 'color' => '#f18d2d',
-                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Trademark-Services&subsub_url=403'
+                                'link' => 'trademark-registration'
                             ],
                             [
                                 'title' => 'Copyright Registration',
@@ -1024,7 +1024,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-copyright',
                                 'bg' => 'rgba(59, 130, 246, 0.08)',
                                 'color' => '#3b82f6',
-                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Intellectual-Property&subsub_url=407'
+                                'link' => 'copyright-registration'
                             ],
                             [
                                 'title' => 'Patent Registration',
@@ -1032,7 +1032,7 @@ foreach($re as $key => $socila) {
                                 'icon' => 'fa-solid fa-lightbulb',
                                 'bg' => 'rgba(16, 185, 129, 0.08)',
                                 'color' => '#10b981',
-                                'link' => 'service_detail.php?cat_url=Trademark-and-IP&sub_url=Intellectual-Property&subsub_url=409'
+                                'link' => 'patent-registration'
                             ]
                         ]
                     ]

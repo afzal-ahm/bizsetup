@@ -82,6 +82,7 @@ try {
     $query = "SELECT 
         ssc.sub_subcategory_id,
         ssc.sub_subcategory_name,
+        ssc.url,
         c.category_name,
         c.url as category_url,
         sc.subcategory_name,
@@ -120,10 +121,13 @@ try {
         $category_url = $row['category_url'] ?: 'unknown';
         $subcategory_url = $row['subcategory_url'] ?: 'unknown';
         $subsub_id = $row['sub_subcategory_id'];
-        
-        $url = "service_detail.php?cat_url=" . urlencode($category_url) . 
-               "&sub_url=" . urlencode($subcategory_url) . 
-               "&subsub_url=" . urlencode($subsub_id);
+        if (!empty($row['url'])) {
+            $url = $row['url'];
+        } else {
+            $url = "service_detail.php?cat_url=" . urlencode($category_url) . 
+                   "&sub_url=" . urlencode($subcategory_url) . 
+                   "&subsub_url=" . urlencode($subsub_id);
+        }
         
         $suggestions[] = [
             'id' => $subsub_id,
