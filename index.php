@@ -1,5 +1,20 @@
 <?php 
 include "data.php";
+
+// Route clean URLs on local PHP built-in web server or fallback environments
+$request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$request_uri = trim($request_uri, '/');
+
+if (!empty($request_uri) && $request_uri !== 'index.php' && $request_uri !== 'index') {
+    $slug_escaped = mysqli_real_escape_string($conn, $request_uri);
+    $check_query = "SELECT url FROM sub_subcategory WHERE url = '$slug_escaped' AND status = 1 LIMIT 1";
+    $check_result = mysqli_query($conn, $check_query);
+    if ($check_result && mysqli_num_rows($check_result) > 0) {
+        $_GET['subsub_url'] = $request_uri;
+        include 'service_detail.php';
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE html>

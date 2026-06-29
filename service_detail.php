@@ -1,5 +1,5 @@
 <?php 
-include "data.php";
+include_once "data.php";
 
 // Get the URL parameters
 $cat_url = isset($_GET['cat_url']) ? $_GET['cat_url'] : '';

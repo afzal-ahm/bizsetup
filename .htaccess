@@ -6,11 +6,13 @@ RewriteRule ^contact/?$ contact.php [NC,L]
 # Handle service detail clean URLs (single segment)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.php$
 RewriteRule ^([^/]+)/?$ service_detail.php?subsub_url=$1 [L,QSA]
 
 # Handle other clean URLs if needed
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.php$
 RewriteRule ^(.*)$ index.php [L]
 
 # php -- BEGIN cPanel-generated handler, do not edit
